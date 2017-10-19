@@ -30,11 +30,25 @@ Module Module1
         Console.ForegroundColor = ConsoleColor.Gray
         Return True
     End Function
-
-    Public Class botstionModuleInitObject
-        Public client As DiscordSocketClient
+    Public Class command
         Public name As String
-        Public config As Object
+        Public example As String
+        Public details As String
+    End Class
+    Public Class modulePermissions
+        Public passClientOnInit As Boolean
+        Public config As Boolean
+
+    End Class
+    Public Class moduleManifest
+        Public name As String
+        Public fsSafeName As String
+        Public version As Double
+        Public author As String
+        Public url As String
+        Public permissions As modulePermissions
+        Public commands As List(Of command)
+        Public exampleconfig As Object
     End Class
     Public Class tokenConfigClass
         Public token As String
@@ -56,58 +70,54 @@ Module Module1
 
     Private WithEvents client As DiscordSocketClient
 
-    Async Function createClient(name) As Task
-        Await Log(New LogMessage(LogSeverity.Info, "Client", "Connecting client for " & name))
+    Async Function createClient() As Task
+        Await Log(New LogMessage(LogSeverity.Info, "Init", "Loading"))
         client = New DiscordSocketClient(New DiscordSocketConfig())
         Await client.StartAsync
         If Not My.Computer.FileSystem.DirectoryExists("botstionmodules") Then
-            Await Log(New LogMessage(LogSeverity.Info, "Client", "No botstionmodules folder, creating one for you."))
+            Await Log(New LogMessage(LogSeverity.Info, "Init", "No botstionmodules folder, creating one for you."))
             My.Computer.FileSystem.CreateDirectory("botstionmodules")
-            My.Computer.FileSystem.CreateDirectory("botstionmodules/all")
-            My.Computer.FileSystem.CreateDirectory("botstionmodules/" & name)
-        End If
-        If Not My.Computer.FileSystem.DirectoryExists("botstionmodules/all") Then
-            Await Log(New LogMessage(LogSeverity.Info, "Client", "No botstionmodules/all folder, creating one for you."))
-            My.Computer.FileSystem.CreateDirectory("botstionmodules/all")
-        End If
-        If Not My.Computer.FileSystem.DirectoryExists("botstionmodules/" & name) Then
-            Await Log(New LogMessage(LogSeverity.Info, "Client", "No botstionmodules/" & name & " folder, creating one for you."))
-            My.Computer.FileSystem.CreateDirectory("botstionmodules/" & name)
+
         End If
         If Not My.Computer.FileSystem.DirectoryExists("config") Then
-            Await Log(New LogMessage(LogSeverity.Info, "Client", "No config folder, creating one for you."))
+            Await Log(New LogMessage(LogSeverity.Info, "Init", "No config folder, creating one for you."))
             My.Computer.FileSystem.CreateDirectory("config")
         End If
         'TODO: Configs
-        If Not My.Computer.FileSystem.DirectoryExists("config/" & name) Then
-            Await Log(New LogMessage(LogSeverity.Info, "Client", "No config/" & name & " folder, creating one for you."))
-            My.Computer.FileSystem.CreateDirectory("config/" & name)
-        End If
-        If Not My.Computer.FileSystem.FileExists("config/" & name & "/token.json") Then
-            Await Log(New LogMessage(LogSeverity.Info, "Client", "No config/" & name & "/token.json file, creating one for you."))
-            My.Computer.FileSystem.WriteAllText("config/" & name & "/token.json", JsonConvert.SerializeObject(New tokenConfigClass With {.token = "Put your token here"}), False)
-            Await Log(New LogMessage(LogSeverity.Info, "Client", "Open the config/" & name & "/token.json file, then place your bot's token, then press ENTER"))
+        If Not My.Computer.FileSystem.FileExists("config\token.json") Then
+            Await Log(New LogMessage(LogSeverity.Info, "Init", " No config\token.json file, creating one for you."))
+            My.Computer.FileSystem.WriteAllText("config\token.json", JsonConvert.SerializeObject(New tokenConfigClass With {.token = "Put your token here"}), False)
+            Await Log(New LogMessage(LogSeverity.Info, "Init", "     Open the config\token.json file, then place your bot's token, then press ENTER"))
             Console.ReadLine()
         End If
-        Dim tokenConfig = JsonConvert.DeserializeObject(Of tokenConfigClass)(My.Computer.FileSystem.ReadAllText("config/" & name & "/token.json"))
+        Dim tokenConfig = JsonConvert.DeserializeObject(Of tokenConfigClass)(My.Computer.FileSystem.ReadAllText("config\token.json"))
         Await client.LoginAsync(TokenType.Bot, tokenConfig.token) '" & name & "
         ' Load Them Modules
 
-        For Each item In My.Computer.FileSystem.GetFiles("botstionmodules/" & name)
+        For Each item In My.Computer.FileSystem.GetFiles("botstionmodules")
+            Await Log(New LogMessage(LogSeverity.Info, "Init", " Loading module at " & item))
             Dim DLL = Assembly.LoadFile(item)
-            If Not My.Computer.FileSystem.FileExists("config/" & name & "/" & DLL.FullName & ".json") Then
-                Await Log(New LogMessage(LogSeverity.Info, "Client", "No config/" & name & "/" & DLL.FullName & ".json file, creating one for you."))
-                My.Computer.FileSystem.WriteAllText("config / " & name & " / " & DLL.FullName & ".json", "{}", False)
-            End If
             For Each type As Type In DLL.GetExportedTypes()
                 Dim c = Activator.CreateInstance(type)
-                type.InvokeMember("init", BindingFlags.InvokeMethod, Nothing, c, New Object() {New botstionModuleInitObject With {.client = client, .name = name, .config = JsonConvert.DeserializeObject(My.Computer.FileSystem.ReadAllText("config/" & name & "/" & DLL.FullName & ".json"))}})
+                Dim moduleManifest As moduleManifest = type.InvokeMember("getManifest", BindingFlags.InvokeMethod, Nothing, c, New Object() {True})
+                Await Log(New LogMessage(LogSeverity.Info, "Init", " Module " & moduleManifest.name & " v" & moduleManifest.version & " by " & moduleManifest.author))
+                If moduleManifest.permissions.config = True Then
+                    Await Log(New LogMessage(LogSeverity.Info, "Init", " Config Name: " & moduleManifest.fsSafeName & ".json"))
+                    If Not My.Computer.FileSystem.FileExists("config\" & moduleManifest.fsSafeName & ".json") Then
+                        Await Log(New LogMessage(LogSeverity.Info, "Init", " No config\" & moduleManifest.fsSafeName & ".json file, creating one for you."))
+                        My.Computer.FileSystem.WriteAllText("config\" & moduleManifest.fsSafeName & ".json", JsonConvert.SerializeObject(moduleManifest.exampleconfig), False)
+                    End If
+                    If moduleManifest.permissions.passClientOnInit = True Then
+                        Await Log(New LogMessage(LogSeverity.Info, "Init", " Passing client to module."))
+                    End If
+                End If
             Next
         Next
     End Function
 
     Async Sub Start()
-        createClient("Botstion2")
+        createClient()
+
     End Sub
 
     Function Log(ByVal message As LogMessage) As Task Handles client.Log
