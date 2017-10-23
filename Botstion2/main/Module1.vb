@@ -1,4 +1,5 @@
-﻿Imports Discord
+﻿Imports System.Net
+Imports Discord
 Imports Discord.WebSocket
 Imports Newtonsoft.Json
 
@@ -43,6 +44,7 @@ Module Module1
     Public Class configClass
         Public token As String
         Public prefix As String
+        Public twitchClientId As String
     End Class
     Public commands As New List(Of mainclasses.modulecommand)
 
@@ -62,6 +64,29 @@ Module Module1
     End Sub
 
     Private WithEvents client As DiscordSocketClient
+
+    Public Class stream
+        Public Property id As String
+        Public Property user_id As String
+        Public Property game_id As String
+        Public Property community_ids As String()
+        Public Property type As String
+        Public Property title As String
+        Public Property viewer_count As Integer
+        Public Property started_at As DateTime
+        Public Property language As String
+        Public Property thumbnail_url As String
+    End Class
+
+    Public Class Pagination
+        Public Property cursor As String
+    End Class
+
+    Public Class TwitchResponse
+        Public Property data As stream()
+        Public Property pagination As Pagination
+    End Class
+
 
     Async Function createClient() As Task
         Try
@@ -84,13 +109,21 @@ Module Module1
             Await client.StartAsync
             addmodules()
             Await client.SetGameAsync("with some commands. Use b!help to see them.", "http://botstion.tech", StreamType.Twitch)
+            Dim thttpService As New WebClient
+            thttpService.Headers.Add("Client-ID", botstionconfig.twitchClientId)
+            While True
+                Dim twitchResponce = JsonConvert.DeserializeObject(Of TwitchResponse)(thttpService.DownloadString(New Uri("https://api.twitch.tv/helix/streams?first=100&community_id=0d7a2414-ac87-473d-965c-5fd28fb7ecdf&language=en&type=live")))
+                If twitchResponce.data.Length > 0 And twitchResponce.data.Length < 101 Then
+                    Await client.SetGameAsync("b!help | Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title, "https://twitch.tv/" & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", ""), StreamType.Twitch)
+                ElseIf twitchResponce.data.Length > 0 Then
+                    Dim random = twitchResponce.data((New Random).Next(0, twitchResponce.data.Length))
+                    Await client.SetGameAsync("b!help | Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title, "https://twitch.tv/" & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", ""), StreamType.Twitch)
+                Else
+                    Await client.SetGameAsync("with some commands. Use b!help to see them.")
+                End If
+                Threading.Thread.Sleep(10000)
+            End While
 
-            Await Log(New LogMessage(LogSeverity.Critical, "Testing", "Critical"))
-            Await Log(New LogMessage(LogSeverity.Debug, "Testing", "Debug"))
-            Await Log(New LogMessage(LogSeverity.Error, "Testing", "Error"))
-            Await Log(New LogMessage(LogSeverity.Info, "Testing", "Info"))
-            Await Log(New LogMessage(LogSeverity.Verbose, "Testing", "Verbose"))
-            Await Log(New LogMessage(LogSeverity.Warning, "Testing", "Warn"))
         Catch ex As Exception
             Log(New LogMessage(LogSeverity.Critical, "Init", "Uh oh! Error."))
             Log(New LogMessage(LogSeverity.Critical, "Init", ex.ToString))
@@ -196,6 +229,7 @@ Class configManager
         My.Computer.FileSystem.WriteAllText("config\agreed.json", JsonConvert.SerializeObject(ting), False)
     End Function
 End Class
+
 Class permissionManager
     Enum BotstionRole
         regular

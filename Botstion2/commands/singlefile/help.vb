@@ -6,7 +6,7 @@ Module help
         Dim commandString = ""
         For Each command As mainclasses.modulecommand In Module1.commands
             If commandString.Length > 1500 Then
-                Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
+                Await (Await msg.Author.GetOrCreateDMChannelAsync).SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
                                            .Author = New EmbedAuthorBuilder With {
                                                 .Name = "Commands"
                                            },
@@ -19,7 +19,7 @@ Module help
             End If
             commandString = commandString & vbNewLine & "**" & prefix & command.name & "** - " & command.descrip & vbNewLine & "Example: ```" & prefix & command.example & "```" & vbNewLine
         Next
-        Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
+        Await (Await msg.Author.GetOrCreateDMChannelAsync).SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
                                            .Author = New EmbedAuthorBuilder With {
                                                 .Name = "Commands"
                                            },
@@ -28,6 +28,9 @@ Module help
                                            .Footer = Module1.getfooter(msg),
                                            .Title = "List of commands",
                                            .Timestamp = DateTimeOffset.Now})
+        Await msg.AddReactionAsync(New Emoji("🇩")) ' 🇲 🇸
+        Await msg.AddReactionAsync(New Emoji("🇲"))
+        Await msg.AddReactionAsync(New Emoji("🇸"))
     End Sub
     Function init()
         Module1.commands.Add(New mainclasses.modulecommand With {
