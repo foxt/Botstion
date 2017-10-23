@@ -157,7 +157,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Module1.vb" />
+    <Compile Include="commands\singlefile\customcommands.vb" />
+    <Compile Include="commands\dare\audioservice.vb" />
+    <Compile Include="commands\dare\DARE.vb" />
+    <Compile Include="commands\singlefile\help.vb" />
+    <Compile Include="commands\singlefile\ping.vb" />
+    <Compile Include="main\mainclasses.vb" />
+    <Compile Include="main\Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -183,6 +189,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Debug\config\agreed.json" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -194,6 +201,14 @@
     </None>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\ffmpeg.exe" />
+    <Content Include="bin\Debug\libsodium.dll" />
+    <Content Include="bin\Debug\opus.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="commands\customCommands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
