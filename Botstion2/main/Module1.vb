@@ -6,8 +6,9 @@ Imports Newtonsoft.Json
 Module Module1
     Function addmodules()
         help.init()
-        ping.init()
+        debug.init()
         customcommands.init()
+        this_module_ate_200_users_this_is_what_happened_to_its_bandwidth.init()
     End Function
     Public footer As EmbedFooterBuilder = New EmbedFooterBuilder With {
          .IconUrl = "https://sx.thelmgn.com/2017/06/botstion.png",
@@ -112,27 +113,39 @@ Module Module1
             Dim thttpService As New WebClient
             thttpService.Headers.Add("Client-ID", botstionconfig.twitchClientId)
             While True
-                Dim twitchResponce = JsonConvert.DeserializeObject(Of TwitchResponse)(thttpService.DownloadString(New Uri("https://api.twitch.tv/helix/streams?first=100&community_id=0d7a2414-ac87-473d-965c-5fd28fb7ecdf&language=en&type=live")))
-                If twitchResponce.data.Length > 0 And twitchResponce.data.Length < 101 Then
-                    Await client.SetGameAsync("b!help | Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title, "https://twitch.tv/" & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", ""), StreamType.Twitch)
-                ElseIf twitchResponce.data.Length > 0 Then
-                    Dim random = twitchResponce.data((New Random).Next(0, twitchResponce.data.Length))
-                    Await client.SetGameAsync("b!help | Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title, "https://twitch.tv/" & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", ""), StreamType.Twitch)
-                Else
-                    Await client.SetGameAsync("with some commands. Use b!help to see them.")
-                End If
-                Threading.Thread.Sleep(10000)
+                Try
+                    Await Log(New LogMessage(LogSeverity.Debug, "TwitchStatus", "Updating Twitch Status"))
+                    Dim twitchTheLMGNResponce = JsonConvert.DeserializeObject(thttpService.DownloadString(New Uri("https://api.twitch.tv/helix/streams?first=100&community_id=0d7a2414-ac87-473d-965c-5fd28fb7ecdf&language=en&type=live")))
+                    Dim twitchResponce = JsonConvert.DeserializeObject(Of TwitchResponse)(thttpService.DownloadString(New Uri("https://api.twitch.tv/helix/streams?first=100&community_id=0d7a2414-ac87-473d-965c-5fd28fb7ecdf&language=en&type=live")))
+                    If twitchResponce.data.Length > 0 And twitchResponce.data.Length < 101 Then
+                        Await Log(New LogMessage(LogSeverity.Debug, "TwitchStatus", "    Under 100 streaming. " & "Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title))
+                        Await client.SetGameAsync("b!help | Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title, "https://twitch.tv/" & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", ""), StreamType.Twitch)
+                    ElseIf twitchResponce.data.Length > 0 Then
+                        Dim random = twitchResponce.data((New Random).Next(0, twitchResponce.data.Length))
+                        Await Log(New LogMessage(LogSeverity.Debug, "TwitchStatus", "    Over 100 streaming. " & "Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title))
+                        Await client.SetGameAsync("b!help | Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title, "https://twitch.tv/" & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", ""), StreamType.Twitch)
+                    Else
+                        Await Log(New LogMessage(LogSeverity.Debug, "TwitchStatus", "    Noone is streaming. :'( "))
+                        Await client.SetGameAsync("with some commands. Use b!help to see them.")
+                    End If
+
+
+
+                    Threading.Thread.Sleep(120000)
+                Catch ex As Exception
+                    Log(New LogMessage(LogSeverity.Error, "Init", "Uh oh! Error.", ex))
+                End Try
             End While
 
         Catch ex As Exception
-            Log(New LogMessage(LogSeverity.Critical, "Init", "Uh oh! Error."))
-            Log(New LogMessage(LogSeverity.Critical, "Init", ex.ToString))
+            Log(New LogMessage(LogSeverity.Critical, "Init", "Uh oh! Error.", ex))
         End Try
     End Function
     Async Function hC(ByVal msg As IUserMessage) As Task Handles client.MessageReceived
         Try
             Dim prefix = JsonConvert.DeserializeObject(Of configClass)(My.Computer.FileSystem.ReadAllText("config\botstioncore.json")).prefix
             If msg.Content.StartsWith(prefix) Then
+                Dim typingstate = msg.Channel.EnterTypingState()
                 Dim cm = New configManager
                 If cm.userAgreed(msg.Author.Id) Then
                     For Each command As mainclasses.modulecommand In commands
@@ -176,11 +189,10 @@ Module Module1
                                             .Timestamp = DateTimeOffset.Now})
                     End If
                 End If
-
+                typingstate.Dispose()
             End If
         Catch ex As Exception
-            Log(New LogMessage(LogSeverity.Error, "Init", "Uh oh! Error."))
-            Log(New LogMessage(LogSeverity.Error, "Init", ex.ToString))
+            Log(New LogMessage(LogSeverity.Error, "Init", "Uh oh! Error.", ex))
             Try
                 msg.Channel.SendMessageAsync(ex.ToString())
             Catch
@@ -201,9 +213,21 @@ Module Module1
         If message.Severity = LogSeverity.Verbose Then Console.ForegroundColor = ConsoleColor.Green
         If message.Severity = LogSeverity.Warning Then Console.ForegroundColor = ConsoleColor.DarkYellow
         Console.WriteLine(message.ToString())
-        Debug.WriteLine(message.ToString())
-        Return Task.CompletedTask
+        System.Diagnostics.Debug.WriteLine(message.ToString())
+        Try
+            Dim logs As New List(Of LogMessage)
+            Try
+                logs = JsonConvert.DeserializeObject(Of List(Of LogMessage))(My.Computer.FileSystem.ReadAllText("log-" & DateTime.Now.DayOfYear & "-" & DateTime.Now.Year & ".json"))
+            Catch
+            End Try
+            logs.Add(message)
+            My.Computer.FileSystem.WriteAllText("log-" & DateTime.Now.DayOfYear & "-" & DateTime.Now.Year & ".json", (JsonConvert.SerializeObject(logs)), False)
+        Catch ex As Exception
+
+        End Try
         Console.ForegroundColor = ConsoleColor.Blue
+        Return Task.CompletedTask
+
     End Function
 End Module
 Class configManager
