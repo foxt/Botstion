@@ -163,7 +163,7 @@ Module Module1
                                             .Description = "You do not have sufficient permissions.",
                                             .Footer = Module1.getfooter(msg),
                                             .Title = "You need the permission " & command.permission.ToString & " or higher, you have the permission " & (New permissionManager).getUserRole(msg) & ".",
-                                            .Timestamp = DateTimeOffset.Now})
+                                            .Timestamp = DateTimeOffset.Now}.Build)
                                 End If
 
                             Catch ex As Exception
@@ -175,7 +175,7 @@ Module Module1
                                             .Description = ex.ToString,
                                             .Footer = Module1.getfooter(msg),
                                             .Title = "A " & ex.Message & " error occured",
-                                            .Timestamp = DateTimeOffset.Now})
+                                            .Timestamp = DateTimeOffset.Now}.Build)
                             End Try
                         End If
                     Next
@@ -190,7 +190,7 @@ Module Module1
                                             .Description = "You now can use the Botstion commands!",
                                             .Footer = Module1.getfooter(msg),
                                             .Title = "Agreed!",
-                                            .Timestamp = DateTimeOffset.Now})
+                                            .Timestamp = DateTimeOffset.Now}.Build)
                     Else
                         Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
                                             .Author = New EmbedAuthorBuilder With {
@@ -200,7 +200,7 @@ Module Module1
                                             .Description = "To align with the Discord TOS to use Botstion commands, you must agree to Botstion collecting userdata. To do this type b!agree",
                                             .Footer = Module1.getfooter(msg),
                                             .Title = "You havent agreed yet!",
-                                            .Timestamp = DateTimeOffset.Now})
+                                            .Timestamp = DateTimeOffset.Now}.Build)
                     End If
                 End If
                 typingstate.Dispose()

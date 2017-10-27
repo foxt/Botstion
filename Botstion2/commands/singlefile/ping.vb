@@ -23,7 +23,7 @@ Module debug
                                            .Description = "Hi! I'm Botstion. A multipurpose, [open source (GPLv3)](https://github.com/thelmgn) Discord bot made by theLMGN using Discord.NET",
                                            .Fields = fields,
                                            .Footer = Module1.getfooter(msg),
-                                           .Timestamp = DateTimeOffset.Now})
+                                           .Timestamp = DateTimeOffset.Now}.Build)
     End Sub
     Async Sub guildFunc(msg As IUserMessage, client As DiscordSocketClient, prefix As String)
         Dim fields = New List(Of EmbedFieldBuilder)
@@ -39,7 +39,7 @@ Module debug
                                            .Title = "I'm in quite a few.",
                                            .Fields = fields,
                                            .Footer = Module1.getfooter(msg),
-                                           .Timestamp = DateTimeOffset.Now})
+                                           .Timestamp = DateTimeOffset.Now}.Build)
     End Sub
     Async Sub collectGarbage(msg As IUserMessage, client As DiscordSocketClient, prefix As String)
         Dim fields = New List(Of EmbedFieldBuilder)
@@ -55,7 +55,7 @@ Module debug
                                            .Description = "Thanks! Botstion may run a bit faster now.",
                                            .Fields = fields,
                                            .Footer = Module1.getfooter(msg),
-                                           .Timestamp = DateTimeOffset.Now})
+                                           .Timestamp = DateTimeOffset.Now}.Build)
     End Sub
     Function init()
         Module1.commands.Add(New mainclasses.modulecommand With {

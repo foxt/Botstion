@@ -14,7 +14,7 @@ Module help
                                            .Description = commandString,
                                            .Footer = Module1.getfooter(msg),
                                            .Title = "List of commands",
-                                           .Timestamp = DateTimeOffset.Now})
+                                           .Timestamp = DateTimeOffset.Now}.Build)
                 commandString = ""
             End If
             commandString = commandString & vbNewLine & "**" & prefix & command.name & "** - " & command.descrip & vbNewLine & "Example: ```" & prefix & command.example & "```" & vbNewLine
@@ -27,7 +27,7 @@ Module help
                                            .Description = commandString,
                                            .Footer = Module1.getfooter(msg),
                                            .Title = "List of commands",
-                                           .Timestamp = DateTimeOffset.Now})
+                                           .Timestamp = DateTimeOffset.Now}.Build)
         Await msg.AddReactionAsync(New Emoji("🇩")) ' 🇲 🇸
         Await msg.AddReactionAsync(New Emoji("🇲"))
         Await msg.AddReactionAsync(New Emoji("🇸"))

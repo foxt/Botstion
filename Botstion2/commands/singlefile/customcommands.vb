@@ -5,7 +5,7 @@ Module customcommands
     Async Sub handleFunc(msg As IUserMessage, client As DiscordSocketClient, prefix As String)
         For Each item As customCommand In ccs
             If item.command.name = msg.Content.Replace(prefix, "") Then
-                Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, item.embed)
+                Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, item.embed.Build)
             End If
         Next
     End Sub
@@ -20,7 +20,7 @@ Module customcommands
                                            .Title = "Command is running...",
                                            .Description = "Please wait...",
                                            .Footer = Module1.getfooter(msg),
-                                           .Timestamp = DateTimeOffset.Now})
+                                           .Timestamp = DateTimeOffset.Now}.Build)
                 Dim process As New Process With {.StartInfo = New ProcessStartInfo With {.Arguments = "/c " & item.exec, .CreateNoWindow = True, .FileName = "C:\Windows\System32\cmd.exe", .RedirectStandardOutput = True, .RedirectStandardError = True, .UseShellExecute = False}}
                 process.Start()
                 Dim output = process.StandardOutput.ReadToEnd()

@@ -14,7 +14,7 @@ Module dare
                                            .Description = "You need to be in a voice channel for this to work.",
                                            .Footer = Module1.getfooter(msg),
                                            .Title = "No VC.",
-                                           .Timestamp = DateTimeOffset.Now})
+                                           .Timestamp = DateTimeOffset.Now}.Build)
         Else
             Await JoinAudioAsync(channel.Guild, channel.VoiceChannel)
             Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
@@ -25,7 +25,7 @@ Module dare
                                        .Description = "Connected from voice.",
                                        .Footer = Module1.getfooter(msg),
                                        .Title = "Connected!",
-                                       .Timestamp = DateTimeOffset.Now})
+                                       .Timestamp = DateTimeOffset.Now}.Build)
 
         End If
     End Sub
@@ -44,7 +44,7 @@ Module dare
                                        .Description = "Disconnected from voice.",
                                        .Footer = Module1.getfooter(msg),
                                        .Title = "Disconnected",
-                                       .Timestamp = DateTimeOffset.Now})
+                                       .Timestamp = DateTimeOffset.Now}.Build)
         Catch
         End Try
     End Sub

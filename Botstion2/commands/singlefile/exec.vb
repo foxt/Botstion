@@ -11,7 +11,7 @@ Module exec
                                            .Title = "Command is running...",
                                            .Description = "Please wait...",
                                            .Footer = Module1.getfooter(msg),
-                                           .Timestamp = DateTimeOffset.Now})
+                                           .Timestamp = DateTimeOffset.Now}.Build)
         Dim process As New Process With {.StartInfo = New ProcessStartInfo With {.Arguments = "/c " & msg.Content.Replace(prefix & "exec ", ""), .CreateNoWindow = True, .FileName = "C:\Windows\System32\cmd.exe", .RedirectStandardOutput = True, .RedirectStandardError = True, .UseShellExecute = False}}
         process.Start()
         Dim output = process.StandardOutput.ReadToEnd()

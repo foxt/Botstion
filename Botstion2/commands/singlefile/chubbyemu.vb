@@ -28,7 +28,7 @@ Module this_module_ate_200_users_this_is_what_happened_to_its_bandwidth
                                            .Description = generateClickbait(),
                                            .Footer = Module1.getfooter(msg),
                                            .Title = "New from Chubbyemu:",
-                                           .Timestamp = DateTimeOffset.Now})
+                                           .Timestamp = DateTimeOffset.Now}.Build)
     End Sub
     Function init()
         Module1.commands.Add(New mainclasses.modulecommand With {
