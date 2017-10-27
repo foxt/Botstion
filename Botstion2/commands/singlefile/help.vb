@@ -37,7 +37,8 @@ Module help
                              .name = "help",
                              .descrip = "Shows you a list of commands",
                              .example = "help",
-                             .func = AddressOf helpFunc
+                             .func = AddressOf helpFunc,
+                             .permission = permissionManager.BotstionRole.regular
         })
         Log(New LogMessage(LogSeverity.Info, "Init", "Loaded help."))
         Return True

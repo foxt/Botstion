@@ -62,19 +62,22 @@ Module debug
                              .name = "info",
                              .descrip = "Shows some info about the bot",
                              .example = "info",
-                             .func = AddressOf pingFunc
+                             .func = AddressOf pingFunc,
+                             .permission = permissionManager.BotstionRole.regular
         })
         Module1.commands.Add(New mainclasses.modulecommand With {
                              .name = "guilds",
                              .descrip = "Lists the guilds I'm in.",
                              .example = "guilds",
-                             .func = AddressOf guildFunc
+                             .func = AddressOf guildFunc,
+                             .permission = permissionManager.BotstionRole.globalmaintainer
         })
         Module1.commands.Add(New mainclasses.modulecommand With {
                              .name = "gc",
                              .descrip = "Forces a garbage collection (frees up RAM)",
                              .example = "gc",
-                             .func = AddressOf collectGarbage
+                             .func = AddressOf collectGarbage,
+                             .permission = permissionManager.BotstionRole.regular
         })
         Log(New LogMessage(LogSeverity.Info, "Init", "Loaded debug."))
         Return True

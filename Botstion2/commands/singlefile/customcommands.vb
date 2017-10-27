@@ -27,7 +27,8 @@ Module customcommands
                              .name = item.command.name,
                              .descrip = item.command.descrip,
                              .example = item.command.name,
-                             .func = AddressOf handleFunc
+                             .func = AddressOf handleFunc,
+                             .permission = permissionManager.BotstionRole.regular
         })
         Next
         Log(New LogMessage(LogSeverity.Info, "Init", "Loaded customcommands."))

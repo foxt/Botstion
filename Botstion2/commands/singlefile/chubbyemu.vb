@@ -35,7 +35,8 @@ Module this_module_ate_200_users_this_is_what_happened_to_its_bandwidth
                              .name = "chubbyemu",
                              .descrip = generateClickbait(),
                              .example = "chubbyemu",
-                             .func = AddressOf emuFunc
+                             .func = AddressOf emuFunc,
+                             .permission = permissionManager.BotstionRole.regular
         })
         Log(New LogMessage(LogSeverity.Info, "Init", "This module ate 200 users, this is what happened to its bandwidth"))
         Return True

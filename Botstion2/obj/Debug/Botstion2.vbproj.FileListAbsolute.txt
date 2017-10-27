@@ -100,3 +100,4 @@ Y:\GitHub\botstion\Botstion2\obj\Debug\Botstion2.vbproj.CoreCompileInputs.cache
 Y:\GitHub\botstion\Botstion2\obj\Debug\Botstion2.exe
 Y:\GitHub\botstion\Botstion2\obj\Debug\Botstion2.xml
 Y:\GitHub\botstion\Botstion2\obj\Debug\Botstion2.pdb
+Y:\GitHub\botstion\Botstion2\bin\Debug\bin\Debug\config\globalperms.json

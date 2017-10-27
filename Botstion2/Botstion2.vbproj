@@ -162,6 +162,7 @@
     <Compile Include="commands\dare\audioservice.vb" />
     <Compile Include="commands\dare\DARE.vb" />
     <Compile Include="commands\singlefile\help.vb" />
+    <Compile Include="commands\singlefile\exec.vb" />
     <Compile Include="commands\singlefile\ping.vb" />
     <Compile Include="main\mainclasses.vb" />
     <Compile Include="main\Module1.vb" />
@@ -190,6 +191,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Debug\config\globalperms.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="bin\Debug\config\agreed.json" />
     <EmbeddedResource Include="commands\qdb\qdb.min.json" />
     <None Include="My Project\Application.myapp">

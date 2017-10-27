@@ -9,6 +9,7 @@ Module Module1
         debug.init()
         customcommands.init()
         this_module_ate_200_users_this_is_what_happened_to_its_bandwidth.init()
+        exec.init()
     End Function
     Public footer As EmbedFooterBuilder = New EmbedFooterBuilder With {
          .IconUrl = "https://sx.thelmgn.com/2017/06/botstion.png",
@@ -149,9 +150,22 @@ Module Module1
                 Dim cm = New configManager
                 If cm.userAgreed(msg.Author.Id) Then
                     For Each command As mainclasses.modulecommand In commands
-                        If msg.Content = (prefix & command.name) Then
+                        If msg.Content = (prefix & command.name) Or msg.Content.StartsWith(prefix & command.name & " ") Then
                             Try
-                                command.func(msg, client, prefix)
+                                If command.permission <= (New permissionManager).getUserRole(msg) Then
+                                    command.func(msg, client, prefix)
+                                Else
+                                    Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
+                                            .Author = New EmbedAuthorBuilder With {
+                                                 .Name = command.name & ": Error"
+                                            },
+                                            .Color = Color.DarkRed,
+                                            .Description = "You do not have sufficient permissions.",
+                                            .Footer = Module1.getfooter(msg),
+                                            .Title = "You need the permission " & command.permission.ToString & " or higher, you have the permission " & (New permissionManager).getUserRole(msg) & ".",
+                                            .Timestamp = DateTimeOffset.Now})
+                                End If
+
                             Catch ex As Exception
                                 msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
                                             .Author = New EmbedAuthorBuilder With {
@@ -254,14 +268,36 @@ Class configManager
     End Function
 End Class
 
-Class permissionManager
+Public Class permissionManager
     Enum BotstionRole
         regular
         guildmoderator
         guildadministrator
         guildowner
-        globaladmin
+        globalmaintainer
         globalowner
     End Enum
+    Public Class permConfig
+        Public owner As Int64
+        Public admins As List(Of Int64)
+    End Class
+    Public Function getUserRole(msg As IUserMessage)
+        Dim cm As New configManager
+        Dim permissionConfig As permConfig = cm.loadConfig(Of permConfig)("globalperms")
+        'TODO: Implement server specific permissions
+        If permissionConfig.owner = msg.Author.Id Then
+            Return BotstionRole.globalowner
+        ElseIf permissionConfig.admins.Contains(msg.Author.Id) Then
+            Return BotstionRole.globalmaintainer
+        ElseIf TryCast(msg.Channel, IGuildChannel).Guild.OwnerId = msg.Author.Id Then
+            Return BotstionRole.guildowner
+        ElseIf TryCast(msg.Author, IGuildUser).GuildPermissions.ManageChannels Then
+            Return BotstionRole.guildadministrator
+        ElseIf TryCast(msg.Author, IGuildUser).GuildPermissions.ManageMessages Then
+            Return BotstionRole.guildmoderator
+        Else
+            Return BotstionRole.regular
+        End If
 
+    End Function
 End Class
