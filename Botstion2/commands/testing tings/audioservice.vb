@@ -34,13 +34,11 @@ Public Module AudioServicee
         End If
     End Function
 
-    Async Function SendAudioAsync(guild As IGuild, channel As IMessageChannel, path As String) As Task
+    Async Function SendAudioAsync(guild As IGuild, path As String) As Task
         ' Your task: Get a full path to the file if the value of 'path' is only a filename.
         If Not File.Exists(path) Then
-            Await channel.SendMessageAsync("File does not exist.")
             Return
         End If
-        path = My.Computer.FileSystem.GetFileInfo(path).FullName
         Console.WriteLine(path)
         Dim client As IAudioClient
         'await Log(LogSeverity.Debug, $"Starting playback of {path} in {guild.Name}");

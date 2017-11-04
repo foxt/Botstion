@@ -57,11 +57,36 @@ Module debug
                                            .Footer = Module1.getfooter(msg),
                                            .Timestamp = DateTimeOffset.Now}.Build)
     End Sub
+    Async Sub reloadFunc(msg As IUserMessage, client As DiscordSocketClient, prefix As String)
+        Dim aa = Module1.getfooter(msg)
+        aa.Text = Module1.getfooter(msg).Text & " | If there's no reloaded message after this, it's broke."
+        Dim oof = Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
+                                           .Author = New EmbedAuthorBuilder With {
+                                                .Name = "Reloading"
+                                           },
+                                           .Color = Color.Green,
+                                           .Description = "Reloading all the modules I can.",
+                                           .Footer = aa,
+                                           .Timestamp = DateTimeOffset.Now}.Build)
+        Module1.commands.Clear()
+        For Each modulee As Action In Module1.modules
+            modulee()
+        Next
+        Await oof.DeleteAsync()
+        Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
+                                           .Author = New EmbedAuthorBuilder With {
+                                                .Name = "Reloaded"
+                                           },
+                                           .Color = Color.Green,
+                                           .Description = "Reloaded all the modules I could.",
+                                           .Footer = Module1.getfooter(msg),
+                                           .Timestamp = DateTimeOffset.Now}.Build)
+    End Sub
     Function init()
         Module1.commands.Add(New mainclasses.modulecommand With {
-                             .name = "info",
+                             .name = "binfo",
                              .descrip = "Shows some info about the bot",
-                             .example = "info",
+                             .example = "binfo",
                              .func = AddressOf pingFunc,
                              .permission = permissionManager.BotstionRole.regular
         })
@@ -70,6 +95,13 @@ Module debug
                              .descrip = "Lists the guilds I'm in.",
                              .example = "guilds",
                              .func = AddressOf guildFunc,
+                             .permission = permissionManager.BotstionRole.globalmaintainer
+        })
+        Module1.commands.Add(New mainclasses.modulecommand With {
+                             .name = "reload",
+                             .descrip = "Reloads all the modules I can.",
+                             .example = "reload",
+                             .func = AddressOf reloadFunc,
                              .permission = permissionManager.BotstionRole.globalmaintainer
         })
         Module1.commands.Add(New mainclasses.modulecommand With {

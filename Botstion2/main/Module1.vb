@@ -4,20 +4,21 @@ Imports Discord.WebSocket
 Imports Newtonsoft.Json
 
 Module Module1
-    Function addmodules()
-        help.init()
-        debug.init()
-        customcommands.init()
-        this_module_ate_200_users_this_is_what_happened_to_its_bandwidth.init()
-        exec.init()
-    End Function
+    Public modules As List(Of Action) = New List(Of Action) From {AddressOf this_module_ate_200_users_this_is_what_happened_to_its_bandwidth.init,
+    AddressOf customcommands.init,
+    AddressOf exec.init,
+    AddressOf help.init,
+    AddressOf info.init,
+    AddressOf debug.init,
+    AddressOf test.init,
+    AddressOf xkcd.init}
     Public footer As EmbedFooterBuilder = New EmbedFooterBuilder With {
          .IconUrl = "https://sx.thelmgn.com/2017/06/botstion.png",
          .Text = "Botstion2 by theLMGN, made with Discord.NET. "}
-    Function getfooter(msg As IUserMessage) As EmbedFooterBuilder
+    Function getfooter(msg As IUserMessage, Optional footerafter As String = "") As EmbedFooterBuilder
         Return New EmbedFooterBuilder With {
-         .IconUrl = footer.IconUrl,
-         .Text = footer.Text & "MP: " & (DateTime.Now - msg.CreatedAt).TotalMilliseconds & "ms CP: " & client.Latency & "ms"}
+         .IconUrl = client.CurrentUser.GetAvatarUrl(ImageFormat.Png, 128),
+         .Text = footer.Text & "MP: " & (DateTime.Now - msg.CreatedAt).TotalMilliseconds & "ms CP: " & client.Latency & "ms" & footerafter}
     End Function
     Function drawPixelArt(input As String)
         For Each c As Char In input
@@ -109,7 +110,9 @@ Module Module1
             Dim botstionconfig As configClass = JsonConvert.DeserializeObject(Of configClass)(My.Computer.FileSystem.ReadAllText("config\botstioncore.json"))
             Await client.LoginAsync(TokenType.Bot, botstionconfig.token) '" & name & "
             Await client.StartAsync
-            addmodules()
+            For Each modulee As Action In modules
+                modulee()
+            Next
             Await client.SetGameAsync("with some commands. Use b!help to see them.", "http://botstion.tech", StreamType.Twitch)
             Dim thttpService As New WebClient
             thttpService.Headers.Add("Client-ID", botstionconfig.twitchClientId)
@@ -294,6 +297,25 @@ Public Class permissionManager
         ElseIf TryCast(msg.Author, IGuildUser).GuildPermissions.ManageChannels Then
             Return BotstionRole.guildadministrator
         ElseIf TryCast(msg.Author, IGuildUser).GuildPermissions.ManageMessages Then
+            Return BotstionRole.guildmoderator
+        Else
+            Return BotstionRole.regular
+        End If
+
+    End Function
+    Public Function getUserRoleByGU(user As IGuildUser)
+        Dim cm As New configManager
+        Dim permissionConfig As permConfig = cm.loadConfig(Of permConfig)("globalperms")
+        'TODO: Implement server specific permissions
+        If permissionConfig.owner = user.Id Then
+            Return BotstionRole.globalowner
+        ElseIf permissionConfig.admins.Contains(user.Id) Then
+            Return BotstionRole.globalmaintainer
+        ElseIf user.Guild.OwnerId = user.Id Then
+            Return BotstionRole.guildowner
+        ElseIf user.GuildPermissions.ManageChannels Then
+            Return BotstionRole.guildadministrator
+        ElseIf user.GuildPermissions.ManageMessages Then
             Return BotstionRole.guildmoderator
         Else
             Return BotstionRole.regular
