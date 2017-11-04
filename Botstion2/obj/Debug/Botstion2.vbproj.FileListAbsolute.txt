@@ -173,3 +173,5 @@ Z:\GitHub\botstion\Botstion2\obj\Debug\Botstion2.vbproj.CoreCompileInputs.cache
 Z:\GitHub\botstion\Botstion2\obj\Debug\Botstion2.exe
 Z:\GitHub\botstion\Botstion2\obj\Debug\Botstion2.xml
 Z:\GitHub\botstion\Botstion2\obj\Debug\Botstion2.pdb
+Z:\GitHub\botstion\Botstion2\bin\Debug\websocket-sharp.clone.dll
+Z:\GitHub\botstion\Botstion2\bin\Debug\websocket-sharp.clone.xml

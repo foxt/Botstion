@@ -2,6 +2,8 @@
 Imports Discord
 Imports Discord.WebSocket
 Imports Newtonsoft.Json
+Imports WebSocketSharp
+Imports WebSocketSharp.Server
 
 Module Module1
     Public modules As List(Of Action) = New List(Of Action) From {AddressOf this_module_ate_200_users_this_is_what_happened_to_its_bandwidth.init,
@@ -15,6 +17,48 @@ Module Module1
     Public footer As EmbedFooterBuilder = New EmbedFooterBuilder With {
          .IconUrl = "https://sx.thelmgn.com/2017/06/botstion.png",
          .Text = "Botstion2 by theLMGN, made with Discord.NET. "}
+
+    Public WithEvents client As DiscordSocketClient
+#Region "WSServer"
+    Public Class WSB
+        Inherits WebSocketBehavior
+        Class initialDataIntentData
+            Public servers As Integer
+            Public members As Integer
+        End Class
+        Class bwsIntent
+            Public intentType As String
+            Public intentData As Object
+        End Class
+        Protected Overloads Overrides Async Function OnMessage(e As MessageEventArgs) As Task
+            Dim uniqueMembers = New List(Of ULong)
+            For Each guild In client.Guilds
+                Await guild.DownloadUsersAsync()
+                For Each member In guild.Users
+                    If uniqueMembers.Contains(member.Id) Then
+                    Else
+                        uniqueMembers.Add(member.Id)
+                    End If
+                Next
+            Next
+            Await Send(JsonConvert.SerializeObject(New bwsIntent With {.intentType = "tech.botstion.botstion2.website.initdata.v1", .intentData = New initialDataIntentData With {.servers = client.Guilds.Count, .members = uniqueMembers.Count}}))
+        End Function
+        Protected Overloads Overrides Async Function OnOpen() As Task
+            Dim uniqueMembers = New List(Of ULong)
+            For Each guild In client.Guilds
+                Await guild.DownloadUsersAsync()
+                For Each member In guild.Users
+                    If uniqueMembers.Contains(member.Id) Then
+                    Else
+                        uniqueMembers.Add(member.Id)
+                    End If
+                Next
+            Next
+            Await Send(JsonConvert.SerializeObject(New bwsIntent With {.intentType = "tech.botstion.botstion2.website.initdata.v1", .intentData = New initialDataIntentData With {.servers = client.Guilds.Count, .members = uniqueMembers.Count}}))
+
+        End Function
+    End Class
+#End Region
     Function getfooter(msg As IUserMessage, Optional footerafter As String = "") As EmbedFooterBuilder
         Return New EmbedFooterBuilder With {
          .IconUrl = client.CurrentUser.GetAvatarUrl(ImageFormat.Png, 128),
@@ -66,7 +110,6 @@ Module Module1
         End While
     End Sub
 
-    Private WithEvents client As DiscordSocketClient
 
     Public Class stream
         Public Property id As String
@@ -90,7 +133,7 @@ Module Module1
         Public Property pagination As Pagination
     End Class
 
-
+    Dim wssv As WebSocketServer
     Async Function createClient() As Task
         Try
             Await Log(New LogMessage(LogSeverity.Info, "Init", "Loading"))
@@ -113,6 +156,10 @@ Module Module1
             For Each modulee As Action In modules
                 modulee()
             Next
+            wssv = New WebSocketServer(Nothing, 2999)
+            wssv.AddWebSocketService(Of WSB)("/botstionwebsocket")
+            wssv.Start()
+
             Await client.SetGameAsync("with some commands. Use b!help to see them.", "http://botstion.tech", StreamType.Twitch)
             Dim thttpService As New WebClient
             thttpService.Headers.Add("Client-ID", botstionconfig.twitchClientId)
