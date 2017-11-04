@@ -92,6 +92,7 @@ Module Module1
         Public token As String
         Public prefix As String
         Public twitchClientId As String
+        Public ipadress As String
     End Class
     Public commands As New List(Of mainclasses.modulecommand)
 
@@ -156,7 +157,7 @@ Module Module1
             For Each modulee As Action In modules
                 modulee()
             Next
-            wssv = New WebSocketServer(IPAddress.Any, 2999)
+            wssv = New WebSocketServer(IPAddress.Parse(botstionconfig.ipAdress), 2999)
             wssv.AddWebSocketService(Of WSB)("/botstionwebsocket")
             wssv.Start()
 
