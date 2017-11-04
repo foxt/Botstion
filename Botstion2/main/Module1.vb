@@ -156,7 +156,7 @@ Module Module1
             For Each modulee As Action In modules
                 modulee()
             Next
-            wssv = New WebSocketServer(Nothing, 2999)
+            wssv = New WebSocketServer(IPAddress.Any, 2999)
             wssv.AddWebSocketService(Of WSB)("/botstionwebsocket")
             wssv.Start()
 
