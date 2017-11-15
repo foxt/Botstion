@@ -187,6 +187,7 @@
   <ItemGroup>
     <Compile Include="commands\singlefile\chubbyemu.vb" />
     <Compile Include="commands\singlefile\customcommands.vb" />
+    <Compile Include="commands\singlefile\modcommands.vb" />
     <Compile Include="commands\singlefile\info.vb" />
     <Compile Include="commands\singlefile\xkcd.vb" />
     <Compile Include="commands\testing tings\audioservice.vb" />

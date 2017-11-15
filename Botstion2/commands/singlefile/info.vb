@@ -1,4 +1,5 @@
-﻿Imports Discord
+﻿Imports System.Reflection
+Imports Discord
 Imports Discord.WebSocket
 
 Module info
@@ -179,7 +180,22 @@ Module info
                 Else
                     fields.Add(New EmbedFieldBuilder With {.IsInline = False, .Value = "<:Cross:375377712367534082>", .Name = "  Mentionable"})
                 End If
-
+                fields.Add(New EmbedFieldBuilder With {.IsInline = True, .Value = truefalsetick(role.IsManaged), .Name = "  Shows seperate?"})
+                fields.Add(New EmbedFieldBuilder With {.IsInline = True, .Value = role.Position, .Name = "  Position"})
+                Dim permsstring = ""
+                For Each value As PropertyInfo In role.Permissions.GetType().GetProperties()
+                    Console.WriteLine(value.GetValue(role.Permissions))
+                    If value.GetValue(role.Permissions) Then
+                        If Not permsstring = "" Then
+                            permsstring = permsstring & ", "
+                        End If
+                        permsstring = permsstring & value.Name
+                    End If
+                Next
+                Try
+                    fields.Add(New EmbedFieldBuilder With {.IsInline = False, .Value = permsstring, .Name = ":guardsman: Permissions"})
+                Catch
+                End Try
 
                 Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
                                            .Author = New EmbedAuthorBuilder With {
@@ -191,8 +207,8 @@ Module info
                                            .Footer = getfooter(msg, " | Dates are in the format DD/MM/YYY HH:MM:SS +UTC_OFFSET"),
                                            .Timestamp = DateTimeOffset.Now,
                                            .ThumbnailUrl = role.Guild.IconUrl}.Build)
-            Catch ex As Exception
-                msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
+                Catch ex As Exception
+                    msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
                                             .Author = New EmbedAuthorBuilder With {
                                                  .Name = "info: Error"
                                             },
