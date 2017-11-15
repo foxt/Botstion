@@ -161,7 +161,7 @@ Module Module1
             wssv.AddWebSocketService(Of WSB)("/botstionwebsocket")
             wssv.Start()
 
-            Await client.SetGameAsync("with some commands. Use b!help to see them.", "http://botstion.tech", StreamType.Twitch)
+            Await client.SetGameAsync("with some commands. Use " & botstionconfig.prefix & "help to see them.", "http://botstion.tech", StreamType.Twitch)
             Dim thttpService As New WebClient
             thttpService.Headers.Add("Client-ID", botstionconfig.twitchClientId)
             While True
@@ -171,14 +171,14 @@ Module Module1
                     Dim twitchResponce = JsonConvert.DeserializeObject(Of TwitchResponse)(thttpService.DownloadString(New Uri("https://api.twitch.tv/helix/streams?first=100&community_id=0d7a2414-ac87-473d-965c-5fd28fb7ecdf&language=en&type=live")))
                     If twitchResponce.data.Length > 0 And twitchResponce.data.Length < 101 Then
                         Await Log(New LogMessage(LogSeverity.Debug, "TwitchStatus", "    Under 100 streaming. " & "Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title))
-                        Await client.SetGameAsync("b!help | Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title, "https://twitch.tv/" & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", ""), StreamType.Twitch)
+                        Await client.SetGameAsync(botstionconfig.prefix & "help | Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title, "https://twitch.tv/" & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", ""), StreamType.Twitch)
                     ElseIf twitchResponce.data.Length > 0 Then
                         Dim random = twitchResponce.data((New Random).Next(0, twitchResponce.data.Length))
                         Await Log(New LogMessage(LogSeverity.Debug, "TwitchStatus", "    Over 100 streaming. " & "Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title))
-                        Await client.SetGameAsync("b!help | Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title, "https://twitch.tv/" & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", ""), StreamType.Twitch)
+                        Await client.SetGameAsync(botstionconfig.prefix & "help | Featured Streamer: " & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", "") & " views: " & twitchResponce.data.Last.viewer_count & ", playing: " & twitchResponce.data.Last.title, "https://twitch.tv/" & twitchResponce.data.Last.thumbnail_url.Replace("https://static-cdn.jtvnw.net/previews-ttv/live_user_", "").Replace("-{width}x{height}.jpg", ""), StreamType.Twitch)
                     Else
                         Await Log(New LogMessage(LogSeverity.Debug, "TwitchStatus", "    Noone is streaming. :'( "))
-                        Await client.SetGameAsync("with some commands. Use b!help to see them.")
+                        Await client.SetGameAsync("with some commands. Use " & botstionconfig.prefix & "help to see them.")
                     End If
 
 
@@ -351,6 +351,17 @@ Public Class permissionManager
         End If
 
     End Function
+    Private Function rolesContains(user As IGuildUser, text As String)
+        For Each roleid As ULong In user.RoleIds
+            Dim role As IRole = user.Guild.GetRole(roleid)
+            If Not role.IsManaged Then
+                If role.Name.ToLower = text.ToLower Then
+                    Return True
+                End If
+            End If
+        Next
+        Return False
+    End Function
     Public Function getUserRoleByGU(user As IGuildUser)
         Dim cm As New configManager
         Dim permissionConfig As permConfig = cm.loadConfig(Of permConfig)("globalperms")
@@ -359,11 +370,11 @@ Public Class permissionManager
             Return BotstionRole.globalowner
         ElseIf permissionConfig.admins.Contains(user.Id) Then
             Return BotstionRole.globalmaintainer
-        ElseIf user.Guild.OwnerId = user.Id Then
+        ElseIf rolesContains(user, "CEO") Or rolesContains(user, "Owner") Or user.Guild.OwnerId = user.id Then
             Return BotstionRole.guildowner
-        ElseIf user.GuildPermissions.ManageChannels Then
+        ElseIf rolesContains(user, "Administrator") Or rolesContains(user, "Admin") Or rolesContains(user, "Administration") Then
             Return BotstionRole.guildadministrator
-        ElseIf user.GuildPermissions.ManageMessages Then
+        ElseIf rolesContains(user, "Moderator") Or rolesContains(user, "Administrator") Or rolesContains(user, "Administrator") Then
             Return BotstionRole.guildmoderator
         Else
             Return BotstionRole.regular

@@ -2,11 +2,45 @@
 Imports Discord.WebSocket
 
 Module info
+    Function truefalsetick(a As Boolean)
+        If a = True Then
+            Return "<:Tick:375377712786833419>"
+        ElseIf a = False Then
+            Return "<:Cross:375377712367534082>"
+        Else
+            Return "<:NotSelected:375377712669523969>"
+        End If
+    End Function
     Async Sub uinfoFunc(msg As IUserMessage, client As DiscordSocketClient, prefix As String)
+        If msg.MentionedChannelIds.Count = 0 And msg.MentionedRoleIds.Count = 0 And msg.MentionedUserIds.Count = 0 Then
+            Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
+                                            .Author = New EmbedAuthorBuilder With {
+                                                 .Name = "info: Error"
+                                            },
+                                            .Color = Color.DarkRed,
+                                            .Description = "You actually have to mention the role/user/channel you want info on. Like this " & vbNewLine & "b!info " & msg.Author.Mention & " <#" & msg.Channel.Id & ">",
+                                            .Footer = Module1.getfooter(msg),
+                                            .Title = "Woops!",
+                                            .Timestamp = DateTimeOffset.Now}.Build)
+        End If
         For Each channelid As ULong In msg.MentionedChannelIds
             Try
                 Dim channel As IGuildChannel = TryCast(client.GetChannel(channelid), IGuildChannel)
-
+                Dim fields As List(Of EmbedFieldBuilder) = New List(Of EmbedFieldBuilder)
+                fields.Add(New EmbedFieldBuilder With {.IsInline = True, .Value = channel.Position, .Name = ":link: List position"})
+                fields.Add(New EmbedFieldBuilder With {.IsInline = True, .Value = channel.Name, .Name = ":pencil: Name"})
+                fields.Add(New EmbedFieldBuilder With {.IsInline = True, .Value = channel.Guild.Name, .Name = "  Guild"})
+                fields.Add(New EmbedFieldBuilder With {.IsInline = False, .Value = channel.CreatedAt.ToString, .Name = ":calendar_spiral: Created"})
+                Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
+                                           .Author = New EmbedAuthorBuilder With {
+                                                 .Name = "Channel Info"
+                                           },
+                                           .Color = Color.Blue,
+                                           .Title = channel.Name,
+                                           .Fields = fields,
+                                           .Footer = getfooter(msg, " | Dates are in the format DD/MM/YYY HH:MM:SS +UTC_OFFSET"),
+                                           .Timestamp = DateTimeOffset.Now,
+                                           .ThumbnailUrl = channel.Guild.IconUrl}.Build)
             Catch ex As Exception
 
             End Try
@@ -55,27 +89,27 @@ Module info
                     Catch
                     End Try
                     Dim roles As String = ""
-                        For Each roleid As ULong In guilduser.RoleIds
-                            Dim role As IRole = guilduser.Guild.GetRole(roleid)
-                            If Not role.IsManaged Then
-                                If Not roles = "" Then
-                                    roles = roles & ", "
-                                End If
-                                If role.IsHoisted Then
-                                    roles = roles & "**"
-                                End If
-                                If role.IsMentionable Then
-                                    roles = roles & "*"
-                                End If
-                                roles = roles & role.Name
-                                If role.IsMentionable Then
-                                    roles = roles & "*"
-                                End If
-                                If role.IsHoisted Then
-                                    roles = roles & "**"
-                                End If
-
+                    For Each roleid As ULong In guilduser.RoleIds
+                        Dim role As IRole = guilduser.Guild.GetRole(roleid)
+                        If Not role.IsManaged Then
+                            If Not roles = "" Then
+                                roles = roles & ", "
                             End If
+                            If role.IsHoisted Then
+                                roles = roles & "**"
+                            End If
+                            If role.IsMentionable Then
+                                roles = roles & "*"
+                            End If
+                            roles = roles & role.Name
+                            If role.IsMentionable Then
+                                roles = roles & "*"
+                            End If
+                            If role.IsHoisted Then
+                                roles = roles & "**"
+                            End If
+
+                        End If
                         If Not role.Color.RawValue = 0 And color.RawValue = Color.LighterGrey.RawValue Then
                             color = role.Color
                         End If
@@ -123,6 +157,40 @@ Module info
                                            .Footer = getfooter(msg, " | Dates are in the format DD/MM/YYY HH:MM:SS +UTC_OFFSET"),
                                            .Timestamp = DateTimeOffset.Now,
                                            .ThumbnailUrl = user.GetAvatarUrl(ImageFormat.Auto)}.Build)
+            Catch ex As Exception
+                msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
+                                            .Author = New EmbedAuthorBuilder With {
+                                                 .Name = "info: Error"
+                                            },
+                                            .Color = Color.DarkRed,
+                                            .Description = ex.ToString,
+                                            .Footer = Module1.getfooter(msg),
+                                            .Title = "A " & ex.Message & " error occured",
+                                            .Timestamp = DateTimeOffset.Now}.Build)
+            End Try
+        Next
+        For Each roleid As ULong In msg.MentionedRoleIds
+            Try
+                Dim role = TryCast(msg.Channel, IGuildChannel).Guild.GetRole(roleid)
+                Dim fields As List(Of EmbedFieldBuilder) = New List(Of EmbedFieldBuilder)
+                fields.Add(New EmbedFieldBuilder With {.IsInline = True, .Value = truefalsetick(role.IsManaged), .Name = "<:BOT:375377712648421386> Bot role?"})
+                If role.IsMentionable Then
+                    fields.Add(New EmbedFieldBuilder With {.IsInline = False, .Value = role.Mention, .Name = "  Mention"})
+                Else
+                    fields.Add(New EmbedFieldBuilder With {.IsInline = False, .Value = "<:Cross:375377712367534082>", .Name = "  Mentionable"})
+                End If
+
+
+                Await msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
+                                           .Author = New EmbedAuthorBuilder With {
+                                                 .Name = "Role Info"
+                                           },
+                                           .Color = role.Color,
+                                           .Title = role.Name,
+                                           .Fields = fields,
+                                           .Footer = getfooter(msg, " | Dates are in the format DD/MM/YYY HH:MM:SS +UTC_OFFSET"),
+                                           .Timestamp = DateTimeOffset.Now,
+                                           .ThumbnailUrl = role.Guild.IconUrl}.Build)
             Catch ex As Exception
                 msg.Channel.SendMessageAsync(msg.Author.Mention, False, New EmbedBuilder With {
                                             .Author = New EmbedAuthorBuilder With {
