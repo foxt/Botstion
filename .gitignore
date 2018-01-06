@@ -1,3 +1,2 @@
-config/
-botstionmodules/
-log-*
+node-modules
+config.json
