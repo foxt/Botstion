@@ -1,0 +1,28 @@
+{
+  "name": "botstion.js",
+  "version": "0.0.1",
+  "description": "Botstion, but it's in JS",
+  "main": "boat.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/thelmgn/botstion.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "botstion"
+  ],
+  "author": "theLMGN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thelmgn/botstion/issues"
+  },
+  "homepage": "https://botstion.tech",
+  "dependencies": {
+    "discord.js": "^11.2.1",
+    "mongoose": "^4.13.6"
+  }
+}
