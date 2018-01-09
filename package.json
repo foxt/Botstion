@@ -24,6 +24,7 @@
   "dependencies": {
     "clear-require": "^2.0.0",
     "discord.js": "^11.2.1",
+    "lyricist": "^2.2.2",
     "mongoose": "^4.13.6"
   }
 }

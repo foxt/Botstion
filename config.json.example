@@ -8,5 +8,6 @@
                          "banned": []
                         },
  "mongoURL": "",
- "prefix": "bselfhost!"
+ "prefix": "bselfhost!",
+ "geniusAccessToken": ""
 }

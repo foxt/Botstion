@@ -6,6 +6,7 @@ const permissionmanager = require("./utils/permissionmanager")
 const config = require("./config.json")
 const database = require("./mongo/database")
 const clearRequire = require('clear-require');
+require("./scratchpad")
 logger.info("Loaded core modules.")
 /*database.initialize(config.mongoURL).then(db => {
 	logger.info(`Database Loaded!`);
