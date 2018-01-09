@@ -15,7 +15,7 @@ logger.info("Loaded core modules.")
 
 /* Import commands */
 client.on("message", async message => {
-    var prefix = "b!"
+    var prefix = config.prefix
     if (message.author.bot) return null
     if (!message.content.startsWith(prefix)) return null
     const cmd = message.content.split(" ")[0].trim().toLowerCase().replace(prefix, "")
