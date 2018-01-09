@@ -6,7 +6,7 @@ const clearRequire = require('clear-require');
 exports.run = async(client,msg,args) => {
     if (args === undefined || args.length == 0) {
         clearRequire.all()
-        return Message.reply({embed:new Discord.RichEmbed()
+        return msg.reply({embed:new Discord.RichEmbed()
             .setTitle("Unloaded")
             .setDescription("We have unloaded all of our commands.")
             .setColor("#23d160")})
@@ -16,7 +16,7 @@ exports.run = async(client,msg,args) => {
             clearRequire("./commands/" + c)
             commands = commands + " " + c
         })
-        return Message.reply({embed:new Discord.RichEmbed()
+        return msg.reply({embed:new Discord.RichEmbed()
             .setTitle("Unloaded")
             .setDescription(`Unloaded ${commands}`)
             .setColor("#23d160")})
