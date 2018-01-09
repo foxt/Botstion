@@ -9,7 +9,7 @@ exports.run = async(Client,Message,Arguments) => {
                         .addField(":ping_pong: Ping", Client.ping + "ms",true) 
                         .addField("<:js:388353565619519488> Node Version", process.version,true) 
                         .addField("<:Discord:375377712681844736> Discord.JS Version", Discord.version,true) 
-                        .addField(":clock10: Uptime (hours)", Math.floor(Client.uptime / 60 / 60),true)
+                        .addField(":clock10: Uptime (hours)", Math.floor(Client.uptime / 60 / 60 / 60),true)
                         .addField(":id: PID", process.pid,true) 
                         .addField(":desktop: Platform", process.platform,true) 
                         .setColor("#3273dc")})
