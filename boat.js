@@ -35,12 +35,20 @@ client.on("message", async message => {
         try {
             var up = permissionmanager.userHasPerms(message.author)
             if (up >= cmdFile.permission) {
-                return cmdFile.run(client, message, suffix)
+                return cmdFile.run(client, message, suffix).catch(function (err) {
+                    return Message.reply({embed:new Discord.RichEmbed()
+                        .setTitle("Woops, we had an error.")
+                        .setDescription(`\`\`\`${err}\`\`\``)
+                        .setColor("#ff3860")})
+                })
             } else {
                 return message.reply("You don't have permissions to run that command. ")
             }
         } catch (err) {
-            return message.reply(`Woops, we had an error.\n\`\`\`${err}\`\`\``)
+            return Message.reply({embed:new Discord.RichEmbed()
+                .setTitle("Woops, we had an error.")
+                .setDescription(`\`\`\`${err}\`\`\``)
+                .setColor("#ff3860")})
         }
         
     }
