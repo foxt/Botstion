@@ -1,0 +1,6 @@
+[
+    {
+        "aliasName": "ping",
+        "aliasesTo": "info"
+    }
+]
