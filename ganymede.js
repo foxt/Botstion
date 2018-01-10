@@ -12,7 +12,7 @@ const logger = require("./utils/BotstionLogger")
 const permissionmanager = require("./utils/permissionmanager")
 
 figlet('Ganymede', function(err, data) {
-    console.log(data + "\nGanymede 2 loaded")
+    logger.crit(data + "\nGanymede 2 loaded")
 });
 module.exports = async function(client,cmd,suffix,message) {
     if (message.guild) {
@@ -50,7 +50,7 @@ module.exports = async function(client,cmd,suffix,message) {
                 var up = permissionmanager.userHasPerms(message.author)
                 if (up >= cmdFile.permission) {
                     return cmdFile.run(client, message, suffix).catch(function (err) {
-                        return Message.reply({embed:new Discord.RichEmbed()
+                        return message.reply({embed:new Discord.RichEmbed()
                             .setTitle("Woops, we had an error.")
                             .setDescription(`\`\`\`${err}\`\`\``)
                             .setColor("#ff3860")})
@@ -59,7 +59,7 @@ module.exports = async function(client,cmd,suffix,message) {
                     return message.reply("You don't have permissions to run that command. ")
                 }
             } catch (err) {
-                return Message.reply({embed:new Discord.RichEmbed()
+                return message.reply({embed:new Discord.RichEmbed()
                     .setTitle("Woops, we had an error.")
                     .setDescription(`\`\`\`${err}\`\`\``)
                     .setColor("#ff3860")})
