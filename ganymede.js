@@ -20,6 +20,11 @@ module.exports = async function(client,cmd,suffix,message) {
     } else {
         logger.info(`${message.author.tag} executed ${cmd} in direct messages.`)
     }
+    alias.forEach(function (alias) {
+        if (alias.aliasName == cmd) {
+            cmd == alias.aliasTo
+        }
+    })
     if (cmd == "unload" && permissionmanager.userHasPerms(message.author) > 3) {
         if (suffix === undefined || suffix.length == 0) {
             clearRequire.all()
