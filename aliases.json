@@ -2,5 +2,10 @@
     {
         "aliasName": "ping",
         "aliasesTo": "info"
+    },
+    {
+        "aliasName": "brainpower",
+        "aliasesTo": "lyrics",
+        "arguments": ["noma", "brainpower"]
     }
 ]

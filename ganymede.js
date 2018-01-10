@@ -51,7 +51,12 @@ module.exports = async function(client,cmd,suffix,message) {
     }
     aliases.forEach(function (alias) {
         if (alias.aliasName == cmd) {
-            execCommand(client,alias.aliasesTo,suffix,message)
+            if (alias.arguments) {
+                execCommand(client,alias.aliasesTo,alias.arguments,message)
+            } else {
+                execCommand(client,alias.aliasesTo,suffix,message)
+            }
+            
         }
     })
     if (cmd == "unload" && permissionmanager.userHasPerms(message.author) > 3) {
