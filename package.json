@@ -23,7 +23,9 @@
   "homepage": "https://botstion.tech",
   "dependencies": {
     "clear-require": "^2.0.0",
+    "cors": "^2.8.4",
     "discord.js": "^11.2.1",
+    "express": "^4.16.2",
     "figlet": "^1.2.0",
     "lyricist": "^2.2.2",
     "mongoose": "^4.13.6"

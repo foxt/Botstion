@@ -29,6 +29,7 @@ client.on("message", async message => {
 
 client.on('ready', () => {
     logger.info(`Logged in as ${client.user.tag}!`)
+    require("./webserver")(client)
 })
  
 client.login(config.token)
