@@ -10,7 +10,7 @@ module.exports = function(client) {
         logger.info("HTTP: Request from " + req.ip)
     })
     const eServer = http.createServer(eApp);
-    eServer.listen(2325, function listening() {
+    eServer.listen(2325,"0.0.0.0", function listening() {
         logger.info('HTTP: Listening on' + eServer.address().port);
       });
 }
