@@ -6,7 +6,7 @@ exports.run = async(client,msg,args) => {
         .setTitle("See ya!")
         .setDescription("Botstion is about to go down.")
         .setColor("#23d160")})
-    process.exit()
+    client.destroy()
 }
 exports.permission = 4
 exports.help = {descrip: "Shuts Botstion down.", example: "shutdown"}
