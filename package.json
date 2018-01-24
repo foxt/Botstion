@@ -28,7 +28,6 @@
     "express": "^4.16.2",
     "figlet": "^1.2.0",
     "lyricist": "^2.2.2",
-    "mongoose": "^4.13.6",
     "node-opus": "^0.2.7"
   }
 }
