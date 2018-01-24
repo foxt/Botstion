@@ -1,6 +1,6 @@
 exports.run = async(Client,Message,Arguments) => {
     try {
-        Message.reply(`\`\`\`${((new Function('c','m',Arguments.join(" ").replace("c.token","\"nice try xd"))(Client,Message))).replace(Client.token,"fuck off.")}\`\`\``)
+        Message.reply(`\`\`\`${((new Function('c','m',Arguments.join(" ").replace("c.token"," 'nice try xd'"))(Client,Message))).toString().replace(Client.token,"fuck off.")}\`\`\``)
     } catch (err) {
         return Message.reply(`Woops, we had an error.\n\`\`\`${err}\`\`\``)
     }
