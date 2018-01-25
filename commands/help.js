@@ -20,7 +20,7 @@ exports.run = async(Client,Message,Arguments) => {
                 Client,
                 [new Discord.RichEmbed()
                     .setTitle("Commands list")
-                    .setDescription("Press ⏭ to goto the next page\nPress ⏮ to goto the previous page\n\nStolen from [Cookie](http://github.com/samonyt/cookie)\n\n[Join the Botstion server](http://discord.gg/V6Ez2N6)")
+                    .setDescription("Press ⏭ to goto the next page\nPress ⏮ to goto the previous page\n\nStolen from [Cookie](http://github.com/samonyt/cookie)\n\n[Join the Botstion server](http://discord.gg/V6Ez2N6)\n[Donate](https://www.paypal.com/pools/c/80JewGlyVl)")
                     .setColor("#3273dc"),
                     embed,]
                 ,Message)
