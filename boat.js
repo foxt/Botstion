@@ -7,7 +7,7 @@ const logger = require("./utils/BotstionLogger")
 require("./scratchpad")
 logger.info("Loaded core modules.")
 
-/* Import commands */
+/* Handle commands */
 client.on("message", async message => {
     var prefix = config.prefix
     if (message.author.bot) return null
