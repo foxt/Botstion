@@ -27,7 +27,9 @@
     "discord.js": "^11.2.1",
     "express": "^4.16.2",
     "figlet": "^1.2.0",
+    "file-type": "^7.5.0",
     "lyricist": "^2.2.2",
-    "node-opus": "^0.2.7"
+    "node-opus": "^0.2.7",
+    "saucenao": "0.0.2"
   }
 }
