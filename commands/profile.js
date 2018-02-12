@@ -67,5 +67,5 @@ exports.run = async(client,msg,args) => {
     embeds.push(processUser(msg.author,msg.channel))
     require("../utils/paginator")(client,embeds,msg)
 }
-exports.permission = 4
+exports.permission = 1
 exports.help = {descrip: "Gives you information on your self and any mentioned users.", example: "profile <@321746347550310411> <@158311402677731328>"}
