@@ -12,8 +12,12 @@ exports.run = async(Client,Message,Arguments) => {
             .setDescription(`Found ${items.length} commands.`)
             .setColor("#3273dc")
             for (i = 0; i < items.length; i++) { 
+                try {
                 var command = require("./" + items[i])
                 embed.addField(items[i].replace(".js",""), `${command.help.descrip}\n    ${command.help.example}`)
+                } catch(e) {
+                    console.log("Help error:" + e)
+                }
             }
 
             require("../utils/paginator")(
