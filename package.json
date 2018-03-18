@@ -1,0 +1,27 @@
+{
+  "name": "botstion",
+  "version": "4.0.0",
+  "description": "Botstion4",
+  "main": "boat.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theLMGN/botstion.git"
+  },
+  "keywords": [
+    "botstion",
+    "discord",
+    "discord.js"
+  ],
+  "author": "theLMGN",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/theLMGN/botstion/issues"
+  },
+  "homepage": "https://github.com/theLMGN/botstion#readme",
+  "dependencies": {
+    "discord.js": "github:hydrabolt/discord.js"
+  }
+}

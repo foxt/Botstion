@@ -1,0 +1,10 @@
+{
+    "workbench.startupEditor": "newUntitledFile",
+    "editor.detectIndentation": false,
+    "files.trimTrailingWhitespace": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "files.autoSave": "onFocusChange",
+    "editor.fontFamily": "Menlo",
+    "window.zoomLevel": 0,
+}
