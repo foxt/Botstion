@@ -36,7 +36,12 @@ client.on("ready", () => {
 						timerHandler(client);
 					});
 				});
-			}, 10000);
+			}, 600000);
+			plugins.forEach(plugin => {
+				plugin.timer.forEach(timerHandler => {
+					timerHandler(client);
+				});
+			});
 		}
 	});
 });
