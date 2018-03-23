@@ -3,3 +3,4 @@ config.json
 scratchpad.js
 .DS_Store
 .vscode
+.vscode/settings.json
