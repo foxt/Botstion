@@ -27,6 +27,9 @@ client.on("ready", () => {
 				plugin.events.forEach(event => {
 					console.debug(`Giving ${plugin.name} the ${event.name} event`);
 					client.on(event.name, event.exec);
+					if (event.name == "ready") {
+						event.exec()
+					}
 				});
 			});
 			console.debug("Setting up timer...");
