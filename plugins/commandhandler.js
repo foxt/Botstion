@@ -1,4 +1,5 @@
 var allCommands = [];
+var allPlugins = [];
 var config = require("../config/config.json");
 
 module.exports = {
@@ -6,7 +7,42 @@ module.exports = {
 	author: "theLMGN",
 	version: 3,
 	description: "Botstion's commandhandler.",
-	commands: [],
+	commands: [
+		{
+			name: "help",
+			usage: "",
+			description: "Lists commands and their descriptions/examples",
+			execute: async(c, m, a) => {
+				var commandString = "";
+				allCommands.forEach(cmd => {
+					if (commandString.length > 1750) {
+						m.reply(commandString);
+						commandString = "";
+					}
+					commandString = `${commandString}\n\n -- ${cmd.name} --\nExample: b!${cmd.name} ${cmd.usage}\n${cmd.description} \n`;
+				});
+				m.reply(commandString);
+				commandString = "";
+			},
+		},
+		{
+			name: "plugins",
+			usage: "",
+			description: "Lists plugins.",
+			execute: async(c, m, a) => {
+				var pluginsString = "";
+				allPlugins.forEach(p => {
+					if (pluginsString.length > 1500) {
+						m.reply(pluginsString);
+						pluginsString = "";
+					}
+					pluginsString = `${pluginsString}\n\n -- ${p.name} v${p.version} --\nAuthor: ${p.author}\n${p.commands.length} commands, ${p.events.length} event handlers and ${p.timer.length} timer handlers\n${p.description}\n`;
+				});
+				m.reply(pluginsString);
+				pluginsString = "";
+			},
+		},
+	],
 	events: [{
 		name: "message",
 		exec: async msg => {
@@ -31,6 +67,7 @@ module.exports = {
 	timer: [],
 	init: async plugins => {
 		plugins.forEach(plugin => {
+			allPlugins.push(plugin);
 			plugin.commands.forEach(command => {
 				allCommands.push(command);
 			});
