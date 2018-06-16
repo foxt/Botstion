@@ -46,7 +46,6 @@ module.exports = {
 	events: [{
 		name: "message",
 		exec: async msg => {
-			console.log("message");
 			var prefix = "b!"; // todo: mongo prefix
 			if (msg.author.bot) return null;
 			if (!msg.content.startsWith(prefix)) return null;
