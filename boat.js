@@ -30,7 +30,7 @@ client.on("ready", () => {
 					console.debug(`Giving ${plugin.name} the ${event.name} event`);
 					client.on(event.name, event.exec);
 					if (event.name == "ready") {
-						event.exec()
+						event.exec(client)
 					}
 				});
 			});
@@ -51,8 +51,6 @@ client.on("ready", () => {
 	});
 });
 
-client.on("message", async msg => {
-	console.log(msg);
-});
+
 
 client.login(config.token);
