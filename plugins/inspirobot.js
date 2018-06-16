@@ -6,7 +6,7 @@ module.exports = {
 	name: "Inspirobot",
 	author: "theLMGN",
 	version: 1,
-	description: "A simple ping command that replies pong.",
+	description: "Inspires you. (Ported from Botstion3)",
 	commands: [
 		{
 			name: "inspirobot",

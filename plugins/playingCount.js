@@ -4,7 +4,7 @@ module.exports = {
 	name: "Playing Count",
 	author: "theLMGN",
 	version: 1,
-	description: "A simple ping command that replies pong.",
+	description: "A command that shows all the user the bot knows who are playing a game.",
 	commands: [
 		{
 			name: "playing",
