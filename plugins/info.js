@@ -22,7 +22,7 @@ module.exports = {
 		description: "Shows you some information about the bot.",
 		execute: async(c, m, a) => m.reply({ embed: new Discord.MessageEmbed()
 			.setTitle("Botstion⁴")
-			.setDescription(`Developed by [theLMGN](https://thelmgn.com) and [SunburntRock89](https://twitter.com/sunburntrock89) in 2018. [Contribute](https://github.com/theLMGN/botstion) [Website](https://botstion.tech)`)
+			.setDescription(`Developed by [theLMGN](https://thelmgn.com) and [SunburntRock89](https://twitter.com/sunburntrock89) in 2018. [Contribute](https://github.com/theLMGN/botstion) [Website](https://botstion.com)`)
 			.addField(":ping_pong: Ping", `${Math.floor(c.ping)}ms`, true)
 			.addField("<:js:388353565619519488> Node Version", process.version, true)
 			.addField("<:Discord:375377712681844736> Discord.JS Version", Discord.version, true)

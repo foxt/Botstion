@@ -3,7 +3,7 @@ Open-source Discord.js with the aim of opening Discord channels to as many APIs 
 
 # Links
 
-[Website](http://botstion.tech)
+[Website](http://botstion.com)
 
 [Support Server](http://discord.gg/V6Ez2N6)
 
