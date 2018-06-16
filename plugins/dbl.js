@@ -1,11 +1,16 @@
-const DBL = require("dblapi.js");
 const Discord = require("discord.js")
-const { get } = require('snekfetch')
+const { get,post } = require('snekfetch')
 const conf = require("../config/config.json")
-let dbl;
 let voters = [];
 
-
+function dbl(c) {
+	post(`https://discordbots.org/api/bots/${c.user.id}/stats`).set('Authorization', conf.dblToken).send({server_count: c.guilds.length}).then(function (r) {
+		console.log("[DBL]" + r.text);
+	})
+	get(`https://discordbots.org/api/bots/${c.user.id}/votes`).set('Authorization', conf.dblToken).send().then(function (r) {
+		voters = (JSON.parse(r.text));
+	})
+}
 
 module.exports = {
 	name: "DBL Support",
@@ -42,24 +47,9 @@ module.exports = {
 	events: [{
 		name: "ready",
 		exec: function(c) {
-			dbl = new DBL(conf.dblToken,c);
-			dbl.on('posted', () => {
-				console.log('[DBL] Server count posted!');
-			})
-			dbl.on('error', e => {
-				console.log(`[DBL] Oops! ${e}`);
-			})
-			dbl.postStats(c.guilds.size);
-			get(`https://discordbots.org/api/bots/${c.user.id}/votes`).set('Authorization', conf.dblToken).send().then(function (r) {
-				voters = (JSON.parse(r.text));
-			})
-
+			dbl(c)
 			setInterval(() => {
-				dbl.postStats(c.guilds.size);
-				dbl.postStats(c.guilds.size);
-				get(`https://discordbots.org/api/bots/${c.user.id}/votes`).set('Authorization', conf.dblToken).send().then(function (r) {
-					voters = (JSON.parse(r.text));
-				})
+				dbl(c)
 			}, 1800000);
 		}
 	}],
