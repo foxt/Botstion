@@ -5,10 +5,10 @@ let requestsRemaining = 30;
 let uptimeAtLastReset = process.uptime();
 
 module.exports = {
-	name: "TrackerNetwork",
+	name: "Fortnite",
 	author: "theLMGN",
 	version: 1,
-	description: "Game stats provided by thetrackernetwork.com",
+	description: "Fortnite stats provided by fortnitetracker.com",
 	commands: [
 		{
 			name: "fortnite",
