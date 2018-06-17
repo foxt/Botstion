@@ -7,7 +7,7 @@ function stohms(totalSeconds) {
 	var hours = Math.floor(totalSeconds / 3600);
 	totalSeconds %= 3600;
 	var minutes = Math.floor(totalSeconds / 60);
-	var seconds = totalSeconds % 60;
+	var seconds = math.floor(totalSeconds % 60);
 	return `${hours}h ${minutes}m ${seconds}s`;
 }
 
@@ -26,7 +26,7 @@ module.exports = {
 			.addField(":ping_pong: Ping", `${Math.floor(c.ping)}ms`, true)
 			.addField("<:js:388353565619519488> Node Version", process.version, true)
 			.addField("<:Discord:375377712681844736> Discord.JS Version", Discord.version, true)
-			.addField(":clock10: Uptime", stohms(c.uptime / 1000), true)
+			.addField(":clock10: Client Uptime", stohms(c.uptime / 1000), true)
 			.addField(":id: PID", process.pid, true)
 			.addField(":desktop: Platform", `${process.platform.replace("win32", "Windows").replace("darwin", "macOS")} (${os.release})`, true)
 			.setColor("#3273dc") }),
