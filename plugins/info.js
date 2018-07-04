@@ -28,7 +28,7 @@ module.exports = {
 			.addField("<:Discord:375377712681844736> Discord.JS Version", Discord.version, true)
 			.addField(":clock10: Client Uptime", stohms(c.uptime / 1000), true)
 			.addField(":id: PID", process.pid, true)
-			.addField(":desktop: Platform", `${process.platform.replace("win32", "Windows").replace("darwin", "macOS")} (${os.release})`, true)
+			.addField(":desktop: System", `${process.platform.replace("win32", "Windows").replace("darwin", "macOS")} (${os.release}) on ${os.hostname}`, true)
 			.setColor("#3273dc") }),
 	}],
 	events: [],
