@@ -7,7 +7,7 @@ function stohms(totalSeconds) {
 	var hours = Math.floor(totalSeconds / 3600);
 	totalSeconds %= 3600;
 	var minutes = Math.floor(totalSeconds / 60);
-	var seconds = math.floor(totalSeconds % 60);
+	var seconds = Math.floor(totalSeconds % 60);
 	return `${hours}h ${minutes}m ${seconds}s`;
 }
 
