@@ -23,9 +23,6 @@
   "homepage": "https://github.com/theLMGN/botstion#readme",
   "dependencies": {
     "discord.js": "hydrabolt/discord.js",
-	"lyricist": "^2
-
-
-	.2.2"
+	"lyricist": "^2.2.2"
   }
 }
