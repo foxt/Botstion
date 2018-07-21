@@ -81,7 +81,7 @@ module.exports = {
 						}).catch(function(er) {
 							console.log(er)
 							try {
-								var j = JSON.parse(er.text)
+								var j = r.body
 								if (j.error) {
 									if (j.error.title) {
 										return e.edit({ embed: new Discord.MessageEmbed()
