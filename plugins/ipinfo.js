@@ -31,8 +31,9 @@ module.exports = {
 							.setDescription(`Please wait a few seconds`)
 							.setColor("#ffdd57") });
 						get(`https://ipinfo.io/${a[0]}/json`).set("Authorization", "Bearer" + conf.ipinfoioToken).send().then( async function(r) {
-							var j = JSON.parse(r.text)
-							console.log(j)
+
+							var j = r.body
+
 							if (j.error) {
 								if (j.error.title) {
 									return e.edit({ embed: new Discord.MessageEmbed()
