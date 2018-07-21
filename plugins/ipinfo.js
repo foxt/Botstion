@@ -11,7 +11,7 @@ module.exports = {
 	commands: [
 		{
 			name: "ip",
-			usage: "b!ip 8.8.8.8",
+			usage: "8.8.8.8",
 			description: "ipinfo.io support",
 			execute: async(c, m, a) => {
 				if (a.length > 1) {
