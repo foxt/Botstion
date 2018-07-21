@@ -52,28 +52,27 @@ module.exports = {
 									.setTitle(j.ip)
 									.setDescription(`[Data from ipinfo.io](https://ipinfo.io/${j.ip})`)
 									.setColor("#ffdd57")
-									.setFooter("Thanks to Tom for not suing me for steal")
 									if (j.hostname) {
-										emb.addField(`:shield: Hostname`, j.hostname);
+										emb.addField(`:shield: Hostname`, j.hostname, false);
 									}
 									if (j.city) {
-										emb.addField(`:cityscape: City`, j.city);
+										emb.addField(`:cityscape: City`, j.city, true);
 									}
 									if (j.region) {
-										emb.addField(`:homes: Region`, j.region);
+										emb.addField(`:homes: Region`, j.region, true);
 									}
 									if (j.country) {
-										emb.setTitle(`:flag_${j.country.toLowerCase()}: ${j.ip}`);
+										emb.setTitle(`:flag_${j.country.toLowerCase()}: ${j.ip}`, true);
 									}
 									if (j.org) {
-										emb.addField(`:globe_with_meridians: Network`, j.org);
+										emb.addField(`:globe_with_meridians: Network`, j.org, true);
 									}
 									if (j.bogon) {
-										emb.addField(':information_source: Bogon!', " This is a [bogon](https://en.wikipedia.org/wiki/Reserved_IP_addresses)/[reserved](https://en.wikipedia.org/wiki/Bogon_filtering) IP address!")
+										emb.addField(':information_source: Bogon!', " This is a [bogon](https://en.wikipedia.org/wiki/Reserved_IP_addresses)/[reserved](https://en.wikipedia.org/wiki/Bogon_filtering) IP address!", true)
 									}
 
 									if (j.loc) {
-										emb.setThumbnail(`https://maps.googleapis.com/maps/api/staticmap?center=${j.loc}&zoom=10&size=1000x1000&sensor=false&key=${conf.googleApi}`)
+										emb.setThumbnail(`https://maps.googleapis.com/maps/api/staticmap?center=${j.loc}&zoom=10&size=1000x1000&sensor=false&key=${conf.googleApi}`, true)
 									}
 									return e.edit({ embed:emb });
 								}
