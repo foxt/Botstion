@@ -63,7 +63,7 @@ module.exports = {
 										emb.addField(`:homes: Region`, j.region);
 									}
 									if (j.country) {
-										emb.addField(`:earth_africa: Country`, `:flag_${j.country.toLowerCase()}:`);
+										emb.setTitle(`:flag_${j.country.toLowerCase()}: ${j.ip}`);
 									}
 									if (j.org) {
 										emb.addField(`:globe_with_meridians: Network`, j.org);
