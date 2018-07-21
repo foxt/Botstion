@@ -1,6 +1,7 @@
 var allCommands = [];
 var allPlugins = [];
 var config = require("../config/config.json");
+const Discord = require("discord.js");
 
 module.exports = {
 	name: "Ganymede",
@@ -13,16 +14,23 @@ module.exports = {
 			usage: "",
 			description: "Lists commands and their descriptions/examples",
 			execute: async(c, m, a) => {
-				var commandString = "";
-				allCommands.forEach(cmd => {
-					if (commandString.length > 1750) {
-						m.reply(commandString);
-						commandString = "";
+				var emb = new Discord.MessageEmbed()
+					.setTitle(`There are ${allCommands.length} available for you to use`)
+					.setColor("#3273dc")
+				var fields = 0;
+				for (i in  allCommands) {
+					var command = allCommands[i];
+					if (fields > 24) {
+						m.reply(emb)
+						fields = 0
+						emb = new Discord.MessageEmbed()
+									.setTitle(`There are ${allCommands.length} commands available for you to use`)
+									.setColor("#3273dc")
 					}
-					commandString = `${commandString}\n\n -- ${cmd.name} --\nExample: b!${cmd.name} ${cmd.usage}\n${cmd.description} \n`;
-				});
-				m.reply(commandString);
-				commandString = "";
+					emb.addField(`${config.defaultPrefix}${command.name} ${command.usage}`, command.description, false);
+				}
+				m.reply(emb);
+
 			},
 		},
 		{
@@ -46,7 +54,7 @@ module.exports = {
 	events: [{
 		name: "message",
 		exec: async msg => {
-			var prefix = "b!"; // todo: mongo prefix
+			var prefix = config.defaultPrefix; // todo: mongo prefix
 			if (msg.author.bot) return null;
 			if (!msg.content.startsWith(prefix)) return null;
 			const cmd = msg.content.split(" ")[0].trim().toLowerCase().replace(prefix, "");
