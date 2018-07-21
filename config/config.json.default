@@ -5,5 +5,7 @@
 	"maintainers": ["158311402677731328"],
 	"geniusAccessToken": "aaaaaaaaa",
 	"dblToken":"",
-	"trackerNetworkApiKey": ""
+	"trackerNetworkApiKey": "",
+	"ipinfoioToken": "",
+	"googleApi": ""
 }
