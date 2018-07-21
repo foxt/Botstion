@@ -51,7 +51,7 @@ module.exports = {
 									var emb = new Discord.MessageEmbed()
 									.setTitle(j.ip)
 									.setDescription(`[Data from ipinfo.io](https://ipinfo.io/${j.ip})`)
-									.setColor("#ffdd57")
+									.setColor("#23d160")
 									if (j.hostname) {
 										emb.addField(`:shield: Hostname`, j.hostname, false);
 									}
