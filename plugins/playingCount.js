@@ -17,13 +17,16 @@ module.exports = {
 				var inGame = 0;
 
 				for (var users of c.users.array()) {
-					total += 1;
-					if (users.presence.activity) {
-						inGame += 1;
-						if (users.presence.activity.name.toLowerCase() == game) {
-							count += 1;
+					if (!users.bot) {
+						total += 1;
+						if (users.presence.activity) {
+							inGame += 1;
+							if (users.presence.activity.name.toLowerCase() == game) {
+								count += 1;
+							}
 						}
 					}
+
 				}
 				m.reply(`:video_game: I know ${total} members, ${inGame} (${Math.floor((inGame / total) * 100)}%) are in a game, and ${count} (${Math.floor((count / total) * 100)}% out of total users, ${Math.floor((count / inGame) * 100)}% out of all users in game) are playing **${game}**`);
 			},
