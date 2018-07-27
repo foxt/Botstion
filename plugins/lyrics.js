@@ -18,7 +18,7 @@ module.exports = {
 			description: "Lyrics from Genius.com",
 			execute: async(c, msg, args) => {
 				snek.get(`https://api.genius.com/search?q=${url.parse(args.join(" ")).href}`).set("Authorization", `Bearer ${config.geniusAccessToken}`).then(async r => {
-					var songs = JSON.parse(r.text).response.hits;
+					var songs = r.body.response.hits;
 					if (songs.length < 1) {
 						return msg.reply({ embed: new Discord.RichEmbed()
 							.setTitle("We can't find that!")

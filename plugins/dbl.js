@@ -5,10 +5,10 @@ let voters = [];
 
 function dbl(c) {
 	post(`https://discordbots.org/api/bots/${c.user.id}/stats`).set('Authorization', conf.dblToken).send({server_count: c.guilds.length}).then(function (r) {
-		console.log("[DBL]" + r.text);
+		console.log("[DBL]" + JSON.stringify(r.body));
 	})
 	get(`https://discordbots.org/api/bots/${c.user.id}/votes`).set('Authorization', conf.dblToken).send().then(function (r) {
-		voters = (JSON.parse(r.text));
+		voters = r.body;
 	})
 }
 

@@ -42,8 +42,7 @@ module.exports = {
 						.setDescription(`Please wait a few seconds`)
 						.setColor("#ffdd57") });
 					get(`https://api.fortnitetracker.com/v1/profile/${platform}/${a[1]}`).set("TRN-Api-Key", conf.trackerNetworkApiKey).send().then(function(r) {
-						var j = JSON.parse(r.text)
-						console.log(j)
+						var j = r.body
 						if (j.error) {
 							if (j.error == "Player Not Found") {
 								return e.edit({ embed: new Discord.MessageEmbed()
