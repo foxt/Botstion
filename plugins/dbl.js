@@ -4,7 +4,7 @@ const conf = require("../config/config.json")
 let voters = [];
 
 function dbl(c) {
-	post(`https://discordbots.org/api/bots/${c.user.id}/stats`).set('Authorization', conf.dblToken).send({server_count: c.guilds.length}).then(function (r) {
+	post(`https://discordbots.org/api/bots/${c.user.id}/stats`).set('Authorization', conf.dblToken).send({server_count: c.guilds.size}).then(function (r) {
 		console.log("[DBL]" + JSON.stringify(r.body));
 	})
 	get(`https://discordbots.org/api/bots/${c.user.id}/votes`).set('Authorization', conf.dblToken).send().then(function (r) {
