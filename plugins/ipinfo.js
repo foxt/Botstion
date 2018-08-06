@@ -8,6 +8,7 @@ module.exports = {
 	author: "theLMGN",
 	version: 1,
 	description: "ipinfo.io API support",
+	requiresConfig:"ipinfoioToken",
 	commands: [
 		{
 			name: "ip",

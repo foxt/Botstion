@@ -9,6 +9,7 @@ module.exports = {
 	author: "theLMGN",
 	version: 1,
 	description: "Fortnite stats provided by fortnitetracker.com",
+	requiresConfig: "trackerNetworkApiKey",
 	commands: [
 		{
 			name: "fortnite",

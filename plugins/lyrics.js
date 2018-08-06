@@ -3,7 +3,7 @@ const config = require("../config/config.json");
 const url = require("url");
 const snek = require("snekfetch");
 const lyr = require("lyricist");
-const ly = new lyr(config.geniusAccessToken);
+var ly = null;
 
 
 module.exports = {
@@ -11,6 +11,7 @@ module.exports = {
 	author: "theLMGN",
 	version: 1,
 	description: "Lyrics from genius.com (Ported from Botstion3)",
+	requiresConfig: "geniusAccessToken",
 	commands: [
 		{
 			name: "lyrics",
@@ -53,6 +54,13 @@ module.exports = {
 			},
 		},
 	],
-	events: [],
+	events: [
+		{
+			name: "ready",
+			exec: function(c) {
+				ly = new lyr(config.geniusAccessToken)
+			}
+		}
+	],
 	timer: [],
 };

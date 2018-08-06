@@ -16,6 +16,7 @@ module.exports = {
 	name: "DBL Support",
 	author: "theLMGN",
 	version: 1,
+	requiresConfig:"dblToken",
 	description: "Adds support for Discord Bot List.",
 	commands: [
 		{
