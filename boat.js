@@ -8,6 +8,7 @@ const fs = require("fs");
 const plugins = [];
 
 client.on("ready", () => {
+	client.user.setPresence({ activity: { name: `BOTSTION MEGATRENDS: BOOTING FROM HDD` }, status: "away" });
 	console.log(`Connected to Discord, loading plugins...`);
 	fs.readdir("./plugins", async(err, items) => {
 		if (err) {
@@ -15,7 +16,7 @@ client.on("ready", () => {
 			process.exit(-2);
 		} else {
 			console.log(`Read plugins folder and found ${items.length} plugins.`);
-			items.forEach(plugin => {
+			for (var plugin of items) {
 				console.debug(`	Loading ${plugin}`);
 				var pluginf = require(`./plugins/${plugin}`);
 				var shouldLoad = false;
@@ -39,34 +40,29 @@ client.on("ready", () => {
 					console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because it requires the config value ${pluginf.requiresConfig}`);
 				}
 
-			});
+			}
 			const commandhandler = require("./plugins/commandhandler");
 			console.log(`Loaded commandhandler (${commandhandler.name} v${commandhandler.version})`);
 			console.debug(`Sending ${plugins.length} and client plugins to the commandhandler`);
 			commandhandler.init(plugins, client);
 			console.debug("Assigining events");
-			plugins.forEach(plugin => {
-				plugin.events.forEach(event => {
+			for (var plugin of plugins) {
+				for (var event of plugin.events) {
 					console.debug(`Giving ${plugin.name} the ${event.name} event`);
 					client.on(event.name, event.exec);
 					if (event.name == "ready") {
 						event.exec(client)
 					}
-				});
-			});
+				}
+			}
 			console.debug("Setting up timer...");
 			setInterval(() => {
-				plugins.forEach(plugin => {
-					plugin.timer.forEach(timerHandler => {
+				for (var plugin of plugins) {
+					for (var timerHandler of plugin.timer) {
 						timerHandler(client);
-					});
-				});
+					}
+				};
 			}, 600000);
-			plugins.forEach(plugin => {
-				plugin.timer.forEach(timerHandler => {
-					timerHandler(client);
-				});
-			});
 		}
 	});
 });

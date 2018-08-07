@@ -22,8 +22,9 @@
   },
   "homepage": "https://github.com/theLMGN/botstion#readme",
   "dependencies": {
+    "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "hydrabolt/discord.js",
-  "lyricist": "^2.2.2",
-  "snekfetch": "^4.0.4"
+    "lyricist": "^2.2.2",
+    "snekfetch": "^4.0.4"
   }
 }
