@@ -8,7 +8,7 @@ const fs = require("fs");
 const plugins = [];
 
 client.on("ready", () => {
-	client.user.setPresence({ activity: { name: `BOTSTION MEGATRENDS: BOOTING FROM HDD` }, status: "away" });
+	client.user.setPresence({ activity: { name: `Botstion is loading plugins...` }, status: "away" });
 	console.log(`Connected to Discord, loading plugins...`);
 	fs.readdir("./plugins", async(err, items) => {
 		if (err) {
@@ -63,6 +63,7 @@ client.on("ready", () => {
 					}
 				};
 			}, 600000);
+			client.user.setPresence({ activity: { name: `Loaded ${plugins.length} plugins successfully!` }, status: "online" });
 		}
 	});
 });
