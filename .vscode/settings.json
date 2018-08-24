@@ -5,7 +5,7 @@
     "editor.tabSize": 4,
     "editor.insertSpaces": false,
     "files.autoSave": "onFocusChange",
-	"editor.fontFamily": "'Roboto Mono',Consolas, 'Courier New', monospace",
+	"editor.fontFamily": "'Roboto Mono',Menlo,Monaco,Consolas, 'Courier New', monospace",
 	"window.zoomLevel": -0.5,
 	"terminal.integrated.shell.windows": "cmd.exe",
 	"discord.enabled": true,
