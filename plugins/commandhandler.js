@@ -66,7 +66,25 @@ module.exports = {
 					} else {
 						console.log(`${msg.author.username} invoked ${cmd}`);
 					}
-					command.execute(msg.client, msg, suffix);
+					try {
+						var command = command.execute(msg.client, msg, suffix)
+						if (command.catch) {
+							command.catch(function(e) {
+								return msg.reply({ embed: new Discord.MessageEmbed()
+									.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+									.setColor("#ff3860")
+									.setDescription('```' + e.stack + '```')
+									.setFooter(e.toString()) });
+							})
+						}
+					} catch(e) {
+						return msg.reply({ embed: new Discord.MessageEmbed()
+							.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+							.setColor("#ff3860")
+							.setDescription('```' + e.stack + '```')
+							.setFooter(e.toString()) });
+					}
+
 				}
 			});
 		},
