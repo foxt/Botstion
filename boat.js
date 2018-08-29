@@ -62,7 +62,7 @@ client.on("ready", () => {
 						timerHandler(client);
 					}
 				};
-			}, 600000);
+			}, 10000);
 			client.user.setPresence({ activity: { name: `Loaded ${plugins.length} plugins successfully!` }, status: "online" });
 		}
 	});
