@@ -3,6 +3,21 @@ var allPlugins = [];
 var config = require("../config/config.json");
 const Discord = require("discord.js");
 
+function handleError(e,msg) {
+	try {
+		msg.client.channels.resolve("484536564198801409").send({ embed: new Discord.MessageEmbed()
+			.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+			.setColor("#ff3860")
+			.setDescription('```' + e.stack + '```')
+			.setFooter(e.toString()) });
+	}catch{}
+	return msg.reply({ embed: new Discord.MessageEmbed()
+		.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+		.setColor("#ff3860")
+		.setDescription('```' + e.stack + '```')
+		.setFooter(e.toString()) });
+}
+
 module.exports = {
 	name: "Ganymede",
 	author: "theLMGN",
@@ -70,19 +85,11 @@ module.exports = {
 						var command = command.execute(msg.client, msg, suffix)
 						if (command.catch) {
 							command.catch(function(e) {
-								return msg.reply({ embed: new Discord.MessageEmbed()
-									.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-									.setColor("#ff3860")
-									.setDescription('```' + e.stack + '```')
-									.setFooter(e.toString()) });
+								handleError(e,msg)
 							})
 						}
 					} catch(e) {
-						return msg.reply({ embed: new Discord.MessageEmbed()
-							.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-							.setColor("#ff3860")
-							.setDescription('```' + e.stack + '```')
-							.setFooter(e.toString()) });
+						handleError(e,msg)
 					}
 
 				}
