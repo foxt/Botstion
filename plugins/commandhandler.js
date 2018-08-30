@@ -9,13 +9,13 @@ function handleError(e,msg) {
 			.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 			.setColor("#ff3860")
 			.setDescription('```' + e.stack + '```')
-			.setFooter(e.toString()) });
+			.setFooter(msg.content) });
 	}catch{}
 	return msg.reply({ embed: new Discord.MessageEmbed()
 		.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 		.setColor("#ff3860")
-		.setDescription('```' + e.stack + '```')
-		.setFooter(e.toString()) });
+		.setDescription("<@" + msg.author.id +">```" + e.stack + '```')
+		.setFooter("This server has been reported to the Botstion development team, and we may message you if we see fit.") });
 }
 
 module.exports = {
