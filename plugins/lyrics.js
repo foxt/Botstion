@@ -21,7 +21,7 @@ module.exports = {
 				snek.get(`https://api.genius.com/search?q=${url.parse(args.join(" ")).href}`).set("Authorization", `Bearer ${config.geniusAccessToken}`).then(async r => {
 					var songs = r.body.response.hits;
 					if (songs.length < 1) {
-						return msg.reply({ embed: new Discord.RichEmbed()
+						return msg.reply({ embed: new Discord.MessageEmbed()
 							.setTitle("We can't find that!")
 							.setAuthor("Genius Lyrics", "https://images.genius.com/f382a769534841745f6918c81cd66181.1000x1000x1.png")
 							.setDescription(`We had **${songs.length}** results when we searched up **${args.join(" ")}**`)
