@@ -85,7 +85,7 @@ module.exports = {
 						}
 					}
 					if (profilePage) {
-						var $ = cheerio.load(profilePage.text)
+						var $ = cheerio.load(profilePage.body.toString())
 						var info = $(".profile-header-content > div")[0].attribs
 						var bcBadge = ""
 						if ($(".header-title > span")[0]) {
