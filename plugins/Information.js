@@ -89,7 +89,7 @@ module.exports = {
 					embed.addField(":calendar_spiral: Created", `${m.guild.createdAt}`);
 					embed.addField(":smile: Emojis", `${m.guild.emojis.array().length} (use b!semojis to view them)`);
 					if (m.guild.icon) {
-						embed.addField(":frame_photo: Icon URL", `[${m.guild.icon}](${m.guild.iconURL})`);
+						embed.addField(":frame_photo: Icon URL", `[${m.guild.icon}](${m.guild.iconURL()})`);
 					}
 					embed.addField(":calendar: Joined at", `${m.guild.joinedAt}`);
 					embed.addField(":busts_in_silhouette: Members", `${m.guild.memberCount}`);
