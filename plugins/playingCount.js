@@ -18,7 +18,6 @@ module.exports = {
 
 				for (var users of c.users.array()) {
 					if (!users.bot) {
-						console.log(users.presence.status)
 						if (users.presence.status != "offline") {
 							total += 1;
 							if (users.presence.activity) {
