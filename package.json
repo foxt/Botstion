@@ -26,6 +26,7 @@
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "hydrabolt/discord.js",
     "lyricist": "^2.2.2",
+    "shortcuts.js": "github:haykam821/Shortcuts.js",
     "snekfetch": "^4.0.4"
   }
 }
