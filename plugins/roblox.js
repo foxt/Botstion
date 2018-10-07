@@ -123,7 +123,7 @@ module.exports = {
 
 				} else if (a.length < 1) {
 					return e.edit({ embed: new Discord.MessageEmbed()
-						.setTitle("400: Too few arguments.", "https://www.roblox.com/bust-thumbnail/image?width=420&height=420&format=png&userId=48103520")
+						.setTitle("400: Too few arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 						.setColor("#ff3860")
 						.setFooter('This command only accepts 1 argument, Username, User ID or Discord mention') });
 				}
