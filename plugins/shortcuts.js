@@ -15,6 +15,7 @@ module.exports = {
 	author: "theLMGN",
 	version: 1,
 	description: "Data on Apple iOS Shortcuts",
+	requiresConfig: "imgurClientID",
 	commands: [
 		{
 			name: "shortcuts",
