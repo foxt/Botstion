@@ -16,7 +16,7 @@ module.exports = {
 			usage: "London",
 			description: "Weather powered by DarkSky",
 			execute: async(c, m, a) => {
-
+				if (a == ["vlagland"]) { a = ["bucharest"]}
 				var e = await m.reply({ embed: new Discord.MessageEmbed()
 					.setTitle("Working...")
 					.setDescription(`Please wait a few seconds`)
