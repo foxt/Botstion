@@ -1,6 +1,5 @@
 {
 	"token": "aaaaaaaaaaaaaaaa",
-	"mongoURL":"mongodb://127.0.0.1/botstion",
 	"defaultPrefix": "b!",
 	"maintainers": ["158311402677731328"],
 	"geniusAccessToken": "aaaaaaaaa",
@@ -8,5 +7,6 @@
 	"trackerNetworkApiKey": "",
 	"ipinfoioToken": "",
 	"googleApi": "",
-	"imgurClientID": ""
+	"imgurClientID": "",
+	"darkskyApiKey": ""
 }
