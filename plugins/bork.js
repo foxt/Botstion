@@ -10,6 +10,7 @@ module.exports = {
 			description: "Bork",
 			execute: async(c, m, a) => {
 				m.reply("bork")
+			}
 		},
 	],
 	events: [],
