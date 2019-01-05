@@ -32,7 +32,7 @@ module.exports = {
 				} else if (a.length == 1) {
 					var userID = 0;
 					var userName = ""
-					if (!isNaN(input)) { // UserID checker
+					if (!isNaN(new Number(input))) { // UserID checker
 						userID = +input
 						var apiResponse = await get("https://api.roblox.com/users/" + input)
 						if (apiResponse.body.errors) {
