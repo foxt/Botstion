@@ -113,7 +113,64 @@ module.exports = {
 						try {embed.addField("Previous Usernames",JSON.parse($(".profile-header-content > script")[0].childNodes[0].data.replace(`var Roblox=Roblox||{};Roblox.ProfileHeaderData=`,"").replace(`;`,"")).previoususernames)}catch{}
 						try {embed.addField("Status",info["data-statustext"],false)}catch{}
 						try {embed.setDescription($(".profile-about-content-text")[0].childNodes[0].data)}catch{}
-						if (bcBadge == "") {
+						embed.setAuthor(bcBadge + userName, "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + userID)
+						e.edit({embed:embed})
+					}
+
+				} else if (a.length < 1) {
+					return e.edit({ embed: new Discord.MessageEmbed()
+						.setTitle("400: Too few arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+						.setColor("#ff3860")
+						.setFooter('This command only accepts 1 argument, Username, User ID or Discord mention') });
+				}
+			},
+		},
+
+
+
+
+		{
+			name: "rblxasset",
+			usage: "theLMGN",
+			description: "Shows you the information of a Roblox asset provided by it's ID",
+			execute: async(c, m, a) => {
+				var input = a[0]
+
+				var e = await m.reply({ embed: new Discord.MessageEmbed()
+					.setTitle("Working...")
+					.setDescription(`Please wait a few seconds`)
+					.setColor("#ffdd57") });
+				if (a.length > 1) {
+					return e.edit({ embed: new Discord.MessageEmbed()
+						.setAuthor("414: Too many arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+						.setColor("#ff3860")
+						.setFooter('This command only accepts 1 argument, asset id') });
+				} else if (a.length == 1) {
+					if (isNaN(input)) {
+						return e.edit({ embed: new Discord.MessageEmbed()
+							.setAuthor("400: Invalid ID", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+							.setColor("#ff3860")
+							.setFooter('This command only accepts 1 argument, asset id') });
+					}
+					try {
+						var details = (await get(`https://api.roblox.com/marketplace/productinfo?assetId=${input}`)).body
+					} catch(err) {
+						return e.edit({ embed: new Discord.MessageEmbed()
+							.setAuthor("404: Not found", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+							.setColor("#ff3860")
+							.setFooter('Double check the provided ID') });
+					}
+					if (profilePage) {
+						var embed = new Discord.MessageEmbed()
+						.setColor("#E2231A")
+						.addField("Friends",info["data-friendscount"],true)
+						.addField("Followers",info["data-followerscount"],true)
+						.addField("Following",info["data-followingscount"],true)
+						.addField("Creation Date",$("#about > div.section.profile-statistics > div.section-content > ul > li:nth-child(1) > p.text-lead")[0].childNodes[0].data,true)
+						.addField("Place Visits",$("#about > div.section.profile-statistics > div.section-content > ul > li:nth-child(2) > p.text-lead")[0].childNodes[0].data,true)
+						.setThumbnail("https://www.roblox.com/avatar-thumbnail/image?width=420&height=420&format=png&userId=" + userID)
+						.setFooter('User ID: ' + userID)
+							if (bcBadge == "") {
 							embed.setAuthor(bcBadge + userName, "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + userID)
 						} else {
 							embed.setTitle(bcBadge + userName)
