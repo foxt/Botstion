@@ -7,6 +7,8 @@ function get(url) {
 	})
 }
 
+const assetTypes = ["???", "Image", "T-Shirt", "Audio", "Mesh", "Lua", "HTML", "Text", "Hat", "Place", "Model", "Shirt", "Pants", "Decal", "???","???", "Avatar", "Head", "Face", "Gear", "???", "Badge", "Group Emblem", "???", "Animation", "Arms", "Legs", "Torso", "Right Arm", "Left Arm", "Left Leg", "Right Leg", "Package", "YouTubeVideo", "Game Pass", "App", "???", "Code", "Plugin", "SolidModel", "MeshPart", "Hair Accessory", "Face Accessory", "Neck Accessory", "Shoulder Accessory", "Front Accessory", "Back Accessory", "Waist Accessory", "Climb Animation", "Death Animation", "Fall Animation", "Idle Animation", "Jump Animation", "Run Animation", "Swim Animation", "Walk Animation", "Pose Animation"]
+
 module.exports = {
 	name: "Roblox API Support",
 	author: "theLMGN",
@@ -91,13 +93,13 @@ module.exports = {
 						if ($(".header-title > span")[0]) {
 							bcBadge = $(".header-title > span")[0].attribs.class.replace("icon-","")
 							if (bcBadge == "obc") {
-								bcBadge = "<:OBC:484526630635569153> "
+								bcBadge = "[OBC]"
 							}
 							if (bcBadge == "tbc") {
-								bcBadge = "<:TBC:484526630820118543>"
+								bcBadge = "[TBC]"
 							}
 							if (bcBadge == "bc") {
-								bcBadge = "<:BC:484526630656671756>"
+								bcBadge = "[BC]"
 							}
 							bcBadge = bcBadge + " "
 						}
@@ -160,21 +162,46 @@ module.exports = {
 							.setColor("#ff3860")
 							.setFooter('Double check the provided ID') });
 					}
-					if (profilePage) {
+					if (details) {
+						var tags = []
+						if (details.IsNew) {
+							tags.push("[New]")
+						}
+						if (details.IsLimited && !details.IsLimitedUnique) {
+							tags.push("[Limited]")
+						}
+						if (details.IsLimited && details.IsLimitedUnique) {
+							tags.push("[LimitedU]")
+						}
+						if (details.MinimumMembershipLevel > 0) {
+							tags.push("[BC Only]")
+						}
+						if (details.ContentRatingTypeId > 0) {
+							tags.push("[13+]")
+						}
+						tags.push(details.Name)
+						var pfp = undefined
+						if (details.Creator.CreatorType == "Player") {
+							pfp = "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + details.Creator.Id
+						}
 						var embed = new Discord.MessageEmbed()
 						.setColor("#E2231A")
-						.addField("Friends",info["data-friendscount"],true)
-						.addField("Followers",info["data-followerscount"],true)
-						.addField("Following",info["data-followingscount"],true)
-						.addField("Creation Date",$("#about > div.section.profile-statistics > div.section-content > ul > li:nth-child(1) > p.text-lead")[0].childNodes[0].data,true)
-						.addField("Place Visits",$("#about > div.section.profile-statistics > div.section-content > ul > li:nth-child(2) > p.text-lead")[0].childNodes[0].data,true)
-						.setThumbnail("https://www.roblox.com/avatar-thumbnail/image?width=420&height=420&format=png&userId=" + userID)
-						.setFooter('User ID: ' + userID)
-							if (bcBadge == "") {
-							embed.setAuthor(bcBadge + userName, "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + userID)
-						} else {
-							embed.setTitle(bcBadge + userName)
+						.setThumbnail("https://www.roblox.com/asset-thumbnail/image?width=420&height=420&format=png&assetId=" + details.AssetId)
+						.setDescription(details.Description)
+						.setTitle(tags.join(" "))
+						.setAuthor(details.Creator.Name, pfp, details.Creator.CreatorType == "Player" ? `https://roblox.com/users/${details.Creator.Id}/profile` : `https://roblox.com/Groups/Group.aspx?gid=${details.Creator.Id}`)
+						.addField("Type", assetTypes[details.AssetTypeId])
+						.addField("Public Domain?", details.IsPublicDomain ? "Yes" : "No")
+						.addField("For Sale?", details.IsForSale ? "Yes" : "No")
+						.addField("Created", new Date(details.Created))
+						.addField("Updated", new Date(details.Updated))
+						if (details.Sales > 0 || details.PriceInRobux) {
+							embed.addField(details.PriceInRobux ? "Price" : "Sales", details.PriceInRobux ? `R$${details.PriceInRobux} (${details.Sales} sales)` : details.Sales)
 						}
+						if (details.IsLimited || details.Remaining) {
+							embed.addField("Remaining", details.Remaining || "0")
+						}
+
 						e.edit({embed:embed})
 					}
 
