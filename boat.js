@@ -12,7 +12,7 @@ client.on("ready", () => {
 	console.log(`Connected to Discord, loading plugins...`);
 	fs.readdir("./plugins", async(err, items) => {
 		if (err) {
-			console.err("Failed to read plugins folder. Botstion will now exit.");
+			console.error("Failed to read plugins folder. Botstion will now exit.");
 			process.exit(-2);
 		} else {
 			console.log(`Read plugins folder and found ${items.length} plugins.`);
