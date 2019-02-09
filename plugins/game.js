@@ -6,6 +6,6 @@ module.exports = {
 	commands: [],
 	events: [],
 	timer: [async c => {
-		c.user.setPresence({ activity: { name: `in ${c.guilds.array().length} guilds | b!help` }, status: "online" });
+		c.user.setPresence({ activity: { name: `in ${c.guilds.array().length} guilds | ${require("../config/config.json").defaultPrefix}help` }, status: "online" });
 	}],
 };
