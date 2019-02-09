@@ -36,7 +36,7 @@ module.exports = {
 				for (i in  allCommands) {
 					var command = allCommands[i];
 					if (fields > 24) {
-						m.reply(emb)
+						try {m.author.send(emb);}catch(e){}
 						fields = 0
 						emb = new Discord.MessageEmbed()
 									.setTitle(`There are ${allCommands.length} commands available for you to use`)
