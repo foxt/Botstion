@@ -1,12 +1,11 @@
 {
-    "workbench.startupEditor": "newUntitledFile",
     "editor.detectIndentation": false,
     "files.trimTrailingWhitespace": true,
     "editor.tabSize": 4,
     "editor.insertSpaces": false,
     "files.autoSave": "onFocusChange",
 	"editor.fontFamily": "'Roboto Mono',Menlo,Monaco,Consolas, 'Courier New', monospace",
-	"window.zoomLevel": -0.5,
+	"window.zoomLevel": 0,
 	"terminal.integrated.shell.windows": "cmd.exe",
 	"discord.enabled": true,
 
