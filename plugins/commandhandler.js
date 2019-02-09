@@ -70,6 +70,7 @@ module.exports = {
 		name: "message",
 		exec: async msg => {
 			var prefix = config.defaultPrefix; // todo: mongo prefix
+											   // LUL
 			if (msg.author.bot) return null;
 			if (!msg.content.startsWith(prefix)) return null;
 			const cmd = msg.content.split(" ")[0].trim().toLowerCase().replace(prefix, "");
