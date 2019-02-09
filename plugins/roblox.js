@@ -133,7 +133,7 @@ module.exports = {
 
 		{
 			name: "rblxasset",
-			usage: "theLMGN",
+			usage: "14083380",
 			description: "Shows you the information of a Roblox asset provided by it's ID",
 			execute: async(c, m, a) => {
 				var input = a[0]
