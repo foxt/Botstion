@@ -44,14 +44,23 @@ module.exports = {
 					}
 					emb.addField(`${config.defaultPrefix}${command.name} ${command.usage}`, command.description, false);
 				}
-				m.reply(emb);
+				try {
+					m.author.send(emb);
+					try {
+						await m.react('📬')
+					} catch(e) {
+						await m.reply("📬 - Check your DMs!")
+					}
+				} catch(e) {
+					await m.reply(`:mailbox: - Couldn't DM you.\n\`\`\`${e.toString()}\`\`\``)
+				}
 
 			},
 		},
 		{
 			name: "plugins",
 			usage: "",
-			description: "Lists plugins.",
+			description: "[Depreciated] Lists plugins.",
 			execute: async(c, m, a) => {
 				var pluginsString = "";
 				allPlugins.forEach(p => {
@@ -61,7 +70,16 @@ module.exports = {
 					}
 					pluginsString = `${pluginsString}\n\n -- ${p.name} v${p.version} --\nAuthor: ${p.author}\n${p.commands.length} commands, ${p.events.length} event handlers and ${p.timer.length} timer handlers\n${p.description}\n`;
 				});
-				m.reply(pluginsString);
+				try {
+					m.author.send(pluginsString);
+					try {
+						await m.react('📬')
+					} catch(e) {
+						await m.reply("📬 - Check your DMs!")
+					}
+				} catch(e) {
+					await m.reply(`:mailbox: - Couldn't DM you.\n\`\`\`${e.toString()}\`\`\``)
+				}
 				pluginsString = "";
 			},
 		},
