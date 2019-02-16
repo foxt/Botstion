@@ -41,6 +41,14 @@ client.on("ready", () => {
 				}
 
 			}
+			console.debug("Adding addons.")
+			for (var plugin of plugins) {
+				if (plugin.addons) {
+					for (var addon in plugin.addons) {
+						client[addon] = plugin.addons[addon]
+					}
+				}
+			}
 			const commandhandler = require("./plugins/commandhandler");
 			console.log(`Loaded commandhandler (${commandhandler.name} v${commandhandler.version})`);
 			console.debug(`Sending ${plugins.length} and client plugins to the commandhandler`);
