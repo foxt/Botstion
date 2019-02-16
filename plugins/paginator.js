@@ -10,13 +10,15 @@ module.exports = {
 	commands: [],
 	events: [],
 	timer: [],
-	paginate: function(m,embeds) {
-		var paginator = new FieldsEmbedMode()
-			.setArray(embeds)
-			.setAuthorizedUsers([m.author.id])
-			.setChannel(m.channel)
-			.setElementsPerPage(1)
-			.showPageIndicator(true)
-			.build();
+	addons: {
+		paginate: function(m,embeds) {
+			var paginator = new FieldsEmbedMode()
+				.setArray(embeds)
+				.setAuthorizedUsers([m.author.id])
+				.setChannel(m.channel)
+				.setElementsPerPage(1)
+				.showPageIndicator(true)
+				.build();
+		}
 	}
 };
