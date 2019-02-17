@@ -4,8 +4,11 @@ const os = require("os");
 const fs = require("fs");
 var gitHash
 
-if (fs.existsSync("./.git/ORIG_HEAD")) {
-	gitHash = fs.readFileSync("./.git/ORIG_HEAD").toString()
+if (fs.existsSync("./.git/logs/HEAD")) {
+	file = fs.readFileSync("./.git/logs/HEAD").toString()
+	var commits = file.split("\n")
+	var commit = commits[commits.length-2].split(" ")
+	gitHash = commit[0]
 }
 
 function stohms(totalSeconds) {
