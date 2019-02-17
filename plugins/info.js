@@ -3,12 +3,16 @@ const Discord = require("discord.js");
 const os = require("os");
 const fs = require("fs");
 var gitHash
-
-if (fs.existsSync("./.git/logs/HEAD")) {
-	file = fs.readFileSync("./.git/logs/HEAD").toString()
-	var commits = file.split("\n")
-	var commit = commits[commits.length-2].split(" ")
-	gitHash = commit[0]
+if (fs.existsSync(".git/HEAD")) {
+	const rev = fs.readFileSync('.git/HEAD').toString();
+	if (rev.indexOf(':') === -1) {
+		gitHash = rev;
+	} else {
+		var bp = ".git/" + rev.substring(5).replace("\n","")
+		if (fs.existsSync(bp)) {
+			gitHash = fs.readFileSync(bp).toString();
+		}
+	}
 }
 
 function stohms(totalSeconds) {
