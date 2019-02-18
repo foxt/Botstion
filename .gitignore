@@ -6,3 +6,4 @@ scratchpad.js
 .vscode/settings.json
 .vscode
 config/config.js
+config/configBackup.json
