@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const querystring = require("querystring")
 const snek = require("snekfetch")
-const config = require("../config/config.json")
+const config = require("../config/config.js")
 
 
 module.exports = {

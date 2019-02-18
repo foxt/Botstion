@@ -5,3 +5,4 @@ scratchpad.js
 .vscode
 .vscode/settings.json
 .vscode
+config/config.js

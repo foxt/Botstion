@@ -1,6 +1,6 @@
 const Discord = require("discord.js")
 const { get,post } = require('snekfetch')
-const conf = require("../config/config.json")
+const conf = require("../config/config.js")
 let voters = [];
 
 function dbl(c) {
