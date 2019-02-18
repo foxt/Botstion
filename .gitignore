@@ -2,6 +2,6 @@ node_modules
 config.json
 scratchpad.js
 .DS_Store
-.vscode
+.vscode/
 .vscode/settings.json
-.vscode
+\.vscode/
