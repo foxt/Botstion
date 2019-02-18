@@ -36,14 +36,14 @@ module.exports = {
 		execute: async(c, m, a) => {
 			var embed = new Discord.MessageEmbed()
 			.setTitle("Botstion⁴")
-			.setDescription(`Developed by [theLMGN](https://thelmgn.com) and [SunburntRock89](https://twitter.com/sunburntrock89) in 2018. [Contribute](https://github.com/theLMGN/botstion) [Website](https://botstion.com) [Support Server](https://discord.gg/hNgA7va)`)
-			.addField(":ping_pong: Ping", `${c.ping ? Math.floor(c.ping) : Math.floor(c.ws.ping)}ms`, true)
+			.setDescription(`Developed by [theLMGN](https://thelmgn.com) and [SunburntRock89](https://twitter.com/sunburntrock89) in 2018-19.\n[Contribute](https://github.com/theLMGN/botstion) • [DBL](https://discordbots.org/bot/${c.user.id}) • [Support Server](https://discord.gg/hNgA7va)`)
 			.addField("<:js:388353565619519488> Node Version", process.version, true)
 			.addField("<:Discord:375377712681844736> Discord.JS Version", Discord.version, true)
 			if (gitHash) {
 				embed.addField("<:git:546791818814292007> Git Version", `[${gitHash.substr(0,7)}](https://github.com/theLMGN/botstion/commit/${gitHash})`)
 			}
 			embed.addField(":clock10: Client Uptime", stohms(c.uptime / 1000), true)
+			.addField(":ping_pong: Ping", `${c.ping ? Math.floor(c.ping) : Math.floor(c.ws.ping)}ms`, true)
 			.addField(":id: PID", process.pid, true)
 			.addField(":desktop: System", `${process.platform.replace("win32", "Windows").replace("darwin", "macOS")} (${os.release}) on ${os.hostname}`, true)
 			.setColor("#3273dc")
