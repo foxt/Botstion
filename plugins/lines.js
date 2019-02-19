@@ -5,19 +5,17 @@ var files = 0;
 
 function thing(folder) {
 	if (fs.lstatSync(folder).isDirectory()) {
-		if (!folder.includes("node_modules")) {
+		if (!folder.includes("node_modules") && !folder.includes("config") && !folder.includes(".DS_Store") && !folder.includes(".github") && !folder.includes(".vscode") && !folder.includes(".git")) {
 			var lines = 0;
 			for (var folderr of fs.readdirSync(folder)) {
 				lines = lines + thing(folder + "/" + folderr)
 			}
-			console.log("   d ",folder,lines)
 			return lines
 		}
 	} else {
-		if (folder.includes(".")) { // remove files that have no extension
+		if (folder.includes(".") && !folder.endsWith(".json")) { // remove files that have no extension
 			if (folder.split(".")[folder.split(".").length - 1] == "js") {
 				files = files + 1
-				console.log("   f ",folder,fs.readFileSync(folder).toString().split("\n").length)
 				return fs.readFileSync(folder).toString().split("\n").length
 			}
 		}
