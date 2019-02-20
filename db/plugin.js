@@ -30,6 +30,7 @@ module.exports = {
 				console.log("	[DB] Synchronizing schema " + schema)
 				db.tables[schema].sync()
 			}
+			dbLoaded = true
 		}
 	}],
 	timer: [],
