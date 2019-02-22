@@ -1,4 +1,4 @@
-var config = require("../config/config.json");
+var config = require("../config/config.js");
 const Discord = require("discord.js");
 const os = require("os");
 const fs = require("fs");
@@ -36,7 +36,7 @@ module.exports = {
 		execute: async(c, m, a) => {
 			var embed = new Discord.MessageEmbed()
 			.setTitle("Botstion⁴")
-			.setDescription(`Developed by [theLMGN](https://thelmgn.com) and [SunburntRock89](https://twitter.com/sunburntrock89) in 2018-19.\n[Contribute](https://github.com/theLMGN/botstion) • [DBL](https://discordbots.org/bot/${c.user.id}) • [Support Server](https://discord.gg/hNgA7va) • [Invite me!](https://discordapp.com/oauth2/authorize?client_id=${c.user.id}&scope=bot&permissions=8)`)
+      .setDescription(`Developed by [theLMGN](https://thelmgn.com) and [SunburntRock89](https://twitter.com/sunburntrock89) in 2018-19.\n[Contribute](https://github.com/theLMGN/botstion) • [DBL](https://discordbots.org/bot/${c.user.id}) • [Support Server](https://discord.gg/hNgA7va) • [Invite me!](https://discordapp.com/oauth2/authorize?client_id=${c.user.id}&scope=bot&permissions=8)`)
 			.addField("<:js:388353565619519488> Node Version", process.version, true)
 			.addField("<:Discord:375377712681844736> Discord.JS Version", Discord.version, true)
 			if (gitHash) {

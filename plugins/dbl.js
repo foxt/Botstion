@@ -1,15 +1,16 @@
 const Discord = require("discord.js")
 const { get,post } = require('snekfetch')
-const conf = require("../config/config.json")
+const conf = require("../config/config.js")
 let voters = [];
 
 function dbl(c) {
 	post(`https://discordbots.org/api/bots/${c.user.id}/stats`).set('Authorization', conf.dblToken).send({server_count: c.guilds.size}).then(function (r) {
 		console.log("[DBL]" + JSON.stringify(r.body));
-	})
+	}).catch(function(e) {console.error("[DBL] Updating server count failed")})
 	get(`https://discordbots.org/api/bots/${c.user.id}/votes`).set('Authorization', conf.dblToken).send().then(function (r) {
 		voters = r.body;
-	})
+	}).catch(function(e) {console.error("[DBL] Updating voters failed")})
+
 }
 
 module.exports = {

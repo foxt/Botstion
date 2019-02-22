@@ -1,8 +1,10 @@
 
-console.log("Botstion 4: A modular bot for Discord.\nCopyright (C) 2018 theLMGN\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\nYou should have received a copy of the GNU General Public License\nalong with this program.  If not, see <http://www.gnu.org/licenses/>.")
+console.log("Botstion 4: A modular bot for Discord. Licenced under GPL 3.0 (see https://www.gnu.org/licenses/)")
+
+require("./configUpdate")
 
 const discord = require("discord.js");
-const config = require("./config/config.json");
+const config = require("./config/config.js");
 const client = new discord.Client();
 const fs = require("fs");
 const plugins = [];
@@ -23,21 +25,24 @@ client.on("ready", () => {
 				if (pluginf.requiresConfig) {
 					if (config[pluginf.requiresConfig]) {
 						if (config[pluginf.requiresConfig] == "") {
-							shouldLoad = false
+							shouldLoad = `it requires the config value ${pluginf.requiresConfig}`
 						} else {
 							shouldLoad = true
 						}
 					} else {
-						shouldLoad = false
+						shouldLoad = `it requires the config value ${pluginf.requiresConfig}`
 					}
 				} else {
 					shouldLoad = true
+				}
+				if (pluginf.disable) {
+					shouldLoad = "it's disabled"
 				}
 				if (shouldLoad == true) {
 					console.debug(`		Loaded ${pluginf.name} v${pluginf.version} by ${pluginf.author}`);
 					plugins.push(pluginf);
 				} else {
-					console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because it requires the config value ${pluginf.requiresConfig}`);
+					console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because ${shouldLoad}`);
 				}
 
 			}

@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-var config = require("../config/config.json");
+var config = require("../config/config.js");
 
 module.exports = {
 	name: "Shutdown",

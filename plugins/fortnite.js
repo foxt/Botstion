@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const conf = require("../config/config.json");
+const conf = require("../config/config.js");
 const {get} = require("snekfetch");
 let requestsRemaining = 30;
 let uptimeAtLastReset = process.uptime();
