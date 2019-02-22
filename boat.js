@@ -25,21 +25,24 @@ client.on("ready", () => {
 				if (pluginf.requiresConfig) {
 					if (config[pluginf.requiresConfig]) {
 						if (config[pluginf.requiresConfig] == "") {
-							shouldLoad = false
+							shouldLoad = `it requires the config value ${pluginf.requiresConfig}`
 						} else {
 							shouldLoad = true
 						}
 					} else {
-						shouldLoad = false
+						shouldLoad = `it requires the config value ${pluginf.requiresConfig}`
 					}
 				} else {
 					shouldLoad = true
+				}
+				if (pluginf.disable) {
+					shouldLoad = "it's disabled"
 				}
 				if (shouldLoad == true) {
 					console.debug(`		Loaded ${pluginf.name} v${pluginf.version} by ${pluginf.author}`);
 					plugins.push(pluginf);
 				} else {
-					console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because it requires the config value ${pluginf.requiresConfig}`);
+					console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because ${shouldLoad}`);
 				}
 
 			}
