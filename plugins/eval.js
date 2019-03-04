@@ -14,7 +14,7 @@ module.exports = {
 				try {
 					let result = eval(a.join(" ").replace("c.token", "").replace("client.token", "")
 						.replace("[\"token\"]", ""));
-					result = result.replace(config.token, "https://i.imgur.com/J7sAzzC.png");
+					result = result.toString().replace(config.token, "https://i.imgur.com/J7sAzzC.png");
 					return m.reply(result);
 				} catch (err) {
 					return m.reply(`Woops, we had an error.\n\`\`\`${err}\`\`\``);
