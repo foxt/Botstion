@@ -1,12 +1,28 @@
-
+const fs = require("fs");
 console.log("Botstion 4: A modular bot for Discord. Licenced under GPL 3.0 (see https://www.gnu.org/licenses/)")
 
 require("./configUpdate")
 
 const discord = require("discord.js");
-const config = require("./config/config.js");
+let config = []
+if(fs.existsSync("./config/config.js")) {
+	config = require("./config/config.js")
+} else if(fs.existsSync("./config/defaultConfig.js")){
+	config = require("./config/defaultConfig.js")
+} else {
+	console.log("No configurations found (tried defaultConfig.js and config.js), terminating!")
+	process.exit(1);
+}
+
+for(var key in Object.keys(config)){
+	if(key in process.env){
+		config[key] = process.env[key]
+		console.log("Found " + key + " from environment variable - overriding config!")
+	}
+}
+
 const client = new discord.Client();
-const fs = require("fs");
+
 const plugins = [];
 
 client.on("ready", () => {
