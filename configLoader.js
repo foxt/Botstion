@@ -12,7 +12,6 @@ if(fs.existsSync("./config/config.js")) {
 }
 
 for(var key in config){
-	console.log(process.env)
 	if(key in process.env){
 		config[key] = process.env[key]
 		console.log("Found " + key + " from environment variable - overriding config!")
