@@ -4,7 +4,7 @@ const shortcuts = require("shortcuts.js")
 function imgurUpload(image) {
 
 	return new Promise(function(a,r) {
-		var apiKey = require("../config/config.js").imgurClientID
+		var apiKey = require("../configLoader").imgurClientID
 		require("snekfetch").post("https://api.imgur.com/3/image").set("Authorization", "Client-ID " + apiKey).send({image: image}).then(a).catch(r)
 	})
 }

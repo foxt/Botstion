@@ -1,12 +1,13 @@
-
+const fs = require("fs");
 console.log("Botstion 4: A modular bot for Discord. Licenced under GPL 3.0 (see https://www.gnu.org/licenses/)")
 
 require("./configUpdate")
+const config = require("./configLoader")
 
 const discord = require("discord.js");
-const config = require("./config/config.js");
+
 const client = new discord.Client();
-const fs = require("fs");
+
 const plugins = [];
 
 client.on("ready", () => {
@@ -20,6 +21,7 @@ client.on("ready", () => {
 			console.log(`Read plugins folder and found ${items.length} plugins.`);
 			for (var plugin of items) {
 				console.debug(`	Loading ${plugin}`);
+				try {
 				var pluginf = require(`./plugins/${plugin}`);
 				var shouldLoad = false;
 				if (pluginf.requiresConfig) {
@@ -43,6 +45,12 @@ client.on("ready", () => {
 					plugins.push(pluginf);
 				} else {
 					console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because ${shouldLoad}`);
+				}
+
+				} catch(err) {
+					console.log(`${plugin} experienced an error whilst loading`)
+					console.log(err)
+					console.log(`Skipping over ${plugin}..`)
 				}
 
 			}

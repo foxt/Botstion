@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const config = require("../config/config.js");
+const config = require("../configLoader");
 const url = require("url");
 const snek = require("snekfetch");
 const lyr = require("lyricist");
