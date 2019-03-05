@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const conf = require("../config/config.js");
+const config = require("../configLoader");
 const {get} = require("snekfetch");
 let requestsRemaining = 30;
 let uptimeAtLastReset = process.uptime();
@@ -42,7 +42,7 @@ module.exports = {
 						.setTitle("Working...")
 						.setDescription(`Please wait a few seconds`)
 						.setColor("#ffdd57") });
-					get(`https://api.fortnitetracker.com/v1/profile/${platform}/${a[1]}`).set("TRN-Api-Key", conf.trackerNetworkApiKey).send().then(function(r) {
+					get(`https://api.fortnitetracker.com/v1/profile/${platform}/${a[1]}`).set("TRN-Api-Key", config.trackerNetworkApiKey).send().then(function(r) {
 						var j = r.body
 						if (j.error) {
 							if (j.error == "Player Not Found") {

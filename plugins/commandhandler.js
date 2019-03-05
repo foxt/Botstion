@@ -1,6 +1,6 @@
 var allCommands = [];
 var allPlugins = [];
-var config = require("../config/config.js");
+const config = require("../configLoader");
 const Discord = require("discord.js");
 
 function handleError(e,msg) {
