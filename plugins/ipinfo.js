@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const conf = require("../config/config.js");
+const config = require("../configLoader");
 const {get} = require("snekfetch");
 let lastRequest = 0;
 
@@ -31,7 +31,7 @@ module.exports = {
 							.setTitle("Working...")
 							.setDescription(`Please wait a few seconds`)
 							.setColor("#ffdd57") });
-						get(`https://ipinfo.io/${a[0]}/json`).set("Authorization", "Bearer" + conf.ipinfoioToken).send().then( async function(r) {
+						get(`https://ipinfo.io/${a[0]}/json`).set("Authorization", "Bearer" + config.ipinfoioToken).send().then( async function(r) {
 
 							var j = r.body
 
@@ -73,7 +73,7 @@ module.exports = {
 									}
 
 									if (j.loc) {
-										emb.setThumbnail(`https://maps.googleapis.com/maps/api/staticmap?center=${j.loc}&zoom=10&size=1000x1000&sensor=false&key=${conf.googleApi}`, true)
+										emb.setThumbnail(`https://maps.googleapis.com/maps/api/staticmap?center=${j.loc}&zoom=10&size=1000x1000&sensor=false&key=${config.googleApi}`, true)
 									}
 									return e.edit({ embed:emb });
 								}

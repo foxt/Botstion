@@ -1,4 +1,4 @@
-var config = require("../config/config.js");
+const config = require("../configLoader");
 const Discord = require("discord.js");
 module.exports = {
 	name: "Evaluate Code",
