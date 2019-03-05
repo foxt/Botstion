@@ -11,4 +11,4 @@ Open-source Discord.js with the aim of opening Discord channels to as many APIs 
 
 # Docker
 
-Botstion supports the use of docker. Cloning this git repository and then building it as an image should work on its own - any configuration options must be set as environment variables.
+Botstion supports the use of Docker (thanks @nixerus). Cloning this git repository and then building it as an image should work on its own - any configuration options must be set as environment variables.
