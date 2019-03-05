@@ -89,4 +89,9 @@ client.on("ready", () => {
 	});
 });
 
+client.on("error", (e) => {
+	console.error(e)
+	process.kill(-1)
+})
+
 client.login(config.token);
