@@ -21,6 +21,7 @@ client.on("ready", () => {
 			console.log(`Read plugins folder and found ${items.length} plugins.`);
 			for (var plugin of items) {
 				console.debug(`	Loading ${plugin}`);
+				try {
 				var pluginf = require(`./plugins/${plugin}`);
 				var shouldLoad = false;
 				if (pluginf.requiresConfig) {
@@ -44,6 +45,12 @@ client.on("ready", () => {
 					plugins.push(pluginf);
 				} else {
 					console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because ${shouldLoad}`);
+				}
+
+				} catch(err) {
+					console.log(`${plugin} experienced an error whilst loading`)
+					console.log(err)
+					console.log(`Skipping over ${plugin}..`)
 				}
 
 			}
