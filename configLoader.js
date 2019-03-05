@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 let config = []
 if(fs.existsSync("./config/config.js")) {
 	config = require("./config/config.js")
