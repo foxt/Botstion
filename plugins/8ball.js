@@ -1,4 +1,3 @@
-const config = require("../configLoader");
 const Discord = require("discord.js");
 
 var positiveAnswers = ["It is certain", "As I see it, yes", "It is decidedly so", "Most likely", "Without a doubt", "Outlook good", "Yes, definitely", "Yes", "You may rely on it", "Signs point to yes"];
