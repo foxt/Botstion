@@ -1,4 +1,3 @@
-const config = require("../configLoader");
 const Discord = require("discord.js");
 const os = require("os");
 const fs = require("fs");
