@@ -6,14 +6,18 @@ const config = require("../configLoader")
 var dbLoaded = false
 var db = {tables:{}}
 
-const sequelize = new Sequelize(...config.sequelize)
-db["rawDB"] = sequelize
+if (config.sequelize) {
+	const sequelize = new Sequelize(...config.sequelize)
+	db["rawDB"] = sequelize
 
-console.log("	[DB] Loading schemas")
+	console.log("	[DB] Loading schemas")
 
-for (var file of fs.readdirSync("./db/schemas")) {
-	console.log("		[DB] Loading schema " + file)
-	db.tables[file.replace(/.js/g,"")] = require("./schemas/" + file)(sequelize)
+	for (var file of fs.readdirSync("./db/schemas")) {
+		console.log("		[DB] Loading schema " + file)
+		db.tables[file.replace(/.js/g,"")] = require("./schemas/" + file)(sequelize)
+	}
+} else {
+	console.log("		[DB] no config key! not loading")
 }
 
 module.exports = {
