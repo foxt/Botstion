@@ -10,5 +10,15 @@ module.exports = {
 	ipinfoioToken: "",
 	googleApi: "",
 	imgurClientID: "",
-	darkskyApiKey: ""
+	darkskyApiKey: "",
+	sequelize: [ // these are the arguments passed to the Sequelize init, see http://docs.sequelizejs.com/class/lib/sequelize.js~Sequelize.html
+		"botstion","username","password", {
+			host: "localhost",
+			dialect: "sqlite",
+			logging: false,
+			operatorsAliases: false,
+			storage: "database.sqlite"
+		}
+    ],
+    httpPort: 6597
 }
