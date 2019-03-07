@@ -3,7 +3,7 @@ const { get,post } = require('snekfetch')
 const config = require("../configLoader");
 let voters = [];
 
-function dbl(c) {
+function updateServerCount(c) {
 	post(`https://discordbots.org/api/bots/${c.user.id}/stats`).set('Authorization', config.dblToken).send({server_count: c.guilds.size})
 	.catch(function(e) {console.error("[DBL] Updating server count failed,",e)})
 }
@@ -18,9 +18,11 @@ module.exports = {
 	events: [{
 		name: "ready",
 		exec: function(c) {
-			dbl(c)
+
+			// Update server count
+			updateServerCount(c)
 			setInterval(() => {
-				dbl(c)
+				updateServerCount(c)
 			}, 1800000);
 		}
 	}],
