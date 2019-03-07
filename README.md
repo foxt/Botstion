@@ -1,5 +1,5 @@
 # botstion
-Open-source Discord.js with the aim of opening Discord channels to as many APIs as possible.
+Open-source Discord.js bot with the aim of opening Discord channels to as many APIs as possible.
 
 # Links
 
