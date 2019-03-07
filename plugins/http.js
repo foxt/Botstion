@@ -4,14 +4,12 @@ const config = require("../configLoader")
 console.log("	[HTTP] Creating express app")
 const app = Express()
 
-app.use(function (req, res, next) {
-	res.set("Server","Botstion4")
-	next()
-  })
+app.use(express.json()); // parsing of json post bodies
 
-app.get("/", function(req,res) {
-	res.send("Botstion HTTP server.")
-})
+app.use(function (req, res, next) {res.set("Server","Botstion4");next()}) // set server header
+
+app.get("/", function(req,res) { res.send("Botstion HTTP server.") }) // basic reply on GET /
+
 console.log("		[HTTP] Done!")
 
 module.exports = {
