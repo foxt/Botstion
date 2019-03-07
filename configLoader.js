@@ -6,6 +6,7 @@ if(fs.existsSync("./config/config.js")) {
 } else if(fs.existsSync("./config/defaultConfig.js")){
 	config = require("./config/defaultConfig.js")
 	console.log("Botstion has fallen back to the default config file!")
+	console.error("This most likely means you have not got a configuration file. You *should* rename defaultConfig to config, and fill it in.")
 } else {
 	console.log("No configurations found (tried defaultConfig.js and config.js), terminating!")
 	process.exit(1);
