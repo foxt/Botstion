@@ -62,6 +62,7 @@ client.on("ready", () => {
 					}
 				}
 			}
+			client["plugins"] = plugins
 			const commandhandler = require("./plugins/commandhandler");
 			console.log(`Loaded commandhandler (${commandhandler.name} v${commandhandler.version})`);
 			console.debug(`Sending ${plugins.length} and client plugins to the commandhandler`);
