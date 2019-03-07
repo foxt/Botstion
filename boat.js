@@ -58,6 +58,7 @@ client.on("ready", () => {
 			for (var plugin of plugins) {
 				if (plugin.addons) {
 					for (var addon in plugin.addons) {
+						console.log("	Adding addon " + addon + " from plugin " + plugin.name)
 						client[addon] = plugin.addons[addon]
 					}
 				}
