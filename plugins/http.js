@@ -17,6 +17,7 @@ console.log("		[HTTP] Done!")
 module.exports = {
 	name: "HTTP Server",
 	author: "theLMGN",
+	requiresConfig: "httpPort",
 	version: 1,
 	description: "This plugin is responsible for the Botstion HTTP server.",
 	commands: [],
