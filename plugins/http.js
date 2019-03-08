@@ -1,7 +1,7 @@
 const Express = require('express')
 const config = require("../configLoader")
 
-console.log("	[HTTP] Creating express app")
+console.log("		[HTTP] Creating express app")
 const app = Express()
 
 app.use(Express.json()); // parsing of json post bodies
@@ -10,7 +10,7 @@ app.use(function (req, res, next) {res.set("Server","Botstion4");next()}) // set
 
 app.get("/", function(req,res) { res.send("Botstion HTTP server.") }) // basic reply on GET /
 
-console.log("		[HTTP] Done!")
+console.log("			[HTTP] Done!")
 
 module.exports = {
 	name: "HTTP Server",
