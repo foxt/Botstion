@@ -20,6 +20,15 @@ if (config.sequelize) {
 	console.log("			[DB] no config key! not loading")
 }
 
+var addons = {
+	db: db,
+	dbLoaded: dbLoaded
+}
+
+for (var addon of fs.readdirSync("./db/helperaddons")) {
+	addons[addon.replace(".js","")] = require("./helperaddons/" + addon)(db)
+}
+
 module.exports = {
 	name: "Database plugin",
 	author: "theLMGN",
@@ -38,8 +47,5 @@ module.exports = {
 		}
 	}],
 	timer: [],
-	addons: {
-		db: db,
-		dbLoaded: dbLoaded
-	}
+	addons: addons
 };
