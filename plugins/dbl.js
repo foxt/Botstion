@@ -41,7 +41,7 @@ module.exports = {
 						}
 						var user = await c.users.fetch(vote.user)
 						if (user) {
-							await c.db.tables.wallet.update({ coins: c.getcoins(vote.user) + 50 }, { where: { userId: vote.user } });
+							await c.db.tables.wallet.update({ coins: (await c.getcoins(vote.user)) + 50 }, { where: { userId: vote.user } });
 							let e = new Discord.MessageEmbed()
 							e.setTitle(":blush: Thank you!")
 							e.setDescription(`Thanks for voting for Botstion on DBL! You've recieved **50 coins**!`)
