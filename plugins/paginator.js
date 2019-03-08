@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { FieldsEmbed: FieldsEmbedMode } = require('discord-paginationembed');
+const { Embeds: EmbedsMode } = require('discord-paginationembed');
 
 
 module.exports = {
@@ -12,11 +12,10 @@ module.exports = {
 	timer: [],
 	addons: {
 		paginate: function(m,embeds) {
-			var paginator = new FieldsEmbedMode()
+			return new EmbedsMode()
 				.setArray(embeds)
 				.setAuthorizedUsers([m.author.id])
 				.setChannel(m.channel)
-				.setElementsPerPage(1)
 				.showPageIndicator(true)
 				.build();
 		}
