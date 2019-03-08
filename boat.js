@@ -48,9 +48,9 @@ client.on("ready", () => {
 				}
 
 				} catch(err) {
-					console.log(`${plugin} experienced an error whilst loading`)
-					console.log(err)
-					console.log(`Skipping over ${plugin}..`)
+					console.error(`${plugin} experienced an error whilst loading`)
+					console.error(err)
+					console.error(`Skipping over ${plugin}..`)
 				}
 
 			}
