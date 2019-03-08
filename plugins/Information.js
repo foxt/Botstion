@@ -110,11 +110,18 @@ module.exports = {
 			usage: "<@158311402677731328>",
 			description: "Shows you information on the specified user(s)",
 			execute: async(c, m, a) => {
+				var embeds = []
 				m.mentions.users.array().forEach(element => {
-					m.reply(processUser(element, m.channel));
+					embeds.push(processUser(element, m.channel));
 				});
-				if (m.mentions.users.array().length < 1) {
-					m.reply(processUser(m.author, m.channel));
+				embeds.push(processUser(m.author, m.channel));
+				if (embeds.length > 1) {
+					console.log(embeds)
+					c.paginate(m,embeds)
+				} else if (embeds.length == 1) {
+					m.reply(embeds[0])
+				} else {
+					throw new Error(embeds.length + " embeds")
 				}
 			},
 		},
