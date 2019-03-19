@@ -21,7 +21,20 @@ module.exports = {
 	commands: [],
 	events: [{
 		name: "ready",
-		exec: function() {
+		exec: function(c) {
+			console.log("[HTTP] Adding servers endpoint")
+			app.get("/api/servers", async function(req,res) {
+				var j = []
+				for (var g of c.guilds.array()) {
+					j.push({
+						id: g.id,
+						members: g.memberCount,
+						icon: g.icon,
+						name: g.name
+					})
+				}
+				res.send(JSON.stringify(j))
+			})
 			console.log("[HTTP] Listening on port " + config.httpPort)
 			app.listen(config.httpPort)
 		}
