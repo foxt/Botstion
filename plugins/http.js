@@ -23,15 +23,14 @@ module.exports = {
 		name: "ready",
 		exec: function(c) {
 			console.log("[HTTP] Adding servers endpoint")
-			app.get("/api/servers", async function(req,res) {
-				var j = []
+			app.get("/api/info", async function(req,res) {
+				var j = {
+					serverIcons: [],
+					members: c.users.array().length,
+					servers: c.guilds.array().length
+				}
 				for (var g of c.guilds.array()) {
-					j.push({
-						id: g.id,
-						members: g.memberCount,
-						icon: g.icon,
-						name: g.name
-					})
+					if (g.icon) {j.serverIcons.push(g.icon)}
 				}
 				res.send(JSON.stringify(j))
 			})
