@@ -15,5 +15,4 @@ config/config.js
 config/configBackup.json
 config/configBackup.js
 
-database.sqlite
-
+*.sqlite
