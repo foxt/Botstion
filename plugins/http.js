@@ -30,7 +30,7 @@ module.exports = {
 					servers: c.guilds.array().length
 				}
 				for (var g of c.guilds.array()) {
-					if (g.icon) {j.serverIcons.push(g.icon)}
+					if (g.icon) {j.serverIcons.push(g.id + "/" + g.icon)}
 				}
 				res.send(JSON.stringify(j))
 			})
