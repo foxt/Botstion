@@ -8,7 +8,9 @@ app.use(Express.json()); // parsing of json post bodies
 
 app.use(function (req, res, next) {res.set("Server","Botstion4");next()}) // set server header
 
-app.get("/", function(req,res) { res.send("Botstion HTTP server.") }) // basic reply on GET /
+app.use(Express.static('static'))
+
+
 
 console.log("			[HTTP] Done!")
 
