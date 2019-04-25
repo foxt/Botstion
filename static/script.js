@@ -1,4 +1,5 @@
-
+document.body.parentElement.style.overflow = "hidden"
+document.scrollingElement.scrollTop = 0
 function animation() {
   clearTimeout(timeoutAnimation)
   var ls = document.querySelector("#logo").style
@@ -27,6 +28,7 @@ function animation() {
       ls.top = goto.y + "px"
       
       setTimeout(function() {
+        document.body.parentElement.style.overflowY = "scroll"
         document.querySelector("#logo").remove()
       },1000)
     },150)
