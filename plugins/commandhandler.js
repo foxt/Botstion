@@ -56,33 +56,7 @@ module.exports = {
 				}
 
 			},
-		},
-		{
-			name: "plugins",
-			usage: "",
-			description: "[Depreciated] Lists plugins.",
-			execute: async(c, m, a) => {
-				var pluginsString = "";
-				allPlugins.forEach(p => {
-					if (pluginsString.length > 1500) {
-						m.reply(pluginsString);
-						pluginsString = "";
-					}
-					pluginsString = `${pluginsString}\n\n -- ${p.name} v${p.version} --\nAuthor: ${p.author}\n${p.commands.length} commands, ${p.events.length} event handlers and ${p.timer.length} timer handlers\n${p.description}\n`;
-				});
-				try {
-					m.author.send(pluginsString);
-					try {
-						await m.react('📬')
-					} catch(e) {
-						await m.reply("📬 - Check your DMs!")
-					}
-				} catch(e) {
-					await m.reply(`:mailbox: - Couldn't DM you.\n\`\`\`${e.toString()}\`\`\``)
-				}
-				pluginsString = "";
-			},
-		},
+		}
 	],
 	events: [{
 		name: "message",
