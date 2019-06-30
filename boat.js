@@ -70,19 +70,23 @@ client.on("ready", () => {
 			commandhandler.init(plugins, client);
 			console.debug("Assigining events");
 			for (var plugin of plugins) {
-				for (var event of plugin.events) {
-					console.debug(`Giving ${plugin.name} the ${event.name} event`);
-					client.on(event.name, event.exec);
-					if (event.name == "ready") {
-						event.exec(client)
+				if (plugin.events) {
+					for (var event of plugin.events) {
+						console.debug(`Giving ${plugin.name} the ${event.name} event`);
+						client.on(event.name, event.exec);
+						if (event.name == "ready") {
+							event.exec(client)
+						}
 					}
 				}
 			}
 			console.debug("Setting up timer...");
 			setInterval(() => {
 				for (var plugin of plugins) {
-					for (var timerHandler of plugin.timer) {
-						timerHandler(client);
+					if (plugin.timer) {
+						for (var timerHandler of plugin.timer) {
+							timerHandler(client);
+						}
 					}
 				};
 			}, 10000);

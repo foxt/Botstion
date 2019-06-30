@@ -213,7 +213,5 @@ module.exports = {
 				}
 			},
 		},
-	],
-	events: [],
-	timer: [],
+	]
 };

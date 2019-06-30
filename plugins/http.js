@@ -20,7 +20,6 @@ module.exports = {
 	requiresConfig: "httpPort",
 	version: 1,
 	description: "This plugin is responsible for the Botstion HTTP server.",
-	commands: [],
 	events: [{
 		name: "ready",
 		exec: function(c) {
@@ -40,7 +39,6 @@ module.exports = {
 			app.listen(config.httpPort)
 		}
 	}],
-	timer: [],
 	addons: {
 		express: app
 	}

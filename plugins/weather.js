@@ -72,7 +72,5 @@ module.exports = {
 				});
 			},
 		},
-	],
-	events: [],
-	timer: [],
+	]
 };

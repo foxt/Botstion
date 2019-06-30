@@ -12,7 +12,5 @@ module.exports = {
 				m.reply("bork")
 			}
 		},
-	],
-	events: [],
-	timer: [],
+	]
 };

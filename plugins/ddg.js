@@ -40,7 +40,5 @@ module.exports = {
                 })
             }
         }
-	],
-	events: [],
-	timer: [],
+	]
 };

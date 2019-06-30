@@ -7,9 +7,6 @@ module.exports = {
 	author: "theLMGN",
 	version: 1,
 	description: "Paginator Module",
-	commands: [],
-	events: [],
-	timer: [],
 	addons: {
 		paginate: function(m,embeds) {
 			return new EmbedsMode()

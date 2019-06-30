@@ -50,7 +50,5 @@ module.exports = {
 				m.reply("The database hasn't been loaded.  Please hold on")
 			}
 		}
-	}],
-	events: [],
-	timer: [],
+	}]
 };

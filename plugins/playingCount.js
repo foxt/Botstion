@@ -36,7 +36,5 @@ module.exports = {
 				.setDescription(`:video_game: I know ${total} people who are online, ${inGame} (${Math.floor((inGame / total) * 100)}%) are in a game, and ${count} (${Math.floor((count / total) * 100)}% out of total users, ${Math.floor((count / inGame) * 100)}% out of all users in game) are playing **${game}**`));
 			},
 		},
-	],
-	events: [],
-	timer: [],
+	]
 };

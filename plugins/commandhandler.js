@@ -89,13 +89,14 @@ module.exports = {
 			});
 		},
 	}],
-	timer: [],
 	init: async plugins => {
 		plugins.forEach(plugin => {
 			allPlugins.push(plugin);
-			plugin.commands.forEach(command => {
-				allCommands.push(command);
-			});
+			if (plugin.commands) {
+				plugin.commands.forEach(command => {
+					allCommands.push(command);
+				});
+			}
 		});
 	},
 };

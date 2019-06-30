@@ -89,6 +89,5 @@ module.exports = {
 				},60000)
 			}
 		}
-	],
-	timer: [],
+	]
 };

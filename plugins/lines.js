@@ -46,7 +46,5 @@ module.exports = {
 				.setDescription(`:keyboard: I searched, and I found ${lines} lines of JavaScript over ${files} files (avg. ${Math.floor(lines / files)} lines per file)! (excluding those in node_modules)`));
 			},
 		},
-	],
-	events: [],
-	timer: [],
+	]
 };

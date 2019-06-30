@@ -35,7 +35,5 @@ module.exports = {
 				});
 			},
 		},
-	],
-	events: [],
-	timer: [],
+	]
 };

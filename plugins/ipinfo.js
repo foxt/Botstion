@@ -121,7 +121,5 @@ module.exports = {
 				}
 			}
 		}
-	],
-	events: [],
-	timer: [],
+	]
 };

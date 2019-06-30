@@ -15,7 +15,5 @@ module.exports = {
 				.setColor("#e02343")
 				.setFooter(`${c.ping ? Math.floor(c.ping) : Math.floor(c.ws.ping)}ms WS, ${new Date() - m.createdTimestamp}ms msg`) }),
 		},
-	],
-	events: [],
-	timer: [],
+	]
 };

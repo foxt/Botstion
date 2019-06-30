@@ -48,7 +48,5 @@ module.exports = {
 			.setColor("#3273dc")
 			m.reply({ embed: embed})
 		}
-	}],
-	events: [],
-	timer: [],
+	}]
 };

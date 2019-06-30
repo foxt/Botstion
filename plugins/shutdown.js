@@ -24,7 +24,5 @@ module.exports = {
 					.setFooter(`You do not have permissions to run this command. Sorry.`) });
 			}
 		},
-	}],
-	events: [],
-	timer: [],
+	}]
 };

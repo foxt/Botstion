@@ -17,7 +17,5 @@ module.exports = {
 				.setColor("#3273dc")
 				.setImage(r.body.toString()) })),
 		},
-	],
-	events: [],
-	timer: [],
+	]
 };

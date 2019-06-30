@@ -61,6 +61,5 @@ module.exports = {
 				ly = new lyr(config.geniusAccessToken)
 			}
 		}
-	],
-	timer: [],
+	]
 };
