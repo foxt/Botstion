@@ -34,7 +34,7 @@ module.exports = {
 			} else {
 				return m.reply({ embed: new Discord.MessageEmbed()
 					.setTitle("The Magic 8-Ball")
-					.setDescription(`\`\`\`md\n# ${positiveAnswers[getRandomInt(0, 0)]}\`\`\``)
+					.setDescription(`\`\`\`md\n# ${positiveAnswers[getRandomInt(0, 9)]}\`\`\``)
 					.setColor("#23d160") });
 			}
 		},
