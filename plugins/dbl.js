@@ -6,7 +6,8 @@ let voters = [];
 function updateServerCount(c) {
 	fetch(`https://discordbots.org/api/bots/${c.user.id}/stats`, {
 		headers: {
-			'Authorization': config.dblToken
+			'Authorization': config.dblToken,
+			'Content-Type':"application/json"
 		},
 		method: "POST",
 		body: JSON.stringify({server_count: c.guilds.size})
