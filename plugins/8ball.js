@@ -20,16 +20,16 @@ module.exports = {
 		usage: "",
 		description: "Consult the magic 8ball",
 		execute: async(c, m, a) => {
-			var random = getRandomInt(1, 5);
+			var random = getRandomInt(1, 4);
 			if (random == 1) {
 				return m.reply({ embed: new Discord.MessageEmbed()
 					.setTitle("The Magic 8-Ball")
-					.setDescription(`\`\`\`md\n# ${negativeAnswer[getRandomInt(0, 4)]}\`\`\``)
+					.setDescription(`\`\`\`diff\n- ${negativeAnswer[getRandomInt(0, 4)]}\`\`\``)
 					.setColor("#ff3860") });
 			} else if (random == 2) {
 				return m.reply({ embed: new Discord.MessageEmbed()
 					.setTitle("The Magic 8-Ball")
-					.setDescription(`\`\`\`md\n# ${unknownAnswers[getRandomInt(0, 4)]}\`\`\``)
+					.setDescription(`\`\`\`diff\n+ ${unknownAnswers[getRandomInt(0, 4)]}\`\`\``)
 					.setColor("#ffdd57") });
 			} else {
 				return m.reply({ embed: new Discord.MessageEmbed()
@@ -38,7 +38,5 @@ module.exports = {
 					.setColor("#23d160") });
 			}
 		},
-	}],
-	events: [],
-	timer: [],
+	}]
 };
