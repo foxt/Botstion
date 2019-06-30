@@ -1,11 +1,22 @@
 const Discord = require("discord.js")
-const { get,post } = require('snekfetch')
+const fetch = require('node-fetch')
 const config = require("../configLoader");
 let voters = [];
 
 function updateServerCount(c) {
-	post(`https://discordbots.org/api/bots/${c.user.id}/stats`).set('Authorization', config.dblToken).send({server_count: c.guilds.size})
-	.catch(function(e) {console.error("[DBL] Updating server count failed,",e)})
+	fetch(`https://discordbots.org/api/bots/${c.user.id}/stats`, {
+		headers: {
+			'Authorization': config.dblToken
+		},
+		method: "POST",
+		body: JSON.stringify({server_count: c.guilds.size})
+	}).then(async function(e) {
+		if (!e.ok) {
+			console.error("[DBL] Updating server count failed,", await e.text())
+		}
+	}).catch(function(e) {
+		console.error("[DBL] Updating server count failed,",e)
+	})
 }
 
 module.exports = {

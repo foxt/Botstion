@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const config = require("../configLoader");
-const {get} = require("snekfetch");
+const fetch = require("node-fetch");
 let lastRequest = 0;
 
 module.exports = {
@@ -31,85 +31,54 @@ module.exports = {
 							.setTitle("Working...")
 							.setDescription(`Please wait a few seconds`)
 							.setColor("#ffdd57") });
-						get(`https://ipinfo.io/${a[0]}/json`).set("Authorization", "Bearer" + config.ipinfoioToken).send().then( async function(r) {
 
-							var j = r.body
+						var r = await fetch(`https://ipinfo.io/${a[0]}/json`, {headers:{"Authorization": "Bearer" + config.ipinfoioToken}})
+						var j = await r.json()
 
-							if (j.error) {
-								if (j.error.title) {
-									return e.edit({ embed: new Discord.MessageEmbed()
-										.setAuthor(j.error.title, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-										.setColor("#ff3860")
-										.setFooter(j.error.message) });
-								} else {
-									return e.edit({ embed: new Discord.MessageEmbed()
-										.setAuthor(j.error, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-										.setColor("#ff3860")
-										.setFooter("This usually means **you** broke something.")});
-								}
-							} else {
-								if (j.ip) {
-									var emb = new Discord.MessageEmbed()
-									.setTitle(j.ip)
-									.setDescription(`[Data from ipinfo.io](https://ipinfo.io/${j.ip})`)
-									.setColor("#23d160")
-									if (j.hostname) {
-										emb.addField(`:shield: Hostname`, j.hostname, false);
-									}
-									if (j.city) {
-										emb.addField(`:cityscape: City`, j.city, true);
-									}
-									if (j.region) {
-										emb.addField(`:homes: Region`, j.region, true);
-									}
-									if (j.country) {
-										emb.setTitle(`:flag_${j.country.toLowerCase()}: ${j.ip}`, true);
-									}
-									if (j.org) {
-										emb.addField(`:globe_with_meridians: Network`, j.org, true);
-									}
-									if (j.bogon) {
-										emb.addField(':information_source: Bogon!', " This is a [bogon](https://en.wikipedia.org/wiki/Reserved_IP_addresses)/[reserved](https://en.wikipedia.org/wiki/Bogon_filtering) IP address!", true)
-									}
-
-									if (j.loc) {
-										emb.setThumbnail(`https://maps.googleapis.com/maps/api/staticmap?center=${j.loc}&zoom=10&size=1000x1000&sensor=false&key=${config.googleApi}`, true)
-									}
-									return e.edit({ embed:emb });
-								}
-							}
-						}).catch(function(er) {
-							console.log(er)
-							try {
-								var j = r.body
-								if (j.error) {
-									if (j.error.title) {
-										return e.edit({ embed: new Discord.MessageEmbed()
-											.setAuthor(j.error.title, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-											.setColor("#ff3860")
-											.setFooter(j.error.message) });
-									} else {
-										return e.edit({ embed: new Discord.MessageEmbed()
-											.setAuthor(j.error, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-											.setColor("#ff3860")
-											.setFooter("This usually means you did something wrong.")});
-									}
-								} else {
-									return e.edit({ embed: new Discord.MessageEmbed()
-										.setAuthor(er.toString(), "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-										.setDescription(er.stack)
-										.setColor("#ff3860")
-										.setFooter("This usually means we did something wrong. Report it in the support server.")});
-								}
-							} catch (err) {
+						if (j.error) {
+							if (j.error.title) {
 								return e.edit({ embed: new Discord.MessageEmbed()
-									.setAuthor(er.toString(), "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-									.setDescription(er.stack)
+									.setAuthor(j.error.title, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 									.setColor("#ff3860")
-									.setFooter("This usually means we did something wrong. Report it in the support server.")});
+									.setFooter(j.error.message) });
+							} else {
+								return e.edit({ embed: new Discord.MessageEmbed()
+									.setAuthor(j.error, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+									.setColor("#ff3860")
+									.setFooter("This usually means **you** broke something.")});
 							}
+						} else {
+							if (j.ip) {
+								var emb = new Discord.MessageEmbed()
+								.setTitle(j.ip)
+								.setDescription(`[Data from ipinfo.io](https://ipinfo.io/${j.ip})`)
+								.setColor("#23d160")
+								if (j.hostname) {
+									emb.addField(`:shield: Hostname`, j.hostname, false);
+								}
+								if (j.city) {
+									emb.addField(`:cityscape: City`, j.city, true);
+								}
+								if (j.region) {
+									emb.addField(`:homes: Region`, j.region, true);
+								}
+								if (j.country) {
+									emb.setTitle(`:flag_${j.country.toLowerCase()}: ${j.ip}`, true);
+								}
+								if (j.org) {
+									emb.addField(`:globe_with_meridians: Network`, j.org, true);
+								}
+								if (j.bogon) {
+									emb.addField(':information_source: Bogon!', " This is a [reserved](https://en.wikipedia.org/wiki/Reserved_IP_addresses)/[bogon](https://en.wikipedia.org/wiki/Bogon_filtering) IP address!", true)
+								}
 
-						})
+								if (j.loc) {
+									emb.setThumbnail(`https://maps.googleapis.com/maps/api/staticmap?center=${j.loc}&zoom=10&size=1000x1000&sensor=false&key=${config.googleApi}`, true)
+								}
+								return e.edit({ embed:emb });
+							}
+						}
+						
 					}
 
 
