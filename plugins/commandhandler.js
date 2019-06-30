@@ -67,7 +67,7 @@ module.exports = {
 			if (!msg.content.startsWith(prefix)) return null;
 			const cmd = msg.content.split(" ")[0].trim().toLowerCase().replace(prefix, "");
 			const suffix = msg.content.split(" ").splice(1);
-			allCommands.forEach(command => {
+			for (var command of allCommands) {
 				if (cmd == command.name) {
 					if (msg.guild) {
 						console.log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name}`);
@@ -86,17 +86,17 @@ module.exports = {
 					}
 
 				}
-			});
+			}
 		},
 	}],
 	init: async plugins => {
-		plugins.forEach(plugin => {
+		for (var plugin of plugins) {
 			allPlugins.push(plugin);
 			if (plugin.commands) {
-				plugin.commands.forEach(command => {
+				for (var command of plugin.commands) {
 					allCommands.push(command);
-				});
+				}
 			}
-		});
+		}
 	},
 };

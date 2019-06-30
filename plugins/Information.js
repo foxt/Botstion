@@ -111,9 +111,9 @@ module.exports = {
 			description: "Shows you information on the specified user(s)",
 			execute: async(c, m, a) => {
 				var embeds = []
-				m.mentions.users.array().forEach(element => {
+				for (var element of m.mentions.users.array()) {
 					embeds.push(processUser(element, m.channel));
-				});
+				}
 				embeds.push(processUser(m.author, m.channel));
 				if (embeds.length > 1) {
 					console.log(embeds)
