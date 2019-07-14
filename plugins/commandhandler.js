@@ -4,18 +4,23 @@ const config = require("../configLoader");
 const Discord = require("discord.js");
 
 function handleError(e,msg) {
+	var stack = e.stack
+	if (stack.length > 1950) {
+		stack = stack.substr(0,1950)
+	}
+	var emb = new Discord.MessageEmbed()
+	.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+	.setColor("#ff3860")
+	.setDescription("<@" + msg.author.id +">```" + stack + '```')
 	try {
-		msg.client.channels.resolve("484536564198801409").send({ embed: new Discord.MessageEmbed()
+		msg.client.channels.resolve(config.errorReportChannel).send({ embed: new Discord.MessageEmbed()
 			.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 			.setColor("#ff3860")
-			.setDescription('```' + e.stack + '```')
+			.setDescription('```' + stack + '```')
 			.setFooter(msg.content) });
-	}catch{}
-	return msg.reply({ embed: new Discord.MessageEmbed()
-		.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-		.setColor("#ff3860")
-		.setDescription("<@" + msg.author.id +">```" + e.stack + '```')
-		.setFooter("This server has been reported to the Botstion development team, and we may message you if we see fit.") });
+		emb.setFooter("This server has been reported to the Botstion development team, and we may message you if we see fit.") 
+	}catch(e){console.error(e)}
+	return msg.reply({ embed: emb });
 }
 
 module.exports = {

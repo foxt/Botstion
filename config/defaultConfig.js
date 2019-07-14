@@ -4,6 +4,7 @@ module.exports = {
 	token: "",
 	defaultPrefix: "b!",
 	maintainers: ["158311402677731328"],
+	errorReportChannel: "600082294258139137",
 	geniusAccessToken: "",
 	dblToken:"",
 	trackerNetworkApiKey: "",
