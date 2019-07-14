@@ -1,13 +1,6 @@
 const Discord = require("discord.js");
 const shortcuts = require("shortcuts.js")
-
-function imgurUpload(image) {
-
-	return new Promise(function(a,r) {
-		var apiKey = require("../configLoader").imgurClientID
-		require("snekfetch").post("https://api.imgur.com/3/image").set("Authorization", "Client-ID " + apiKey).send({image: image}).then(a).catch(r)
-	})
-}
+const apiKey = require("../configLoader").imgurClientID
 
 
 module.exports = {
@@ -41,7 +34,13 @@ module.exports = {
 					if (id) {
 						var shortcut = await shortcuts.getShortcutDetails(id);
 						var metadata = await shortcut.getMetadata();
-						var imgur = (await imgurUpload(shortcut.icon.downloadURL)).body.data
+						var imgur = await require("node-fetch")("https://api.imgur.com/3/image", {
+							body: JSON.stringify({image: shortcut.icon.downloadURL}),
+							headers: {
+								"Authorization": "Client-ID " + apiKey
+							},
+							method: "POST"
+						})
 						var output = ""
 						if (metadata.importQuestions.length > 0) {
 							output = output + `**Import questions (${metadata.importQuestions.length}):**`
@@ -56,7 +55,12 @@ module.exports = {
 							output = output + `**Actions (beta) (${metadata.actions.length}):**`
 							for (var action of metadata.actions) {
 								if (output.length < 1900) {
-									output = output + "\n" + action.identifier + ": ```json\n" + JSON.stringify(action.parameters) + "```"
+									if (JSON.stringify(action.parameters) == "{}") {
+										output = output + "\n**" + action.identifier + "**"
+									} else {
+										output = output + "\n**" + action.identifier + "**: ```json\n" + JSON.stringify(action.parameters) + "```"
+									}
+									
 								}
 
 
@@ -68,7 +72,7 @@ module.exports = {
 						return e.edit({ embed: new Discord.MessageEmbed()
 							.setTitle(shortcut.name)
 							.setColor("#" + shortcut.icon.color.toString(16).substring(0,6))
-							.setThumbnail(imgur.link)
+							.setThumbnail((await imgur.json()).link)
 							.setURL("https://www.icloud.com/shortcuts/" + shortcut.id)
 							.setDescription(output)
 							.setFooter('Shortcut last updated ' + shortcut.modificationDate.toString()) });

@@ -1,11 +1,6 @@
 const Discord = require("discord.js");
 const cheerio = require("cheerio");
-
-function get(url) {
-	return new Promise(function(a,r) {
-		require("snekfetch").get(url).then(a).catch(r)
-	})
-}
+const fetch = require("node-fetch");
 
 const assetTypes = ["???", "Image", "T-Shirt", "Audio", "Mesh", "Lua", "HTML", "Text", "Hat", "Place", "Model", "Shirt", "Pants", "Decal", "???","???", "Avatar", "Head", "Face", "Gear", "???", "Badge", "Group Emblem", "???", "Animation", "Arms", "Legs", "Torso", "Right Arm", "Left Arm", "Left Leg", "Right Leg", "Package", "YouTubeVideo", "Game Pass", "App", "???", "Code", "Plugin", "SolidModel", "MeshPart", "Hair Accessory", "Face Accessory", "Neck Accessory", "Shoulder Accessory", "Front Accessory", "Back Accessory", "Waist Accessory", "Climb Animation", "Death Animation", "Fall Animation", "Idle Animation", "Jump Animation", "Run Animation", "Swim Animation", "Walk Animation", "Pose Animation"]
 
@@ -36,34 +31,37 @@ module.exports = {
 					var userName = ""
 					if (!isNaN(new Number(input))) { // UserID checker
 						userID = +input
-						var apiResponse = await get("https://api.roblox.com/users/" + input)
-						if (apiResponse.body.errors) {
+						var ftch = await fetch("https://api.roblox.com/users/" + input)
+						var apiResponse = await ftch.json()
+						if (apiResponse.errors) {
 							return e.edit({ embed: new Discord.MessageEmbed()
-								.setAuthor(`${apiResponse.body.errors[0].code}: ${apiResponse.body.errors[0].message}.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+								.setAuthor(`${apiResponse.errors[0].code}: ${apiResponse.errors[0].message}.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 								.setColor("#ff3860")
 								.setFooter('Make sure you got the UserID correct') });
 						}
-						userName = apiResponse.body.Username
+						userName = apiResponse.Username
 					} else if (!new RegExp("[^A-Za-z0-9_]").exec(input)) { // Username checker
-						var apiResponse = await get("https://api.roblox.com/users/get-by-username?username=" + input)
-						if (apiResponse.body.errorMessage) {
+						var ftch = await fetch("https://api.roblox.com/users/get-by-username?username=" + input)
+						var apiResponse = await ftch.json()
+						if (apiResponse.errorMessage) {
 							return e.edit({ embed: new Discord.MessageEmbed()
-								.setAuthor("404: " + apiResponse.body.errorMessage, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+								.setAuthor("404: " + apiResponse.errorMessage, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 								.setColor("#ff3860")
 								.setFooter('Make sure you got the username correct.') });
 						} else {
-							userID = apiResponse.body.Id
-							userName = apiResponse.body.Username
+							userID = apiResponse.Id
+							userName = apiResponse.Username
 						}
 					} else if (input.startsWith("<@") && input.endsWith(">") && (!isNaN(input.replace("<@","").replace(">","").replace("!","")))) { // Mention checker
 						var discordID = input.replace("<@","").replace(">","").replace("!","")
-						var apiResponse = await get("https://verify.eryn.io/api/user/" + discordID)
-						if (apiResponse.body.robloxId) {
-							userID = apiResponse.body.robloxId
-							userName = apiResponse.body.robloxUsername
+						var ftch = await fetch("https://verify.eryn.io/api/user/" + discordID)
+						var apiResponse = await ftch.json()
+						if (apiResponse.robloxId) {
+							userID = apiResponse.robloxId
+							userName = apiResponse.robloxUsername
 						} else {
 							return e.edit({ embed: new Discord.MessageEmbed()
-								.setAuthor(`${apiResponse.body.errorCode}: ${apiResponse.body.error}`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+								.setAuthor(`${apiResponse.errorCode}: ${apiResponse.error}`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 								.setColor("#ff3860")
 								.setFooter('Make sure you mentioned the right user and they are signed up on http://verify.eryn.io') });
 						}
@@ -73,21 +71,18 @@ module.exports = {
 							.setColor("#ff3860")
 							.setFooter('This command only accepts 1 argument, Username, User ID or Discord mention') });
 					}
-					var profilePage  = null
-					try {
-						var profilePage = await get(`https://www.roblox.com/users/${userID}/profile`)
-					} catch(er) {
-						if (er.toString() == "Error: 404 Not Found") {
-							return e.edit({ embed: new Discord.MessageEmbed()
-								.setAuthor(`**${userName}**`)
-								.setColor("#ff3860")
-								.setDescription("**Banned!**")
-								.addField("ID",userID)
-								.setThumbnail("https://discordemoji.com/assets/emoji/BlobBanhammerCouncil.png") });
-						}
+					var ftch = await fetch(`https://www.roblox.com/users/${userID}/profile`)
+					if (!ftch.ok) {
+						return e.edit({ embed: new Discord.MessageEmbed()
+							.setAuthor(`**${userName}**`)
+							.setColor("#ff3860")
+							.setDescription("**Banned!**")
+							.addField("ID",userID)
+							.setThumbnail("https://discordemoji.com/assets/emoji/BlobBanhammerCouncil.png") });
 					}
+					var profilePage = await ftch.text()
 					if (profilePage) {
-						var $ = cheerio.load(profilePage.body.toString())
+						var $ = cheerio.load(profilePage)
 						var info = $(".profile-header-content > div")[0].attribs
 						var bcBadge = ""
 						if ($(".header-title > span")[0]) {
@@ -154,14 +149,14 @@ module.exports = {
 							.setColor("#ff3860")
 							.setFooter('This command only accepts 1 argument, asset id') });
 					}
-					try {
-						var details = (await get(`https://api.roblox.com/marketplace/productinfo?assetId=${input}`)).body
-					} catch(err) {
+					var ftch = await fetch(`https://api.roblox.com/marketplace/productinfo?assetId=${input}`)
+					if (!ftch.ok) {
 						return e.edit({ embed: new Discord.MessageEmbed()
 							.setAuthor("404: Not found", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 							.setColor("#ff3860")
 							.setFooter('Double check the provided ID') });
 					}
+					var details = await ftch.json()
 					if (details) {
 						var tags = []
 						if (details.IsNew) {
