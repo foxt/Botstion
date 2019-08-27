@@ -96,7 +96,8 @@ module.exports = {
 							if (bcBadge == "bc") {
 								bcBadge = "[BC]"
 							}
-							bcBadge = bcBadge + " "
+							if (bcBadge == "premium-medium")
+							bcBadge = bcBadge + "[Premium]"
 						}
 						var embed = new Discord.MessageEmbed()
 						.setColor("#E2231A")
