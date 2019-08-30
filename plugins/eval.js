@@ -12,10 +12,21 @@ module.exports = {
 		execute: async(c, m, a) => {
 			if (config.maintainers.includes(m.author.id)) {
 				try {
-					let result = eval(a.join(" ").replace("c.token", "").replace("client.token", "")
-						.replace("[\"token\"]", ""));
-					result = result.toString().replace(config.token, "https://i.imgur.com/J7sAzzC.png");
-					return m.reply(result);
+					let result = await eval(`(async function() {return ${a.join(" ").replace("c.token", "").replace("client.token", "").replace("[\"token\"]", "")}})()`);
+					var str = JSON.stringify(result)
+					console.log(result,str)
+					if (result && !str) {
+						if (typeof result.toString == "function") {
+							str = result.toString()
+						} else {
+							str = "*I have no idea what to do with this " + typeof result + "*"
+						}
+					}
+					if (!result) {
+						result = "undefined"
+					}
+					str = str.replace(eval(`/${config.token}/g`), "no");
+					return m.reply(str);
 				} catch (err) {
 					return m.reply(`Woops, we had an error.\n\`\`\`${err}\`\`\``);
 				}
