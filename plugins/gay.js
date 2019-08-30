@@ -12,8 +12,10 @@ function seed(str) {
     }
 }
 
-var overrides = {
-    '158311402677731328': "NaN" // me
+const overrides = {
+    '158311402677731328': "NaN", // me
+    '101588913746890752': "40", // fishy
+    '195252536389664768': "50", // jaffa
 }
 
 module.exports = {
