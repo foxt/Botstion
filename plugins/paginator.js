@@ -13,7 +13,7 @@ module.exports = {
 				.setArray(embeds)
 				.setAuthorizedUsers([m.author.id])
 				.setChannel(m.channel)
-				.showPageIndicator(true)
+				.setPageIndicator(true)
 				.build();
 		}
 	}
