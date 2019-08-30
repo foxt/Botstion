@@ -22,19 +22,19 @@
   },
   "homepage": "https://github.com/theLMGN/botstion#readme",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
+    "cheerio": "^1.0.0-rc.3",
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
-    "discord.js": "hydrabolt/discord.js",
-    "express": "^4.16.4",
+    "discord.js": "github:hydrabolt/discord.js",
+    "express": "^4.17.1",
     "lyricist": "^2.2.2",
-    "mysql2": "^1.6.5",
+    "mysql2": "^1.7.0",
     "node-fetch": "^2.6.0",
-    "pg": "^7.8.1",
-    "pg-hstore": "^2.3.2",
+    "pg": "^7.12.1",
+    "pg-hstore": "^2.3.3",
     "sequelize": "^6.0.0",
     "setimmediate": "^1.0.5",
     "shortcuts.js": "github:haykam821/Shortcuts.js",
-    "sqlite3": "^4.0.6",
+    "sqlite3": "^4.1.0",
     "tedious": "^5.0.3"
   }
 }
