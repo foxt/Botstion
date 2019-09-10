@@ -22,37 +22,37 @@ client.on("ready", () => {
 			for (var plugin of items) {
 				console.debug(`	Loading ${plugin}`);
 				try {
-				var pluginf = require(`./plugins/${plugin}`);
-				var shouldLoad = false;
-				if (pluginf.requiresConfig) {
-					if (config[pluginf.requiresConfig]) {
-						if (config[pluginf.requiresConfig] == "") {
-							shouldLoad = `it requires the config value ${pluginf.requiresConfig}`
+					var pluginf = require(`./plugins/${plugin}`);
+					var shouldLoad = false;
+					if (pluginf.requiresConfig) {
+						if (config[pluginf.requiresConfig]) {
+							if (config[pluginf.requiresConfig] == "") {
+								shouldLoad = `it requires the config value ${pluginf.requiresConfig}`
+							} else {
+								shouldLoad = true
+							}
 						} else {
-							shouldLoad = true
+							shouldLoad = `it requires the config value ${pluginf.requiresConfig}`
 						}
 					} else {
-						shouldLoad = `it requires the config value ${pluginf.requiresConfig}`
+						shouldLoad = true
 					}
-				} else {
-					shouldLoad = true
-				}
-				if (pluginf.disable) {
-					shouldLoad = "it's disabled"
-				}
-				if (shouldLoad == true) {
-					console.debug(`		Loaded ${pluginf.name} v${pluginf.version} by ${pluginf.author}`);
-					plugins.push(pluginf);
-				} else {
-					console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because ${shouldLoad}`);
-				}
-
+					if (pluginf.disable) {
+						shouldLoad = "it's disabled"
+					}
+					if (shouldLoad == true) {
+						console.debug(`		Loaded ${pluginf.name} v${pluginf.version} by ${pluginf.author}`);
+						plugins.push(pluginf);
+					} else {
+						console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because ${shouldLoad}`);
+					}
+					
 				} catch(err) {
 					console.error(`${plugin} experienced an error whilst loading`)
 					console.error(err)
 					console.error(`Skipping over ${plugin}..`)
 				}
-
+				
 			}
 			console.debug("Adding addons.")
 			for (var plugin of plugins) {
