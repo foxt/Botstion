@@ -15,6 +15,31 @@ function presenceEmoji(presence) {
 		return "";
 	}
 }
+var clientPresenseEmojiMap = {
+	web: {
+		online: "<:OnlineOnWeb:627611397659951134>",
+		idle: "<:IdleOnWeb:627611397735579668>",
+		dnd: "<:DNDOnWeb:627611397647499280>"
+	},
+	desktop: {
+		online: "<:OnlineOnDesktop:627611397601099854>",
+		idle: "<:IdleOnDesktop:627611397676597248>",
+		dnd: "<:DNDOnDesktop:627611397328470018>"
+	},
+	mobile: {
+		online: "<:OnlineOnMobile:627611397387452457>",
+		idle: "<:IdleOnMobile:627611397672665128>",
+		dnd: "<:DNDOnMobile:627611397647499264>"
+	}
+}
+function clientPresenseEmoji(client,presence) {
+	try {
+		var e = clientPresenseEmojiMap[client][presence]
+		if (e) {return e} else { return presence + " on " + client}
+	} catch(e) {
+		return presence + " on " + client
+	}
+}
 function messageToGuild(m) {
 	if (m.channel.guild) {
 		return `(in ${m.channel.guild.name})`;
@@ -53,11 +78,19 @@ function processUser(user, c) {
 	if (user.lastMessage && user.lastMessage.editedAt) { embed.addField(":e_mail: Last active", user.lastMessage.editedAt); }
 	if (user.presence.game) {
 		if (user.presence.game.streaming) {
-			embed.addField(`${presenceEmoji(user.presence)} Streaming`, `[${user.presence.game.name}](${user.presence.url})`);
+			embed.addField(`Streaming`, `[${user.presence.game.name}](${user.presence.url})`);
 		} else {
-			embed.addField(`${presenceEmoji(user.presence)} ${playingType(user)}`, user.presence.game.name);
+			embed.addField(`${playingType(user)}`, user.presence.game.name);
 		}
-	} else {
+	}
+	try {
+		var pres = c.guild.members.get(user.id).presence.clientStatus
+		var a = ""
+		for (var p in pres) {
+			a += clientPresenseEmoji(p,pres[p])
+		}
+		embed.addField(`${presenceEmoji(user.presence)} Status`, a);
+	} catch(e) {
 		embed.addField(`${presenceEmoji(user.presence)} Status`, user.presence.status);
 	}
 
