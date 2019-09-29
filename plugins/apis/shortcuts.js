@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const shortcuts = require("shortcuts.js")
-const apiKey = require("../configLoader").imgurClientID
+const apiKey = require("../../configLoader").imgurClientID
 
 
 module.exports = {

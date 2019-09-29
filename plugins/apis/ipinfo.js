@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const config = require("../configLoader");
+const config = require("../../configLoader");
 const fetch = require("node-fetch");
 let lastRequest = 0;
 
