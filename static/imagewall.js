@@ -8,9 +8,11 @@ var images = []
 var imageSize = 64
 var oldWidth = 0
 function fill() {
-  document.querySelector("#imagesContainer").innerHTML = ``
   var height = document.body.clientHeight
   var width = document.body.clientWidth
+  var ctx = document.querySelector("canvas#imagewallCanvas").getContext("2d")
+  document.querySelector("canvas#imagewallCanvas").width = width
+  document.querySelector("canvas#imagewallCanvas").height = height
   imageSize = (width / 100) * 5
   if (imageSize < 64) { imageSize = 64 }
   if (imageSize > 128) { imageSize = 128 }
@@ -22,42 +24,41 @@ function fill() {
     for (img = 0; img <= imagesPerRow; img++) {
       if (clone.length < 1) {
         clone = images.slice(0);
-        shuffle(clone)
       }
       image = clone.pop()
-      document.querySelector("#imagesContainer").innerHTML += `<img src="${image}" class="imageWallImg" width="${imageSize}" height="${imageSize}"></img>`
+      try { ctx.drawImage(image, img * imageSize,row * imageSize,imageSize,imageSize) } catch(e) {}
     }
-    document.querySelector("#imagesContainer").innerHTML += `<br>`
-    
   }
-  setTimeout(function() {
-    animation()
-  },100)
+  requestAnimationFrame(fill)
 }
 
 // flip effect
 setInterval(function() {
+  return false
   var image = randomFromArray(images)
-  var elem = randomFromArray(document.querySelectorAll(".imageWallImg"))
-  elem.style.transform = "rotateY(90deg)"
+  var img = randomFromArray(j.serverIcons)
+  image.style.transform = "rotateY(90deg)"
+  image.dataset.imageWallTransition = 0
   setTimeout(function() {
-    elem.src = image
-    elem.style.transform = "rotateY(0deg)"
+    image.src = img
+    image.style.transform = "rotateY(0deg)"
   },500)
 },3000)
 
 
 async function load() {
   var j = await (await fetch("/api/info")).json()
+  console.log(j)
   for (var g of j.serverIcons) {
-    images.push(`https://cdn.discordapp.com/icons/${g}.png?size=128`)
+    var image = document.createElement("img")
+    image.src = `https://cdn.discordapp.com/icons/${g}.png?size=128`
+    images.push(image)
   }
-  shuffle(images)
   fill()
   var resizeTimeout = 0
   window.addEventListener('resize',function() {
-    clearTimeout(resizeTimeout)
-    resizeTimeout = setTimeout(fill,150)
+    //clearTimeout(resizeTimeout)
+    //resizeTimeout = setTimeout(fill,150)
   })
 }
 
