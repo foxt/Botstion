@@ -39,7 +39,6 @@ module.exports = {
 				files = 0
 				for (var folder of fs.readdirSync(".")) {
 					lines = lines + thing("./" + folder)
-					console.log(folder,lines)
 				}
 				m.reply(new Discord.MessageEmbed()
 				.setColor("#23d160")

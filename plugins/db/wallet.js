@@ -46,7 +46,6 @@ module.exports = {
 									.setFooter(`You now have ${payerBal - amount} coins`)
 									.setColor("#23d160"))
 								} else {
-									console.log(amount,payerBal)
 									return reply.edit(new Discord.MessageEmbed()
 									.setTitle("Nope.")
 									.setDescription("We don't give out loans y'know.")

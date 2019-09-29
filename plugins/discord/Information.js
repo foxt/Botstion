@@ -149,7 +149,6 @@ module.exports = {
 				}
 				embeds.push(processUser(m.author, m.channel));
 				if (embeds.length > 1) {
-					console.log(embeds)
 					c.paginate(m,embeds)
 				} else if (embeds.length == 1) {
 					m.reply(embeds[0])

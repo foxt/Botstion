@@ -22,7 +22,6 @@ module.exports = {
 					.setDescription(`Please wait a few seconds`)
 					.setColor("#ffdd57") });
 				var data = querystring.stringify({action: "gpcm", c1: a.join(" ")})
-				console.log(data)
 				var l = await fetch("https://darksky.net/geo?q=" + encodeURIComponent(a.join(" ")))
 
 				if (!l.ok) {

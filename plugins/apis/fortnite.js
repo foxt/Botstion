@@ -44,7 +44,6 @@ module.exports = {
 						headers: {"TRN-Api-Key": config.trackerNetworkApiKey}
 					})
 					var j = await r.json()
-					console.log(j)
 					if (j.error) {
 						var text = j.error
 						if (text == "Player Not Found") {
