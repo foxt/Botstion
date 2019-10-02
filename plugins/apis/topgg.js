@@ -1,7 +1,6 @@
 const Discord = require("discord.js")
 const fetch = require('node-fetch')
 const config = require("../../configLoader");
-let voters = [];
 
 function updateServerCount(c) {
 	fetch(`https://discordbots.org/api/bots/${c.user.id}/stats`, {
@@ -13,19 +12,19 @@ function updateServerCount(c) {
 		body: JSON.stringify({server_count: c.guilds.size})
 	}).then(async function(e) {
 		if (!e.ok) {
-			console.error("[DBL] Updating server count failed,", await e.text())
+			console.error("[t.gg] Updating server count failed,", await e.text())
 		}
 	}).catch(function(e) {
-		console.error("[DBL] Updating server count failed,",e)
+		console.error("[t.gg] Updating server count failed,",e)
 	})
 }
 
 module.exports = {
-	name: "DBL Support",
+	name: "top.gg support",
 	author: "theLMGN",
 	version: 1,
 	requiresConfig:"dblToken",
-	description: "Adds support for Discord Bot List.",
+	description: "Adds support for top.gg",
 	events: [{
 		name: "ready",
 		exec: function(c) {
@@ -39,7 +38,7 @@ module.exports = {
 
 			c.express.post("/performVote", async function(req,res) {
 				try {
-					console.log("[DBL] Incoming vote from " + req.ip)
+					console.log("[t.gg] Incoming vote from " + req.ip)
 					if (req.get("Authorization") != config.dblToken)  {
 						return res.send("invalid/no auth token!")
 					}
@@ -55,13 +54,13 @@ module.exports = {
 							await c.db.tables.wallet.update({ coins: (await c.getcoins(vote.user)) + 50 }, { where: { userId: vote.user } });
 							let e = new Discord.MessageEmbed()
 							e.setTitle(":blush: Thank you!")
-							e.setDescription(`Thanks for voting for Botstion on DBL! You've recieved **50 coins**!`)
+							e.setDescription(`Thanks for voting for Botstion on top.gg! You've recieved **50 coins**!`)
 							e.setColor("#23d160")
 							user.send({ embed: e });
 							return res.send("success!")
 						}
 					} else {
-						return res.send("no json post body!")
+						return res.send("   no json post body!")
 					}
 				} catch(e) {
 					console.error("	",e)
