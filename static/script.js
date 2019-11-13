@@ -53,13 +53,18 @@ function addpopup(url,elem) {
 }
 
 var timeoutAnimation = setTimeout(animation,5000)
-async function updateCounters() {
+
+;(async function() {
   var gh = await (await fetch("https://api.github.com/repos/thelmgn/botstion/stats/commit_activity")).json()
   var commits = 0
   for (var week of gh) {
     commits += week.total
   }
   document.getElementById("commits").innerHTML = commits
+})()
+
+async function updateCounters() {
+  
 
 
   var botstion = await (await fetch("/api/info")).json()
@@ -71,6 +76,7 @@ async function updateCounters() {
 updateCounters()
  
 window.onscroll = function(e) {
+  return false //disabled because it looks bad in some browsers
   var percentScrolled = document.scrollingElement.scrollTop / document.querySelector("#hero2").offsetHeight
   document.querySelector("#hero1").style.transiton = "none"
   document.querySelector("#hero1").style.opacity = `${1 - (percentScrolled * 0.75)}`
