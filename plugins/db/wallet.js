@@ -14,7 +14,10 @@ module.exports = {
 				try {
 					var user = a[0].replace("<@","").replace("!","").replace(">","")
 					var amount = parseInt(a[1])
-					var fetched = await c.users.fetch(user)
+					var fetched
+					try {
+						fetched = await c.users.fetch(user)
+					} catch(e) {}
 					if (fetched) {
 						if (!isNaN(amount)) {
 							if (amount < 0) {
@@ -62,7 +65,7 @@ module.exports = {
 					} else {
 						return m.reply(new Discord.MessageEmbed()
 						.setTitle("Who?")
-						.setDescription("I don't know "+ a[0] + " that is.")
+						.setDescription("I don't who "+ a[0] + " is.")
 						.setColor("#ff3860"))
 					}
 					
