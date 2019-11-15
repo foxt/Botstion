@@ -23,6 +23,24 @@ function handleError(e,msg) {
 	return msg.reply({ embed: emb });
 }
 
+function invokeCommand(command,msg,suffix,cmd) {
+	if (msg.guild) {
+		console.log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name}`);
+	} else {
+		console.log(`${msg.author.username} invoked ${cmd}`);
+	}
+	try {
+		var command = command.execute(msg.client, msg, suffix)
+		if (command.catch) {
+			command.catch(function(e) {
+				handleError(e,msg)
+			})
+		}
+	} catch(e) {
+		handleError(e,msg)
+	}
+}
+
 module.exports = {
 	name: "Ganymede",
 	author: "theLMGN",
@@ -74,22 +92,14 @@ module.exports = {
 			const suffix = msg.content.split(" ").splice(1);
 			for (var command of allCommands) {
 				if (cmd == command.name) {
-					if (msg.guild) {
-						console.log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name}`);
-					} else {
-						console.log(`${msg.author.username} invoked ${cmd}`);
+					invokeCommand(command,msg,suffix,cmd)
+					return true;
+				}
+				for (var alias of command.aliases || []) {
+					if (alias == cmd) {
+						invokeCommand(command,msg,suffix,cmd)
+						return true;
 					}
-					try {
-						var command = command.execute(msg.client, msg, suffix)
-						if (command.catch) {
-							command.catch(function(e) {
-								handleError(e,msg)
-							})
-						}
-					} catch(e) {
-						handleError(e,msg)
-					}
-
 				}
 			}
 		},

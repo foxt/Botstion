@@ -32,6 +32,7 @@ module.exports = {
 		name: "info",
 		usage: "",
 		description: "Shows you some information about the bot.",
+		aliases: ["botstion","about"],
 		execute: async(c, m, a) => {
 			var embed = new Discord.MessageEmbed()
 			.setTitle("Botstion⁴")
