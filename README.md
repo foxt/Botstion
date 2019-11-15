@@ -1,4 +1,7 @@
-# botstion
+![Botstion Logo](https://i.imgur.com/c4SJBjb.png)
+
+----
+
 Open-source Discord.js bot with the aim of opening Discord channels to as many APIs as possible.
 
 # Links
