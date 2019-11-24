@@ -18,7 +18,7 @@ module.exports = {
 			usage: "Junction Seven",
 			description: "Lyrics from Genius.com",
 			execute: async(c, msg, args) => {
-				var r = await fetch(`https://api.genius.com/search?q=${url.parse(args.join(" ")).href}`, {headers: {"Authorization": `Bearer ${config.geniusAccessToken}`}})
+				var r = await fetch(`https://api.genius.com/search?q=${encodeURIComponent(args.join(" "))}`, {headers: {"Authorization": `Bearer ${config.geniusAccessToken}`}})
 				var j = await r.json()
 				var songs = j.response.hits;
 				if (songs.length < 1) {
