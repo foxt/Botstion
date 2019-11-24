@@ -48,7 +48,7 @@ module.exports = {
 			.addField(":card_box: Memory Usage", Math.floor(process.memoryUsage().heapUsed / 1024 / 1024) + "mb",true)
 			.addField(":desktop: System", `${process.platform.replace("win32", "Windows").replace("darwin", "macOS")} (${os.release}) on ${os.hostname}`, true)
 			.setColor("#3273dc")
-			m.reply({ embed: embed})
+			return m.reply({ embed: embed})
 		}
 	}]
 };
