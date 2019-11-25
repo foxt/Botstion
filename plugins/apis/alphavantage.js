@@ -51,6 +51,7 @@ module.exports = {
                         .setColor("#ff3860")
                         .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
                 }
+                log(currencies)
                 var floatNumber = parseFloat(a[0])
                 if (isNaN(floatNumber)) {
                     return m.reply({ embed: new Discord.MessageEmbed()
@@ -58,17 +59,24 @@ module.exports = {
                         .setColor("#ff3860")
                         .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
                 }
-                if (currencies.includes(a[1].toLowerCase())) {
+                if (!currencies.includes(a[1].toUpperCase())) {
                     return m.reply({ embed: new Discord.MessageEmbed()
                         .setAuthor(`400: ${a[1]} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
                         .setColor("#ff3860")
                         .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
                 }
-                if (currencies.includes(a[2].toLowerCase())) {
+                
+                if (!currencies.includes(a[2].toUpperCase())) {
                     return m.reply({ embed: new Discord.MessageEmbed()
                         .setAuthor(`400: ${a[2]} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
                         .setColor("#ff3860")
                         .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
+                }
+                if (a[2].toUpperCase() == a[1].toUpperCase()) {
+                    return m.reply({ embed: new Discord.MessageEmbed()
+                        .setTitle(`${floatNumber} ${a[1]} = ${floatNumber} ${a[2]}`)
+                        .setColor("#3273dc")
+                        .setFooter(`Currency conversion powered by alphavantage.io`) });
                 }
                 requestsRemaining -= 1
                 var ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a[1]}&to_currency=${a[2]}&apikey=${config.alphaVantageKey}`)
@@ -92,15 +100,15 @@ module.exports = {
 					requestsRemaining = 5;
 					uptimeAtLastReset = process.uptime();
                 },60000)
-                console.log("[AlphaVantage] Downloading list of real currencies")
+                log("[AlphaVantage] Downloading list of real currencies")
                 var realFetch = await fetch("https://www.alphavantage.co/physical_currency_list/")
                 parseCurrencyList(await realFetch.text())
 
-                console.log("[AlphaVantage] Downloading list of virtual currencies")
+                log("[AlphaVantage] Downloading list of virtual currencies")
                 var digitalFetch = await fetch("https://www.alphavantage.co/digital_currency_list/")
                 parseCurrencyList(await digitalFetch.text())
                 currencyListDownloaded = true
-                console.log(`[AlphaVantage] ${currencies.length} currencies loaded.`)
+                log(`[AlphaVantage] ${currencies.length} currencies loaded.`)
 			}
 		}
 	]

@@ -19,7 +19,7 @@ function handleError(e,msg) {
 			.setDescription('```' + stack + '```')
 			.setFooter(msg.content) });
 		emb.setFooter("This server has been reported to the Botstion development team, and we may message you if we see fit.") 
-	}catch(e){console.error(e)}
+	}catch(e){log.error(e)}
 	return msg.reply({ embed: emb });
 }
 
@@ -56,7 +56,7 @@ async function invokeCommand(command,msg,suffix,cmd) {
 					.then(collected => {})
 					.catch(noop);
 			} catch(e) {
-				console.warn(`Command ${cmd} didn't return a Message object with arguments .`)
+				log.warn(`Command ${cmd} didn't return a Message object with arguments .`)
 			}
 		}
 	} catch(e) {

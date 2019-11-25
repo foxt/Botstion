@@ -1,4 +1,4 @@
-console.log("		[DB] Initializing")
+log("		[DB] Initializing")
 const Sequelize = require('sequelize')
 const fs = require("fs")
 const config = require("../configLoader")
@@ -10,14 +10,14 @@ if (config.sequelize) {
 	const sequelize = new Sequelize(...config.sequelize)
 	db["rawDB"] = sequelize
 
-	console.log("		[DB] Loading schemas")
+	log("		[DB] Loading schemas")
 
 	for (var file of fs.readdirSync("./db/schemas")) {
-		console.log("			[DB] Loading schema " + file)
+		log("			[DB] Loading schema " + file)
 		db.tables[file.replace(/.js/g,"")] = require("./schemas/" + file)(sequelize)
 	}
 } else {
-	console.log("			[DB] no config key! not loading")
+	log("			[DB] no config key! not loading")
 }
 
 var addons = {
@@ -38,9 +38,9 @@ module.exports = {
 	events: [{
 		name: "ready",
 		exec: function() {
-			console.log("[DB] Synchronizing schemas") 
+			log("[DB] Synchronizing schemas") 
 			for (var schema in db.tables) {
-				console.log("	[DB] Synchronizing schema " + schema)
+				log("	[DB] Synchronizing schema " + schema)
 				db.tables[schema].sync()
 			}
 			db["dbLoaded"] = true

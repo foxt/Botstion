@@ -11,7 +11,7 @@ module.exports = {
 		usage: "hello",
 		description: "db test save",
 		execute: async(c, m, a) => {
-			console.log(c.db)
+			log(c.db)
 			if (c.db.dbLoaded && c.db.tables.test) {
 				try {
 					await c.db.tables.test.create({
@@ -33,7 +33,7 @@ module.exports = {
 		usage: "",
 		description: "db test load",
 		execute: async(c, m, a) => {
-			console.log(c.db)
+			log(c.db)
 			if (c.db.dbLoaded && c.db.tables.test) {
 				try {
 					var entries = await c.db.tables.test.findAll({ where: { userId: m.author.id } });

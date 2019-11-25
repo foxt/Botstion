@@ -1,7 +1,7 @@
 const Express = require('express')
 const config = require("../../configLoader")
 
-console.log("		[HTTP] Creating express app")
+log("		[HTTP] Creating express app")
 const app = Express()
 
 app.use(Express.json()); // parsing of json post bodies
@@ -12,7 +12,7 @@ app.use(Express.static('static'))
 
 
 
-console.log("			[HTTP] Done!")
+log("			[HTTP] Done!")
 
 module.exports = {
 	name: "HTTP Server",
@@ -23,7 +23,7 @@ module.exports = {
 	events: [{
 		name: "ready",
 		exec: function(c) {
-			console.log("[HTTP] Adding servers endpoint")
+			log("[HTTP] Adding servers endpoint")
 			app.get("/api/info", async function(req,res) {
 				var j = {
 					serverIcons: [],
@@ -35,7 +35,7 @@ module.exports = {
 				}
 				res.send(JSON.stringify(j))
 			})
-			console.log("[HTTP] Listening on port " + config.httpPort)
+			log("[HTTP] Listening on port " + config.httpPort)
 			app.listen(config.httpPort)
 		}
 	}],

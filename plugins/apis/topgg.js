@@ -12,10 +12,10 @@ function updateServerCount(c) {
 		body: JSON.stringify({server_count: c.guilds.size})
 	}).then(async function(e) {
 		if (!e.ok) {
-			console.error("[t.gg] Updating server count failed,", await e.text())
+			log.error("[t.gg] Updating server count failed,", await e.text())
 		}
 	}).catch(function(e) {
-		console.error("[t.gg] Updating server count failed,",e)
+		log.error("[t.gg] Updating server count failed,",e)
 	})
 }
 
@@ -38,7 +38,7 @@ module.exports = {
 
 			c.express.post("/performVote", async function(req,res) {
 				try {
-					console.log("[t.gg] Incoming vote from " + req.ip)
+					log("[t.gg] Incoming vote from " + req.ip)
 					if (req.get("Authorization") != config.dblToken)  {
 						return res.send("invalid/no auth token!")
 					}
@@ -46,7 +46,7 @@ module.exports = {
 					var vote = req.body
 					if (vote) {
 						if (!vote.bot || vote.bot != c.user.id) {
-							console.log("	wrong bot id ", vote.bot,"!=", c.user.id)
+							log("	wrong bot id ", vote.bot,"!=", c.user.id)
 							return res.send("wrong/no bot id!")
 						}
 						var user = await c.users.fetch(vote.user)
@@ -63,7 +63,7 @@ module.exports = {
 						return res.send("   no json post body!")
 					}
 				} catch(e) {
-					console.error("	",e)
+					log.error("	",e)
 					res.send(e.toString())
 				}
 				

@@ -7,14 +7,14 @@ module.exports = {
 	description: "Evaluates code from a message.",
 	commands: [{
 		name: "eval",
-		usage: "console.log(\"Hello World!\")",
+		usage: "log(\"Hello World!\")",
 		description: "Executes some code.",
 		execute: async(c, m, a) => {
 			if (config.maintainers.includes(m.author.id)) {
 				try {
 					let result = await eval(`(async function() {return ${a.join(" ").replace("c.token", "").replace("client.token", "").replace("[\"token\"]", "")}})()`);
 					var str = JSON.stringify(result)
-					console.log(result,str)
+					log(result,str)
 					if (result && !str) {
 						if (typeof result.toString == "function") {
 							str = result.toString()
