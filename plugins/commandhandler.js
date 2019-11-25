@@ -39,9 +39,9 @@ async function invokeCommand(command,msg,suffix,cmd) {
 			})
 		}
 		rtrn = await rtrn
-		if (rtrn.react) {
-			rtrn.react("🗑️").then(noop).catch(noop);
+		if (rtrn && typeof rtrn.react != "undefined") {
 			try {
+				rtrn.react("🗑️").then(noop).catch(noop);
 				const filter = (reaction, user) => {
 					if (reaction.emoji.name === '🗑️' &&
 						!user.bot &&
@@ -56,8 +56,10 @@ async function invokeCommand(command,msg,suffix,cmd) {
 					.then(collected => {})
 					.catch(noop);
 			} catch(e) {
-				log.warn(`Command ${cmd} didn't return a Message object with arguments .`)
+				
 			}
+		} else {
+			log.warn(`Command ${cmd} didn't return a Message object with arguments .`)
 		}
 	} catch(e) {
 		handleError(e,msg)
