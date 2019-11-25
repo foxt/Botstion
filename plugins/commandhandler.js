@@ -23,11 +23,13 @@ function handleError(e,msg) {
 	return msg.reply({ embed: emb });
 }
 
+function noop(){}
+
 async function invokeCommand(command,msg,suffix,cmd) {
 	if (msg.guild) {
-		console.log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name}`);
+		log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name}`);
 	} else {
-		console.log(`${msg.author.username} invoked ${cmd}`);
+		log(`${msg.author.username} invoked ${cmd}`);
 	}
 	try {
 		var rtrn = command.execute(msg.client, msg, suffix)
@@ -38,9 +40,7 @@ async function invokeCommand(command,msg,suffix,cmd) {
 		}
 		rtrn = await rtrn
 		if (rtrn.react) {
-			try {
-				var reaction = rtrn.react("🗑️");
-			} catch(e) {}
+			rtrn.react("🗑️").then(noop).catch(noop);
 			try {
 				const filter = (reaction, user) => {
 					if (reaction.emoji.name === '🗑️' &&
@@ -48,15 +48,15 @@ async function invokeCommand(command,msg,suffix,cmd) {
 						(user.id == msg.author.id ||
 							(!rtrn.guild ||
 							 rtrn.guild.members.get(user.id).hasPermission("MANAGE_MESSAGES")))) {
-							rtrn.edit({content: `(message was deleted by ${user.username})`,embed: null})
-							rtrn.reactions.removeAll()
+							rtrn.edit({content: `(message was deleted by ${user.username})`,embed: null}).then(noop).catch(noop)
+							rtrn.reactions.removeAll().then(noop).catch(noop)
 						}
 				}
 				rtrn.awaitReactions(filter, { time: 15000 })
 					.then(collected => {})
-					.catch(console.error);
+					.catch(noop);
 			} catch(e) {
-				
+				console.warn(`Command ${cmd} didn't return a Message object with arguments .`)
 			}
 		}
 	} catch(e) {
