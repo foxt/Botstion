@@ -5,7 +5,7 @@ function randomString(length, chars) {
 }
 
 module.exports = function(db) {
-    function generateId() {
+    async function generateId() {
         var id = randomString(5,"abcdefghijklmnopqrstuvwxyz")
         var elem = await db.tables.modEvent.findOne({ where: { eventId: id } });
         if (elem) {
