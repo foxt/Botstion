@@ -21,7 +21,7 @@ module.exports = {
 
 				var r = await fetch(`https://xkcd.com/${a[0]}info.0.json`)
 				var comic = await r.json()
-				m.reply({ embed: new Discord.MessageEmbed().setTitle(`Comic #${comic.num}: ${comic.title} (${comic.day}/${comic.month}/${comic.year})`)
+				return m.reply({ embed: new Discord.MessageEmbed().setTitle(`Comic #${comic.num}: ${comic.title} (${comic.day}/${comic.month}/${comic.year})`)
 					.setFooter(comic.alt)
 					.setImage(comic.img)
 					.setColor("#96A8C8")})

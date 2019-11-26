@@ -96,8 +96,9 @@ module.exports = {
 							if (bcBadge == "bc") {
 								bcBadge = "[BC]"
 							}
-							if (bcBadge == "premium-medium")
-							bcBadge = bcBadge + "[Premium]"
+							if (bcBadge == "premium-medium") {
+								bcBadge = "[Premium]"
+							}
 						}
 						var embed = new Discord.MessageEmbed()
 						.setColor("#E2231A")
@@ -111,8 +112,8 @@ module.exports = {
 						try {embed.addField("Previous Usernames",JSON.parse($(".profile-header-content > script")[0].childNodes[0].data.replace(`var Roblox=Roblox||{};Roblox.ProfileHeaderData=`,"").replace(`;`,"")).previoususernames)}catch{}
 						try {embed.addField("Status",info["data-statustext"],false)}catch{}
 						try {embed.setDescription($(".profile-about-content-text")[0].childNodes[0].data)}catch{}
-						embed.setAuthor(bcBadge + userName, "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + userID)
-						e.edit({embed:embed})
+						embed.setAuthor(bcBadge.replace("premium-medium","") + userName, "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + userID)
+						return e.edit({embed:embed})
 					}
 
 				} else if (a.length < 1) {
@@ -198,7 +199,7 @@ module.exports = {
 							embed.addField("Remaining", details.Remaining || "0")
 						}
 
-						e.edit({embed:embed})
+						return e.edit({embed:embed})
 					}
 
 				} else if (a.length < 1) {

@@ -99,7 +99,7 @@ module.exports = {
 			usage: "battlenet theLMGN#2143",
 			description: "Overwatch statistics. (Powered by https://thetrackernetwork.com/, valid platforms are currently `battlenet`,`xbl` and `psn`)",
 			execute: async(c, m, a) => {
-				await trnCmdHandler({
+				return await trnCmdHandler({
 					id: "overwatch",
 					name: "Overwatch",
 					logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Overwatch_circle_logo.svg/768px-Overwatch_circle_logo.svg.png",
@@ -114,7 +114,7 @@ module.exports = {
 			usage: "origin thetheLMGN",
 			description: "Apex Legends statistics. (Powered by https://thetrackernetwork.com/, valid platforms are currently `origin`,`xbl` and `psn`)",
 			execute: async(c, m, a) => {
-				await trnCmdHandler({
+				return trnCmdHandler({
 					id: "apex",
 					name: "Apex Legends",
 					logo: "https://upload.wikimedia.org/wikipedia/fr/thumb/0/03/Apex_Legends_Logo.png/1200px-Apex_Legends_Logo.png",
@@ -129,7 +129,7 @@ module.exports = {
 			usage: "steam lmgngaming",
 			description: "CS:GO statistics. (Powered by https://thetrackernetwork.com/, platform must be `steam`)",
 			execute: async(c, m, a) => {
-				await trnCmdHandler({
+				return trnCmdHandler({
 					id: "csgo",
 					name: "Counter Strike: Global Offensive",
 					logo: "https://upload.wikimedia.org/wikipedia/en/thumb/1/1b/CS-GO_Logo.svg/1280px-CS-GO_Logo.svg.png",
@@ -145,7 +145,7 @@ module.exports = {
 			usage: "platform username",
 			description: "The Division 2 statistics. (Powered by https://thetrackernetwork.com/, platform must be `uplay`, `xbl` or `psn`)",
 			execute: async(c, m, a) => {
-				await trnCmdHandler({
+				return trnCmdHandler({
 					id: "division-2",
 					name: "The Division 2",
 					logo: "https://upload.wikimedia.org/wikipedia/en/a/af/The_Division_2_art.jpg",

@@ -61,7 +61,7 @@ module.exports = {
 						em.addField(df,data)
 					}
 
-					await e.edit({ embed: em });
+					return e.edit({ embed: em });
 				}
 			},
 		},
