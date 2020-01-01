@@ -4,6 +4,97 @@ const fetch = require("node-fetch");
 
 const assetTypes = ["???", "Image", "T-Shirt", "Audio", "Mesh", "Lua", "HTML", "Text", "Hat", "Place", "Model", "Shirt", "Pants", "Decal", "???","???", "Avatar", "Head", "Face", "Gear", "???", "Badge", "Group Emblem", "???", "Animation", "Arms", "Legs", "Torso", "Right Arm", "Left Arm", "Left Leg", "Right Leg", "Package", "YouTubeVideo", "Game Pass", "App", "???", "Code", "Plugin", "SolidModel", "MeshPart", "Hair Accessory", "Face Accessory", "Neck Accessory", "Shoulder Accessory", "Front Accessory", "Back Accessory", "Waist Accessory", "Climb Animation", "Death Animation", "Fall Animation", "Idle Animation", "Jump Animation", "Run Animation", "Swim Animation", "Walk Animation", "Pose Animation"]
 
+async function getAssetThumbnail(id) {
+	var ftch = await fetch("https://www.roblox.com/asset-thumbnail/json?width=420&height=420&format=png&assetId=" + id)
+	var j = await ftch.json()
+	if (!j.Final) {
+		return "https://www.roblox.com/asset-thumbnail/image?width=420&height=420&format=png&assetId=" + id
+	}
+	return j.Url
+}
+
+async function embedAsset(m,a) {
+	var input = a[0]
+
+	var e = await m.reply({ embed: new Discord.MessageEmbed()
+		.setTitle("Working...")
+		.setDescription(`Please wait a few seconds`)
+		.setColor("#ffdd57") });
+	if (a.length >= 1) {
+		if (isNaN(input)) {
+			return e.edit({ embed: new Discord.MessageEmbed()
+				.setAuthor("400: Invalid ID", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+				.setColor("#ff3860")
+				.setFooter('This command only accepts 1 argument, asset id') });
+		}
+		var ftch = await fetch(`https://api.roblox.com/marketplace/productinfo?assetId=${input}`)
+		if (!ftch.ok) {
+			return e.edit({ embed: new Discord.MessageEmbed()
+				.setAuthor("404: Not found", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+				.setColor("#ff3860")
+				.setFooter('Double check the provided ID') });
+		}
+		var details = await ftch.json()
+		if (details) {
+			var tags = []
+			if (details.IsNew) {
+				tags.push("[New]")
+			}
+			if (details.IsLimited && !details.IsLimitedUnique) {
+				tags.push("[Limited]")
+			}
+			if (details.IsLimited && details.IsLimitedUnique) {
+				tags.push("[LimitedU]")
+			}
+			if (details.MinimumMembershipLevel > 0) {
+				tags.push("[BC Only]")
+			}
+			if (details.ContentRatingTypeId > 0) {
+				tags.push("[13+]")
+			}
+			tags.push(details.Name)
+			var pfp = undefined
+			if (details.Creator.CreatorType == "User") {
+				pfp = "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + details.Creator.CreatorTargetId
+			} else {
+				try {
+					var ftch = await fetch("https://api.roblox.com/groups/" + details.Creator.CreatorTargetId)
+					if (ftch.ok) {
+						var gdetails = await ftch.json()
+						pfp = gdetails.EmblemUrl
+					}
+				} catch(e) {
+				}
+			}
+			var embed = new Discord.MessageEmbed()
+			.setColor("#E2231A")
+			.setThumbnail(await getAssetThumbnail(details.AssetId))
+			.setDescription(details.Description)
+			.setTitle(tags.join(" "))
+				.setAuthor(details.Creator.Name, pfp, details.Creator.CreatorType == "User" ? `https://roblox.com/users/${details.Creator.CreatorTargetId}/profile` : "https://www.roblox.com/groups/" + details.Creator.CreatorTargetId)
+			.addField("Type", assetTypes[details.AssetTypeId])
+			.addField("Public Domain?", details.IsPublicDomain ? "Yes" : "No")
+			.addField("For Sale?", details.IsForSale ? "Yes" : "No")
+			.addField("Created", new Date(details.Created))
+			.addField("Updated", new Date(details.Updated))
+			if (details.Sales > 0 || details.PriceInRobux) {
+				embed.addField(details.PriceInRobux ? "Price" : "Sales", details.PriceInRobux ? `R$${details.PriceInRobux} (${details.Sales} sales)` : details.Sales)
+			}
+			if (details.IsLimited || details.Remaining) {
+				embed.addField("Remaining", details.Remaining || "0")
+			}
+
+			return e.edit({embed:embed})
+		}
+
+	} else if (a.length < 1) {
+		return e.edit({ embed: new Discord.MessageEmbed()
+			.setTitle("400: Too few arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+			.setColor("#ff3860")
+			.setFooter('This command only accepts 1 argument, Username, User ID or Discord mention') });
+	}
+}
+
 module.exports = {
 	name: "Roblox API Support",
 	author: "theLMGN",
@@ -119,14 +210,10 @@ module.exports = {
 				}
 			},
 		},
-
-
-
-
 		{
-			name: "rblxasset",
-			usage: "14083380",
-			description: "Shows you the information of a Roblox asset provided by it's ID",
+			name: "rblxgroup",
+			usage: "3534114",
+			description: "Shows you the profile of a Roblox group. Requires ID, not name",
 			execute: async(c, m, a) => {
 				var input = a[0]
 
@@ -139,9 +226,9 @@ module.exports = {
 						return e.edit({ embed: new Discord.MessageEmbed()
 							.setAuthor("400: Invalid ID", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 							.setColor("#ff3860")
-							.setFooter('This command only accepts 1 argument, asset id') });
+							.setFooter('This command only accepts 1 argument, group id') });
 					}
-					var ftch = await fetch(`https://api.roblox.com/marketplace/productinfo?assetId=${input}`)
+					var ftch = await fetch("https://api.roblox.com/groups/" + input)
 					if (!ftch.ok) {
 						return e.edit({ embed: new Discord.MessageEmbed()
 							.setAuthor("404: Not found", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
@@ -150,54 +237,15 @@ module.exports = {
 					}
 					var details = await ftch.json()
 					if (details) {
-						var tags = []
-						if (details.IsNew) {
-							tags.push("[New]")
-						}
-						if (details.IsLimited && !details.IsLimitedUnique) {
-							tags.push("[Limited]")
-						}
-						if (details.IsLimited && details.IsLimitedUnique) {
-							tags.push("[LimitedU]")
-						}
-						if (details.MinimumMembershipLevel > 0) {
-							tags.push("[BC Only]")
-						}
-						if (details.ContentRatingTypeId > 0) {
-							tags.push("[13+]")
-						}
-						tags.push(details.Name)
-						var pfp = undefined
-						if (details.Creator.CreatorType == "Player") {
-							pfp = "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + details.Creator.CreatorTargetId
-						} else {
-							try {
-								var ftch = await fetch("https://api.roblox.com/groups/" + details.Creator.CreatorTargetId)
-								if (ftch.ok) {
-									var gdetails = await ftch.json()
-									pfp = gdetails.EmblemUrl
-								}
-							} catch(e) {
-							}
-						}
+						
 						var embed = new Discord.MessageEmbed()
 						.setColor("#E2231A")
-						.setThumbnail("https://www.roblox.com/asset-thumbnail/image?width=420&height=420&format=png&assetId=" + details.AssetId)
+						.setThumbnail(await getAssetThumbnail(details.EmblemUrl.split("=")[1]))
 						.setDescription(details.Description)
-						.setTitle(tags.join(" "))
-							.setAuthor(details.Creator.Name, pfp, details.Creator.CreatorType == "Player" ? `https://roblox.com/users/${details.Creator.CreatorTargetId}/profile` : "https://www.roblox.com/groups/" + details.Creator.CreatorTargetId)
-						.addField("Type", assetTypes[details.AssetTypeId])
-						.addField("Public Domain?", details.IsPublicDomain ? "Yes" : "No")
-						.addField("For Sale?", details.IsForSale ? "Yes" : "No")
-						.addField("Created", new Date(details.Created))
-						.addField("Updated", new Date(details.Updated))
-						if (details.Sales > 0 || details.PriceInRobux) {
-							embed.addField(details.PriceInRobux ? "Price" : "Sales", details.PriceInRobux ? `R$${details.PriceInRobux} (${details.Sales} sales)` : details.Sales)
-						}
-						if (details.IsLimited || details.Remaining) {
-							embed.addField("Remaining", details.Remaining || "0")
-						}
-
+						.setTitle(details.Name)
+						.setURL(`https://roblox.com/groups/` + details.Id)
+						.setFooter("Group ID: " + details.Id)
+						.setAuthor(details.Owner.Name, "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + details.Owner.Id, `https://roblox.com/users/${details.Owner.Id}/profile`)
 						return e.edit({embed:embed})
 					}
 
@@ -205,8 +253,17 @@ module.exports = {
 					return e.edit({ embed: new Discord.MessageEmbed()
 						.setTitle("400: Too few arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 						.setColor("#ff3860")
-						.setFooter('This command only accepts 1 argument, Username, User ID or Discord mention') });
+						.setFooter('This command only accepts 1 argument, group ID') });
 				}
+			},
+		},
+
+		{
+			name: "rblxasset",
+			usage: "14083380",
+			description: "Shows you the information of a Roblox asset provided by it's ID",
+			execute: (c, m, a) => {
+				return embedAsset(m,a)
 			},
 		},
 	]
