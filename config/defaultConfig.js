@@ -11,7 +11,6 @@ module.exports = {
 	trackerNetworkApiKey: "https://tracker.gg/developers", // used for fortnite, csgo, division, apex, etc
 	ipinfoioToken: "https://ipinfo.io/",
 	googleApi: "", // Used for b!ip maps, turn on the maps API
-	imgurClientID: "https://api.imgur.com/oauth2/addclient", // required for b!shortcuts
 	darkskyApiKey: "https://darksky.net/dev", //required for b!weather
 	alphaVantageKey: "https://www.alphavantage.co/support/#api-key", // used for b!currency and b!stocks
 	sequelize: [ // these are the arguments passed to the Sequelize init, see http://docs.sequelizejs.com/class/lib/sequelize.js~Sequelize.html

@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const shortcuts = require("shortcuts.js")
-const apiKey = require("../../configLoader").imgurClientID
 
 
 module.exports = {
@@ -8,7 +7,6 @@ module.exports = {
 	author: "theLMGN",
 	version: 1,
 	description: "Data on Apple iOS Shortcuts",
-	requiresConfig: "imgurClientID",
 	commands: [
 		{
 			name: "shortcuts",
@@ -29,13 +27,6 @@ module.exports = {
 					if (id) {
 						var shortcut = await shortcuts.getShortcutDetails(id);
 						var metadata = await shortcut.getMetadata();
-						var imgur = await require("node-fetch")("https://api.imgur.com/3/image", {
-							body: JSON.stringify({image: shortcut.icon.downloadURL}),
-							headers: {
-								"Authorization": "Client-ID " + apiKey
-							},
-							method: "POST"
-						})
 						var output = ""
 						if (metadata.importQuestions.length > 0) {
 							output = output + `**Import questions (${metadata.importQuestions.length}):**`
@@ -67,7 +58,6 @@ module.exports = {
 						return e.edit({ embed: new Discord.MessageEmbed()
 							.setTitle(shortcut.name)
 							.setColor("#" + shortcut.icon.color.toString(16).substring(0,6))
-							.setThumbnail((await imgur.json()).link)
 							.setURL("https://www.icloud.com/shortcuts/" + shortcut.id)
 							.setDescription(output)
 							.setFooter('Shortcut last updated ' + shortcut.modificationDate.toString()) });
