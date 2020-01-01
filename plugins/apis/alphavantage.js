@@ -39,12 +39,6 @@ module.exports = {
                         .setColor("#ff3860")
                         .setFooter(`Try again in ${60 - Math.floor(process.uptime() - uptimeAtLastReset)} seconds.`) });
                 }
-                if (a.length > 3) {
-                    return m.reply({ embed: new Discord.MessageEmbed()
-                        .setAuthor("400: Too many arguments", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-                        .setColor("#ff3860")
-                        .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
-                }
                 if (a.length < 3) {
                     return m.reply({ embed: new Discord.MessageEmbed()
                         .setAuthor("400: Too few arguments", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")

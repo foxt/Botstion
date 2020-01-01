@@ -57,12 +57,7 @@ async function trnHandler(game,platform,username,m,c) {
 }
 
 async function trnCmdHandler(game,c,m,a) {
-	if (a.length > 2) {
-		return m.reply({ embed: new Discord.MessageEmbed()
-			.setAuthor("414: Too many arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-			.setColor("#ff3860")
-			.setFooter(`This command only accepts 2 arguments, \`platform\` and \`username\`. Try this \`${game.exampleCommand}\` (valid platforms are currently ${game.platforms.join(", ")})`) });
-	} else if (a.length == 2) {
+	if (a.length >= 2) {
 		var platform = a[0]
 		if (!game.platforms.includes(platform)) {
 			return m.reply({ embed: new Discord.MessageEmbed()

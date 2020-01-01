@@ -15,12 +15,7 @@ module.exports = {
 			usage: "8.8.8.8",
 			description: "ipinfo.io support",
 			execute: async(c, m, a) => {
-				if (a.length > 1) {
-					return m.reply({ embed: new Discord.MessageEmbed()
-						.setAuthor("414: Too many arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-						.setColor("#ff3860")
-						.setFooter('This command only accepts 1 argument, `iporasn`. Try this: `b!ip 8.8.8.8` or `b!ip AS15169`') });
-				} else if (a.length == 1) {
+				if (a.length >= 1) {
 					if (a[0] == "") {
 						return m.reply({ embed: new Discord.MessageEmbed()
 							.setAuthor("414: Too many arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")

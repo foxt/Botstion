@@ -20,12 +20,7 @@ module.exports = {
 					.setTitle("Working...")
 					.setDescription(`Please wait a few seconds`)
 					.setColor("#ffdd57") });
-				if (a.length > 1) {
-					return e.edit({ embed: new Discord.MessageEmbed()
-						.setAuthor("414: Too many arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-						.setColor("#ff3860")
-						.setFooter('This command only accepts 1 argument, Shortcut URL.') });
-				} else if (a.length == 1) {
+				if (a.length >= 1) {
 					var input = a[0]
 					var id = shortcuts.idFromURL(input)
 					if (input.length == 32) {

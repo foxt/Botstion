@@ -21,12 +21,7 @@ module.exports = {
 					.setTitle("Working...")
 					.setDescription(`Please wait a few seconds`)
 					.setColor("#ffdd57") });
-				if (a.length > 1) {
-					return e.edit({ embed: new Discord.MessageEmbed()
-						.setAuthor("414: Too many arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-						.setColor("#ff3860")
-						.setFooter('This command only accepts 1 argument, Username, User ID or Discord mention') });
-				} else if (a.length == 1) {
+				if (a.length >= 1) {
 					var userID = 0;
 					var userName = ""
 					if (!isNaN(new Number(input))) { // UserID checker
@@ -139,12 +134,7 @@ module.exports = {
 					.setTitle("Working...")
 					.setDescription(`Please wait a few seconds`)
 					.setColor("#ffdd57") });
-				if (a.length > 1) {
-					return e.edit({ embed: new Discord.MessageEmbed()
-						.setAuthor("414: Too many arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-						.setColor("#ff3860")
-						.setFooter('This command only accepts 1 argument, asset id') });
-				} else if (a.length == 1) {
+				if (a.length >= 1) {
 					if (isNaN(input)) {
 						return e.edit({ embed: new Discord.MessageEmbed()
 							.setAuthor("400: Invalid ID", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")

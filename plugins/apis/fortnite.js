@@ -16,12 +16,7 @@ module.exports = {
 			usage: "pc theLMGN",
 			description: "Fortnite statistics. (Powered by https://fortnitetracker.com/, valid platforms are currently `pc`,`xbl` and `psn`)",
 			execute: async(c, m, a) => {
-				if (a.length > 2) {
-					return m.reply({ embed: new Discord.MessageEmbed()
-						.setAuthor("414: Too many arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-						.setColor("#ff3860")
-						.setFooter('This command only accepts 2 arguments, `platform` and `epicUsername`. Try this `b!fortnite pc theLMGN` (valid platforms are currently `pc`,`xbl` and `psn`)') });
-				} else if (a.length == 2) {
+				if (a.length >= 2) {
 					var platform = a[0]
 					if (!(a[0] == "pc" || a[0] == "psn" || a[0] == "xbl")) {
 						return m.reply({ embed: new Discord.MessageEmbed()
