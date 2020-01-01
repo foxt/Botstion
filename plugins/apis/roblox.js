@@ -186,7 +186,7 @@ module.exports = {
 						.setThumbnail("https://www.roblox.com/asset-thumbnail/image?width=420&height=420&format=png&assetId=" + details.AssetId)
 						.setDescription(details.Description)
 						.setTitle(tags.join(" "))
-						.setAuthor(details.Creator.Name, pfp, details.Creator.CreatorType == "Player" ? `https://roblox.com/users/${details.Creator.Id}/profile` : `https://roblox.com/Groups/Group.aspx?gid=${details.Creator.Id}`)
+						.setAuthor(details.Creator.Name, pfp, details.Creator.CreatorType == "Player" ? `https://roblox.com/users/${details.Creator.Id}/profile` : `https://www.roblox.com/groups/${details.Creator.Id}`)
 						.addField("Type", assetTypes[details.AssetTypeId])
 						.addField("Public Domain?", details.IsPublicDomain ? "Yes" : "No")
 						.addField("For Sale?", details.IsForSale ? "Yes" : "No")
