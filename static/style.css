@@ -63,7 +63,7 @@ body {
 }
 #hero1 {
   max-height: calc(var(--vh, 1vh) * 100); /* fix for safari mobile 100vh being the entire screen, not the viewport */
-  position: fixed;
+  /*position: fixed;*/
   width: 100vw;
 }
 #hero2 {
