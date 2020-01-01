@@ -179,14 +179,23 @@ module.exports = {
 						tags.push(details.Name)
 						var pfp = undefined
 						if (details.Creator.CreatorType == "Player") {
-							pfp = "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + details.Creator.Id
+							pfp = "https://www.roblox.com/headshot-thumbnail/image?width=420&height=420&format=png&userId=" + details.Creator.CreatorTargetId
+						} else {
+							try {
+								var ftch = await fetch("https://api.roblox.com/groups/" + details.Creator.CreatorTargetId)
+								if (ftch.ok) {
+									var gdetails = await ftch.json()
+									pfp = gdetails.EmblemUrl
+								}
+							} catch(e) {
+							}
 						}
 						var embed = new Discord.MessageEmbed()
 						.setColor("#E2231A")
 						.setThumbnail("https://www.roblox.com/asset-thumbnail/image?width=420&height=420&format=png&assetId=" + details.AssetId)
 						.setDescription(details.Description)
 						.setTitle(tags.join(" "))
-						.setAuthor(details.Creator.Name, pfp, details.Creator.CreatorType == "Player" ? `https://roblox.com/users/${details.Creator.Id}/profile` : `https://www.roblox.com/groups/${details.Creator.Id}`)
+							.setAuthor(details.Creator.Name, pfp, details.Creator.CreatorType == "Player" ? `https://roblox.com/users/${details.Creator.CreatorTargetId}/profile` : "https://www.roblox.com/groups/" + details.Creator.CreatorTargetId)
 						.addField("Type", assetTypes[details.AssetTypeId])
 						.addField("Public Domain?", details.IsPublicDomain ? "Yes" : "No")
 						.addField("For Sale?", details.IsForSale ? "Yes" : "No")
