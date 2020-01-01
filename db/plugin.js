@@ -13,8 +13,10 @@ if (config.sequelize) {
 	log("		[DB] Loading schemas")
 
 	for (var file of fs.readdirSync("./db/schemas")) {
-		log("			[DB] Loading schema " + file)
-		db.tables[file.replace(/.js/g,"")] = require("./schemas/" + file)(sequelize)
+		if (file.endsWith(".js")) {
+			log("			[DB] Loading schema " + file)
+			db.tables[file.replace(/.js/g,"")] = require("./schemas/" + file)(sequelize)
+		}
 	}
 } else {
 	log("			[DB] no config key! not loading")
@@ -26,7 +28,9 @@ var addons = {
 }
 
 for (var addon of fs.readdirSync("./db/helperaddons")) {
-	addons[addon.replace(".js","")] = require("./helperaddons/" + addon)(db)
+	if (addon.endsWith(".js")) {
+		addons[addon.replace(".js","")] = require("./helperaddons/" + addon)(db)
+	}
 }
 
 module.exports = {
