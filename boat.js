@@ -8,6 +8,11 @@ require("./configUpdate")
 const config = require("./configLoader")
 
 const client = new discord.Client();
+client.meta = {
+	name: "Botstion 4",
+	devs: "theLMGN, SunburntRock89",
+	git : "https://github.com/thelmgn/botstion",
+}
 
 const plugins = [];
 
