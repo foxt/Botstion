@@ -4,7 +4,7 @@ const config = require("../configLoader");
 const Discord = require("discord.js");
 
 function handleError(e,msg) {
-	var stack = e.stack
+	var stack = (e.stack || e.toString())
 	if (stack.length > 1950) {
 		stack = stack.substr(0,1950)
 	}
