@@ -71,7 +71,7 @@ module.exports = {
                 }
                 return m.reply(new Discord.MessageEmbed()
                         .setTitle("#" + j.id + " " + j.fav_count + "❤️ " + j.score.total + "⬆️")
-                        .setDescription(tagString)
+                        .setDescription(tagString.replace(/_/g,"\\_"))
                         .setImage(j.file.url)
                         .setURL("https://e621.net/posts/" + j.id)
                         .setColor("#284a81"))
