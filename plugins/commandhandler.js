@@ -5,6 +5,7 @@ const Discord = require("discord.js");
 const argparser = require("../util/argparser")
 
 async function handleError(e,msg) {
+	if (e.handled) {return}
 	var stack = (e.stack || e.toString())
 	if (stack.length > 1950) {
 		stack = stack.substr(0,1950)
@@ -21,6 +22,7 @@ async function handleError(e,msg) {
 			.setFooter(msg.content) });
 		emb.setFooter("This server has been reported to the Botstion development team, and we may message you if we see fit.") 
 	}catch(e){console.error(e)}
+	e.handled = true
 	return msg.reply({ embed: emb });
 }
 

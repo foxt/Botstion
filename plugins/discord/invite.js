@@ -1,31 +1,30 @@
 const Discord = require("discord.js");
 const fetch = require("node-fetch")
-class UserFlags extends Discord.BitField {
-    FLAGS = {
-        DISCORD_EMPLOYEE: 1 << 0,
-        PARTNERED_SERVER_OWNER: 1 << 1,
-        HYPESQUAD_EVENTS: 1 << 2,
-        BUGHUNTER_LEVEL_1: 1 << 3,
-        HOUSE_BRAVERY: 1 << 6,
-        HOUSE_BRILLIANCE: 1 << 7,
-        HOUSE_BALANCE: 1 << 8,
-        EARLY_SUPPORTER: 1 << 9,
-        TEAM_USER: 1 << 10,
-        SYSTEM: 1 << 12,
-        BUGHUNTER_LEVEL_2: 1 << 14,
-        VERIFIED_BOT: 1 << 16,
-        EARLY_VERIFIED_DEVELOPER: 1 << 17,
-    };
-}
+class UserFlags extends Discord.BitField {}
+UserFlags.FLAGS = {
+    DISCORD_EMPLOYEE: 1 << 0,
+    PARTNERED_SERVER_OWNER: 1 << 1,
+    HYPESQUAD_EVENTS: 1 << 2,
+    BUGHUNTER_LEVEL_1: 1 << 3,
+    HYPESQUAD_BRAVERY: 1 << 6,
+    HYPESQUAD_BRILLIANCE: 1 << 7,
+    HYPESQUAD_BALANCE: 1 << 8,
+    EARLY_SUPPORTER: 1 << 9,
+    TEAM_USER: 1 << 10,
+    SYSTEM: 1 << 12,
+    BUGHUNTER_LEVEL_2: 1 << 14,
+    VERIFIED_BOT: 1 << 16,
+    EARLY_VERIFIED_DEVELOPER: 1 << 17,
+};
 var userFlags =  {
     DISCORD_EMPLOYEE: "Employee", //
     PARTNERED_SERVER_OWNER: "Partner", //
     HYPESQUAD_EVENTS: "HypeSquad (Old)",//
     BUGHUNTER_LEVEL_1: "BugHunter",//
     BUGHUNTER_LEVEL_2: "Gold BugHunter",//
-    HOUSE_BRAVERY: "Bravery",//
-    HOUSE_BRILLIANCE: "Brilliance", //
-    HOUSE_BALANCE: "Balance", //
+    HYPESQUAD_BRAVERY: "Bravery",//
+    HYPESQUAD_BRILLIANCE: "Brilliance", //
+    HYPESQUAD_BALANCE: "Balance", //
     EARLY_SUPPORTER: "Early Supporter", // 
     TEAM_USER: "Team",
     SYSTEM: "System",
@@ -89,9 +88,11 @@ module.exports = {
                         (j.guild.banner ? `[Splash](https://cdn.discordapp.com/splashes/${j.guild.id}/${j.guild.splash}.png?size=2048)` : ""))
                 }
                 if (j.inviter) {
-                    var flags = new Discord.UserFlags(j.inviter.public_flags);
+                    var flags = new UserFlags(j.inviter.public_flags);
                     console.log(flags)
+                    var emojis = flags.toArray().map((f) => flagEmojis[f] ? "<:" + f + ":" + flagEmojis[f] + ">" : userFlags[f] ? userFlags[f] : f)
                     embed.setAuthor(j.inviter.username + "#" + j.inviter.discriminator + " (" + j.inviter.id + ")", `https://cdn.discordapp.com/avatars/${j.inviter.id}/${j.inviter.avatar}.${j.inviter.avatar.startsWith("a_") ? "gif" : "png"}?size=2048`) 
+                    embed.addField("Inviter",`${emojis.join("")} [${j.inviter.username}#${j.inviter.discriminator}](https://discord.com/users/${j.inviter.id}) (${j.inviter.id}) [\\[PFP\\]](https://cdn.discordapp.com/avatars/${j.inviter.id}/${j.inviter.avatar}.${j.inviter.avatar.startsWith("a_") ? "gif" : "png"}?size=2048)`) 
                 }
                 if (j.description) {
                     embed.setDescription(j.description)
@@ -101,4 +102,3 @@ module.exports = {
 		}
 	]
 };
-🚧

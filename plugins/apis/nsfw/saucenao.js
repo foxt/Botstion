@@ -25,18 +25,34 @@ module.exports = {
 						.setColor("#ff3860")
 						.setFooter(`Due to the NSFW content that SauceNAO might return, this command cannot be ran here. Try again in DMs or in a NSFW channel.`) });
                 }
-                var ftch = await fetch("https://saucenao.com/search.php?numres=1&output_type=2" + (config.sourceNAOApiKey ? "&api_key=" + sourceNAOApiKey : "") + "&url=" + encodeURIComponent(a[0]))
+                var ftch = await fetch("https://saucenao.com/search.php?output_type=2" + (config.sourceNAOApiKey ? "&api_key=" + config.sourceNAOApiKey  : "") + "&url=" + encodeURIComponent(a.url))
                 var j = await ftch.json()
                 if (j.header.message) {
                     return m.reply({ embed: new Discord.MessageEmbed()
 						.setAuthor(j.header.message, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 						.setColor("#ff3860")})
                 } else {
-                    return m.reply({ embed: new Discord.MessageEmbed()
-                        .setThumbnail(j.results[0].header.thumbnail)
-                        .setURL(j.results[0].data.ext_urls[0])
-                        .setTitle(j.results[0].header.index_name + " " + j.results[0].data.creator + " (" + j.results[0].header.similarity + "%)")
-						.setColor("#3273dc")})
+                    var embeds = []
+                    for (var r of j.results) {
+                        var e = new Discord.MessageEmbed()
+                        .setThumbnail(r.header.thumbnail)
+                        .setDescription("**URLs:**\n"+ (r.data.ext_urls || []).join("\n"))
+                        .setTitle(r.header.index_name + " " + (r.data.creator || "")+ " (" + r.header.similarity + "%)")
+                        .setColor("#3273dc")
+                        if (r.data.source) {
+                            e.addField("Source",r.data.source)
+                        }
+                        embeds.push(e)
+                    }
+                    if (embeds.length > 1) {
+                        c.paginate(m,embeds)
+                    } else if (embeds.length == 1) {
+                        return m.reply(embeds[0])
+                    } else {
+                        return m.reply(new Discord.MessageEmbed()
+                        .setTitle("No results")
+                        .setColor("#ff3860"))
+                    }
                 }
             }
         }

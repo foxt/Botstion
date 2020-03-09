@@ -88,51 +88,44 @@ module.exports = {
 			usage: "word playerName=theLMGN",
 			description: "Show Beat Saber ranking for a player. Accepts username or SteamID64.",
 			execute: async(c, m, a) => {
-				if (a[0]) {
-                    var un = encodeURIComponent(a[0])
-                    var msg 
-                    if (!isNaN(parseInt(un))) {
-                        msg = await m.reply(new Discord.MessageEmbed().setColor("#ffdd57").setTitle("Validating ID `" + un + "`"))
-                        var j = await (await fetch(`https://new.scoresaber.com/api/player/${un}/full`)).json()
-                        if (!j.error) {
-                            createPage(msg,j,m)
-                            //return msg
-                        }
-                    }
-                    msg = (msg || await m.reply(new Discord.MessageEmbed().setColor("#ffdd57").setTitle("Searching for player `" + un + "`")))
-                    var j = await (await fetch(`https://new.scoresaber.com/api/players/by-name/` + un)).json()
-                    if (j.error) {
-                        return msg.edit({ embed: new Discord.MessageEmbed()
-                            .setAuthor(j.error.message, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-                            .setColor("#ff3860") });
-                    }
-                    var p = j.players[0]
-                    mbd = new Discord.MessageEmbed()
-                    .setColor("#ffdd57")
-                    .setTitle((p.country && p.country.length == 2 ? ":flag_" + p.country.toLowerCase() + ": " : "" ) + p.playerName)
-                    .addField("Rank","#" + parseInt(p.rank).toLocaleString() + "(" + (p.difference > 0 ? "+" : "") + p.difference.toLocaleString() + " weekly change)",false)
-                    .addField("PP",p.pp.toLocaleString(),true)
-                    .addField("​​​",`**${p.history.split(",").length}-Day Global Charts Position History Graph**`,false)
-                    .setImage("https://chart.googleapis.com/chart?cht=lc&chs=450x150&chf=bg,s,2F3136&chm=B,127FA9,0,0,0&chco=02A9E8&chls=5&chd=t:" + normaliseChart(p.history))
-                    .setThumbnail("https://new.scoresaber.com" + p.avatar)
-                    .setURL(`https://new.scoresaber.com/u/` + p.playerId)
-                    .setFooter('Player ID: ' + p.playerId)
-                    msg.edit(mbd)
-                    var j = await (await fetch(`https://new.scoresaber.com/api/player/${p.playerId}/full`)).json()
+                var un = encodeURIComponent(a.playerName)
+                var msg 
+                if (!isNaN(parseInt(un))) {
+                    msg = await m.reply(new Discord.MessageEmbed().setColor("#ffdd57").setTitle("Validating ID `" + un + "`"))
+                    var j = await (await fetch(`https://new.scoresaber.com/api/player/${un}/full`)).json()
                     if (!j.error) {
-                        j.playerInfo.difference = p.difference
                         createPage(msg,j,m)
                         //return msg
-                    } else {
-                        msg.edit(mbd.setDescription("Error while fetching full results: " + j.error.message).setColor("#ff3860"))
                     }
-                    
-				} else if (a.length < 2) {
-					return m.reply({ embed: new Discord.MessageEmbed()
-						.setAuthor("400: Too few arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-						.setColor("#ff3860")
-						.setFooter('This command requires 1 argument, `username` or `profileid`') });
-				}
+                }
+                msg = (msg || await m.reply(new Discord.MessageEmbed().setColor("#ffdd57").setTitle("Searching for player `" + un + "`")))
+                var j = await (await fetch(`https://new.scoresaber.com/api/players/by-name/` + un)).json()
+                if (j.error) {
+                    return msg.edit({ embed: new Discord.MessageEmbed()
+                        .setAuthor(j.error.message, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+                        .setColor("#ff3860") });
+                }
+                var p = j.players[0]
+                mbd = new Discord.MessageEmbed()
+                .setColor("#ffdd57")
+                .setTitle((p.country && p.country.length == 2 ? ":flag_" + p.country.toLowerCase() + ": " : "" ) + p.playerName)
+                .addField("Rank","#" + parseInt(p.rank).toLocaleString() + "(" + (p.difference > 0 ? "+" : "") + p.difference.toLocaleString() + " weekly change)",false)
+                .addField("PP",p.pp.toLocaleString(),true)
+                .addField("​​​",`**${p.history.split(",").length}-Day Global Charts Position History Graph**`,false)
+                .setImage("https://chart.googleapis.com/chart?cht=lc&chs=450x150&chf=bg,s,2F3136&chm=B,127FA9,0,0,0&chco=02A9E8&chls=5&chd=t:" + normaliseChart(p.history))
+                .setThumbnail("https://new.scoresaber.com" + p.avatar)
+                .setURL(`https://new.scoresaber.com/u/` + p.playerId)
+                .setFooter('Player ID: ' + p.playerId)
+                msg.edit(mbd)
+                var j = await (await fetch(`https://new.scoresaber.com/api/player/${p.playerId}/full`)).json()
+                if (!j.error) {
+                    j.playerInfo.difference = p.difference
+                    createPage(msg,j,m)
+                    //return msg
+                } else {
+                    msg.edit(mbd.setDescription("Error while fetching full results: " + j.error.message).setColor("#ff3860"))
+                }
+                
 			}
 		}
 	]

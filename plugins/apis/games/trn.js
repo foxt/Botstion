@@ -44,6 +44,7 @@ async function trnHandler(game,platform,username,m,c) {
 			.setAuthor(`${game.name} Statistics`)
 			.setTitle(`${decorators.join(" ")}${j.platformInfo.platformUserHandle} - ${segment.metadata.name}`)
 			.setColor(game.color)
+			.setThumbnail(game.logo)
 			.setFooter("Powered by https://thetrackernetwork.com/")
 			for (var stat in segment.stats) {
 				embed.addField(segment.stats[stat].displayName,segment.stats[stat].displayValue,true)
@@ -57,28 +58,13 @@ async function trnHandler(game,platform,username,m,c) {
 }
 
 async function trnCmdHandler(game,c,m,a) {
-	if (a.length >= 2) {
-		var platform = a[0]
-		if (!game.platforms.includes(platform)) {
-			return m.reply({ embed: new Discord.MessageEmbed()
-				.setAuthor("400: Invalid platform.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-				.setColor("#ff3860")
-				.setFooter(`Valid platforms are currently ${game.platforms.join(", ")}`) });
-		}
-		if (requestsRemaining < 6) {
-			return m.reply({ embed: new Discord.MessageEmbed()
-				.setAuthor("429: Ratelimited!", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-				.setColor("#ff3860")
-				.setFooter(`Try again in ${60 - Math.floor(process.uptime() - uptimeAtLastReset)} seconds.`) });
-		}
-		trnHandler(game,platform,a[1],m,c)
-		
-	} else if (a.length < 2) {
+	if (requestsRemaining < 6) {
 		return m.reply({ embed: new Discord.MessageEmbed()
-			.setAuthor("400: Too few arguments.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+			.setAuthor("429: Ratelimited!", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 			.setColor("#ff3860")
-			.setFooter(`This command only accepts 2 arguments, \`platform\` and \`username\`. Try this \`${game.exampleCommand}\` (valid platforms are currently ${game.platforms.join(", ")})`) });
+			.setFooter(`Try again in ${60 - Math.floor(process.uptime() - uptimeAtLastReset)} seconds.`) });
 	}
+	trnHandler(game,a.platform,a.username,m,c)
 }
 
 
@@ -99,14 +85,12 @@ module.exports = {
 					name: "Overwatch",
 					logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Overwatch_circle_logo.svg/768px-Overwatch_circle_logo.svg.png",
 					color: "#FA9C1E",
-					platforms: ["battlenet","xbl","psn"],
-					exampleCommand: "b!ow battlenet theLMGN#2143"
 				},c,m,a)
 			}
 		},
 		{
 			name: "apex",
-			usage: "enum{origin,xbl,psn} platform=origin, word playerName=thetheLMGN",
+			usage: "enum{origin,xbl,psn} platform=origin, word username=thetheLMGN",
 			description: "Apex Legends statistics. (Powered by https://thetrackernetwork.com/, valid platforms are currently `origin`,`xbl` and `psn`)",
 			execute: async(c, m, a) => {
 				return trnCmdHandler({
@@ -114,23 +98,20 @@ module.exports = {
 					name: "Apex Legends",
 					logo: "https://upload.wikimedia.org/wikipedia/fr/thumb/0/03/Apex_Legends_Logo.png/1200px-Apex_Legends_Logo.png",
 					color: "#CD3333",
-					platforms: ["origin","xbl","psn"],
-					exampleCommand: "b!apex origin thetheLMGN"
 				},c,m,a)
 			}
 		},
 		{
 			name: "csgo",
-			usage: "word steamName=lmgngaming",
+			usage: "word username=lmgn",
 			description: "CS:GO statistics. (Powered by https://thetrackernetwork.com/, platform must be `steam`)",
 			execute: async(c, m, a) => {
+				a.platform = "steam"
 				return trnCmdHandler({
 					id: "csgo",
 					name: "Counter Strike: Global Offensive",
 					logo: "https://upload.wikimedia.org/wikipedia/en/thumb/1/1b/CS-GO_Logo.svg/1280px-CS-GO_Logo.svg.png",
 					color: "#262E6F",
-					platforms: ["steam"],
-					exampleCommand: "b!csgo steam lmgngaming"
 				},c,m,a)
 			}
 		}
@@ -145,8 +126,6 @@ module.exports = {
 					name: "The Division 2",
 					logo: "https://upload.wikimedia.org/wikipedia/en/a/af/The_Division_2_art.jpg",
 					color: "#FD6B06",
-					platforms: ["uplay","xbl","psn"],
-					exampleCommand: "b!division platform username"
 				},c,m,a)
 			}
 		}

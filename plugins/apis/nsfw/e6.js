@@ -3,8 +3,8 @@ const fetch = require("node-fetch");
 
 async function getPost(search,allowNSFW,index) {
     return new Promise(async function(a,r) {
-        if (index > 5) {
-            return a("Couldn't find a suitable post after 5 tries.")
+        if (index > 1) {
+            return a("Couldn't find a suitable post ")
         }
         var ftch = await fetch("https://e621.net/posts.json?limit=1&tags=" + encodeURIComponent(search), {headers: {"User-Agent": "Botstion/4.0 (https://github.com/thelmgn/Botstion, mailto:leo@thelmgn.com)"}})
         var j = (await ftch.json()).posts[0]
@@ -36,7 +36,7 @@ module.exports = {
 	commands: [
 		{
 			name: "e621",
-			usage: "word[] searchQuery=fluffy",
+			usage: "word[] optional searchQuery=fluffy",
             description: "Grabs a random image from e621.net (will only grab safe images in SFW channels",
             /**
              * @param c {Discord.Client}
@@ -44,6 +44,8 @@ module.exports = {
              * @param a {Array}
              */
 			execute: async(c, m, a) => {
+                a = a.searchQuery || []
+                if (a == "fluffy") a = []
                 a.unshift("order:random")
                 // Remove some tags that Discord might not like 
                 a.unshift("-gore")

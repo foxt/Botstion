@@ -30,13 +30,7 @@ module.exports = {
          * @param {Array} a Arguments
          */
 		execute: async(c, m, a) => {
-			if (m.mentions.users.size < 1) {
-                return m.reply({ embed: new Discord.MessageEmbed()
-                    .setAuthor("You haven't specified a user.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-                    .setColor("#ff3860")
-                    .setFooter(`Thin air doesn't really get detected by Gaydar™`) });
-            }
-            var member = m.mentions.users.first()
+            var member = a.user
             if (member.bot) {
                 return m.reply({ embed: new Discord.MessageEmbed()
                     .setAuthor("That's a bot.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
