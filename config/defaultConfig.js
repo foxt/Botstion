@@ -6,13 +6,14 @@ module.exports = {
 	defaultPrefix: "b!", // bot's prefix
 	maintainers: ["158311402677731328"], // allowed access to eval, shutdown etc command
 	errorReportChannel: "600082294258139137", // exceptions will be sent to this channel
-	geniusAccessToken: "https://genius.com/developers", // b!lyrics
+	geniusAccessToken: "", // req'd for b!lyrics, see https://genius.com/developers
 	dblToken:"", // top.gg token, same token is used as the voting authorization
-	trackerNetworkApiKey: "https://tracker.gg/developers", // used for fortnite, csgo, division, apex, etc
-	ipinfoioToken: "https://ipinfo.io/",
+	trackerNetworkApiKey: "", // required for fortnite, csgo, division, apex, etc, see https://tracker.gg/developers
+	ipinfoioToken: "", // required for b!ip, see https://ipinfo.io/
 	googleApi: "", // Used for b!ip maps, turn on the maps API
-	darkskyApiKey: "https://darksky.net/dev", //required for b!weather
-	alphaVantageKey: "https://www.alphavantage.co/support/#api-key", // used for b!currency and b!stocks
+	darkskyApiKey: "", //required for b!weather, see https://darksky.net/dev
+	alphaVantageKey: "", // req'd for b!currency and b!stocks, see https://www.alphavantage.co/support/#api-key
+	sourceNAOApiKey: "", // increases ratelimit for saucenao, see https://saucenao.com/user.php?page=search-api
 	sequelize: [ // these are the arguments passed to the Sequelize init, see http://docs.sequelizejs.com/class/lib/sequelize.js~Sequelize.html
 		"botstion","username","password", { // username and password can be left blank if using sqlite
 			host: "localhost",
