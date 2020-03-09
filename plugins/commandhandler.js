@@ -27,9 +27,9 @@ function noop(){}
 
 async function invokeCommand(command,msg,suffix,cmd) {
 	if (msg.guild) {
-		log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name}`);
+		log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name} with arguments ${suffix.join(" ")}`);
 	} else {
-		log(`${msg.author.username} invoked ${cmd}`);
+		log(`${msg.author.username} invoked ${cmd} with arguments ${suffix.join(" ")}`);
 	}
 	try {
 		var rtrn = command.execute(msg.client, msg, suffix)
