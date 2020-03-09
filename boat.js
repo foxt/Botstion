@@ -32,10 +32,7 @@ function scanFolder(folder) {
 
 }
 
-
-client.on("ready", () => {
-	client.user.setPresence({ activity: { name: `Botstion is loading plugins...` }, status: "away" });
-	log(`Connected to Discord, loading plugins...`);
+var pluginLoadEvent = new Promise(function(a,r) {
 	var items = scanFolder("./plugins")
 
 	log(`Read plugins folders and found ${items.length} plugins.`);
@@ -83,6 +80,13 @@ client.on("ready", () => {
 			}
 		}
 	}
+	a(plugins)
+})
+
+client.on("ready", async () => {
+	client.user.setPresence({ activity: { name: `Botstion is loading plugins...` }, status: "away" });
+	log(`Connected to Discord.`);
+	var plugins = await pluginLoadEvent
 	client["plugins"] = plugins
 	const commandhandler = require("./plugins/commandhandler");
 	log(`Loaded commandhandler (${commandhandler.name} v${commandhandler.version})`);
