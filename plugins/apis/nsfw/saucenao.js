@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const fetch = require("node-fetch");
+const config = require("../../../configLoader")
 
 module.exports = {
 	name: "SauceNAO",
@@ -24,7 +25,7 @@ module.exports = {
 						.setColor("#ff3860")
 						.setFooter(`Due to the NSFW content that SauceNAO might return, this command cannot be ran here. Try again in DMs or in a NSFW channel.`) });
                 }
-                var ftch = await fetch("https://saucenao.com/search.php?numres=1&output_type=2&url=" + encodeURIComponent(a[0]))
+                var ftch = await fetch("https://saucenao.com/search.php?numres=1&output_type=2" + (config.sourceNAOApiKey ? "&api_key=" + sourceNAOApiKey : "") + "&url=" + encodeURIComponent(a[0]))
                 var j = await ftch.json()
                 if (j.header.message) {
                     return m.reply({ embed: new Discord.MessageEmbed()
