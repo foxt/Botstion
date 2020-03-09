@@ -6,7 +6,6 @@ async function getPost(search,allowNSFW,index) {
         if (index > 5) {
             return a("Couldn't find a suitable post after 5 tries.")
         }
-        console.log(search,allowNSFW)
         var ftch = await fetch("https://e621.net/posts.json?limit=1&tags=" + encodeURIComponent(search))
         var j = (await ftch.json()).posts[0]
         if (!j) {
@@ -74,7 +73,8 @@ module.exports = {
                         .setDescription(tagString.replace(/_/g,"\\_"))
                         .setImage(j.file.url)
                         .setURL("https://e621.net/posts/" + j.id)
-                        .setColor("#284a81"))
+                        .setColor("#284a81")
+                        .setFooter("Command invoked by " + m.author.username, m.author.avatarURL()))
             }
         }
 	]
