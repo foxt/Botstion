@@ -13,13 +13,13 @@ module.exports = {
 			usage: "int optional comicId",
 			description: "Shows information of a XKCD comic.",
 			execute: async(c, m, a) => {
-				if (a.length >= 1) {
-					a[0] = a[0] + "/"
+				if (a.comicId) {
+					a.comicId = a.comicId + "/"
 				} else {
-					a[0] = ""
+					a.comicId = ""
 				}
 
-				var r = await fetch(`https://xkcd.com/${a[0]}info.0.json`)
+				var r = await fetch(`https://xkcd.com/${a.comicId}info.0.json`)
 				var comic = await r.json()
 				return m.reply({ embed: new Discord.MessageEmbed().setTitle(`Comic #${comic.num}: ${comic.title} (${comic.day}/${comic.month}/${comic.year})`)
 					.setFooter(comic.alt)

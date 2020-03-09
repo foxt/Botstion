@@ -16,13 +16,11 @@ module.exports = {
 			usage: "word[] city=London",
 			description: "Weather powered by DarkSky",
 			execute: async(c, m, a) => {
-				if (a.includes("vlagland")) { a = ["bucharest"]}
 				var e = await m.reply({ embed: new Discord.MessageEmbed()
 					.setTitle("Working...")
 					.setDescription(`Please wait a few seconds`)
 					.setColor("#ffdd57") });
-				var data = querystring.stringify({action: "gpcm", c1: a.join(" ")})
-				var l = await fetch("https://darksky.net/geo?q=" + encodeURIComponent(a.join(" ")))
+				var l = await fetch("https://darksky.net/geo?q=" + encodeURIComponent(a.city))
 
 				if (!l.ok) {
 					return e.edit({ embed: new Discord.MessageEmbed()

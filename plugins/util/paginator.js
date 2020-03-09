@@ -9,8 +9,8 @@ module.exports = {
 	description: "Paginator Module",
 	addons: {
 		paginate: async function(m,embeds,msg) {
-			if (!m.channel.permissionsFor(m.guild.member(m.client.user)).has("MANAGE_MESSAGES")) {
-				return m.reply(":warning: Botstion tried to paginate this message, but doesn't have Manage Messages permission. Ask an administrator to grant Botstion this permission to see the other " + (embeds.length - 1) + " pages.", embeds[0])
+			if (m.guild && !m.channel.permissionsFor(m.guild.member(m.client.user)).has("MANAGE_MESSAGES")) {
+				return m.reply(":warning: Botstion tried to paginate this message, but doesn't have Manage Messages permission. Ask an administrator to grant Botstion this permission, or run this command in DMs, to see the other " + (embeds.length - 1) + " pages. (this is a requirement of the discord-paginationembed library Botstion used, not my fault, sorry!)", embeds[0])
 			}
 			if (!msg) {msg = m.channel.send("Loading...")}
 			new EmbedsMode()

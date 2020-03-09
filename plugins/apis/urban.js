@@ -14,7 +14,7 @@ module.exports = {
 			usage: "word[] word=\"Hello, world\"",
 			description: "Urban Dictionary lookup",
 			execute: async(c, msg, args) => {
-				var r = await fetch(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(args.join(" "))}`)
+				var r = await fetch(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(args.word)}`)
 				var j = await r.json()
 				if (j.error) {
 					return msg.reply({ embed: new Discord.MessageEmbed()
@@ -26,7 +26,7 @@ module.exports = {
 					return msg.reply({ embed: new Discord.MessageEmbed()
 						.setTitle("We can't find that!")
 						.setAuthor("Urban Dictionary","https://s2.mzstatic.com/us/r30/Purple/v4/dd/ef/75/ddef75c7-d26c-ce82-4e3c-9b07ff0871a5/mzl.yvlduoxl.png", "https://urbandictionary.com")
-						.setDescription(`We had **0** results when we searched up **${args.join(" ")}**`)
+						.setDescription(`We had **0** results when we searched up **${args.word}**`)
 						.setColor("#da2204") });
 				} else {
 					var s = j.list[0]

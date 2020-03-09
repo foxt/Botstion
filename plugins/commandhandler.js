@@ -4,7 +4,7 @@ const config = require("../configLoader");
 const Discord = require("discord.js");
 const argparser = require("../util/argparser")
 
-function handleError(e,msg) {
+async function handleError(e,msg) {
 	var stack = (e.stack || e.toString())
 	if (stack.length > 1950) {
 		stack = stack.substr(0,1950)
@@ -14,7 +14,7 @@ function handleError(e,msg) {
 	.setColor("#ff3860")
 	.setDescription("<@" + msg.author.id +">```" + stack + '```')
 	try {
-		msg.client.channels.resolve(config.errorReportChannel).send({ embed: new Discord.MessageEmbed()
+		 (await msg.client.channels.fetch(config.errorReportChannel)).send({ embed: new Discord.MessageEmbed()
 			.setAuthor("Oops. I had a unhandled error.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 			.setColor("#ff3860")
 			.setDescription('```' + stack + '```')
@@ -32,8 +32,16 @@ async function invokeCommand(command,msg,suffix,cmd) {
 	} else {
 		console.log(`${msg.author.username} invoked ${cmd} with arguments ${suffix.join(" ")}`);
 	}
+
 	try {
-		var rtrn = command.execute(msg.client, msg, suffix)
+		var parse = await argparser(suffix.join(" "),command.usage)
+		if (parse[0]) {
+			return msg.reply({ embed: new Discord.MessageEmbed()
+				.setAuthor("400: " + parse[0], "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+				.setColor("#ff3860")
+				.setFooter("Usage: " + (command.rawUsage || "")) });
+		}
+		var rtrn = command.execute(msg.client, msg, parse[1])
 		if (rtrn.catch) {
 			rtrn.catch(function(e) {
 				handleError(e,msg)
@@ -91,7 +99,7 @@ module.exports = {
 									.setTitle(`There are ${allCommands.length} commands available for you to use`)
 									.setColor("#3273dc")
 					}
-					emb.addField(`${config.defaultPrefix}${command.name} ${command.usage.map((a) => (a.optional ? "" : "*") + a.name).join(" ")}`, `**Example: ${config.defaultPrefix}${command.name} ${command.usage.map((a) => a.default).join(" ")}**\n${command.description}`, false);
+					emb.addField(`${config.defaultPrefix}${command.name} ${command.rawUsage || ""}`, `**Example: ${config.defaultPrefix}${command.name} ${command.usage.map((a) => a.default).join(" ")}**\n${command.description}`, false);
 				}
 				try {
 					m.author.send(emb);
@@ -135,6 +143,7 @@ module.exports = {
 			allPlugins.push(plugin);
 			if (plugin.commands) {
 				for (var command of plugin.commands) {
+					command.rawUsage = command.usage
 					command.usage = argparser.parseGrammar(command.usage || "")
 					allCommands.push(command);
 				}

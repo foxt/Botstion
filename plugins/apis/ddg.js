@@ -4,14 +4,15 @@ module.exports = {
 	name: "DDG Instant Answers",
 	author: "theLMGN",
 	version: 1,
-	description: "DuckDuckGo instant answers",
+    description: "DuckDuckGo instant answers",
+    disabled: true,
 	commands: [
 		{
 			name: "d",
 			usage: "word[] searchQuery=Discord",
 			description: "DuckDuckGo instant answers",
 			execute: async(c, m, a) => {
-                var a = a.join(" ")
+                var a = a.searchQuery
                 var r = await fetch("https://api.duckduckgo.com/?format=json&atb=v131-1&q=" + encodeURIComponent(a))
                 var j = await r.json()
                 var embeds = []

@@ -58,9 +58,6 @@ function messageToGuild(m) {
 }
 
 async function processUser(user, c) {
-	console.log("f")
-	await user.fetch(true)
-	console.log("ff")
 	var embed = new Discord.MessageEmbed()
 		.setTitle(`${presenceEmoji(user.presence)} ${user.typingIn(c) ? ":keyboard:" : ""} ${user.tag} ${user.bot ? "<:BOT:375377712648421386>" : ""}`)
 		.setAuthor(`Profile for ${user.tag}`, user.avatarURL)
@@ -76,11 +73,23 @@ async function processUser(user, c) {
 	}
 	embed.addField(":birthday: Discord Birthday (creation date)", user.createdAt.toString());
 	if (user.lastMessage) { embed.addField(":e_mail: Last seen", user.lastMessage.createdAt || user.lastMessage.editedAt); }
+	try {
+		var pres = await c.guild.members.fetch(user.id)
+		console.log(pres)
+		if (pres.premiumSince) { embed.addField(":sparkles: Boosting since", pres.premiumSince); }
+		if (pres.nickname) { embed.addField(":label: Nickname", pres.nickname); }
+		if (pres.joinedAt) { embed.addField(":door: Joined at", pres.joinedAt); }
+		if (pres.voice.channelID) { 
+			embed.addField(":microphone2: In voice", `<#${pres.voice.channelID}> ${pres.voice.speaking ? ":microphone:" : ""}${pres.voice.mute ? "" : ":microphone2:"}${pres.voice.deaf ? ":mute:" : ":speaker:"}${pres.voice.selfVideo ? ":camera:" : ""}${pres.voice.streaming ? ":video_camera:" : ""}`); 
+		}
+		embed.setColor(pres.displayColor)
+	} catch(e) {
+	}
 	if (user.presence.status == "offline") {
 		return embed;
 	}
 	try {
-		var pres = c.guild.members.get(user.id).presence.clientStatus
+		var pres = (await c.guild.members.fetch(user.id)).presence.clientStatus
 		var a = ""
 		for (var p in pres) {
 			a += clientPresenseEmoji(p,pres[p])
@@ -145,14 +154,17 @@ module.exports = {
 		},
 		{
 			name: "profile",
-			usage: "word optional user=<@158311402677731328>",
+			usage: "user[] optional user=<@158311402677731328>",
 			description: "Shows you information on the specified user(s)",
 			execute: async(c, m, a) => {
 				var embeds = []
-				for (var element of m.mentions.users.array()) {
+				var containsAuthor = false
+				for (var element of a.user) {
+					if (typeof element == "undefined " || !element || !element.name) continue;
+					if (element.id == m.author.id) containsAuthor = true;
 					embeds.push(await processUser(element, m.channel));
 				}
-				if (!m.mentions.users.get(m.author.id)) {
+				if (!containsAuthor) {
 					embeds.push(await processUser(m.author, m.channel));
 				}
 				if (embeds.length > 1) {

@@ -39,48 +39,43 @@ module.exports = {
                         .setColor("#ff3860")
                         .setFooter(`Try again in ${60 - Math.floor(process.uptime() - uptimeAtLastReset)} seconds.`) });
                 }
-                if (a.length < 3) {
+                if (!currencies.includes(a.sourceCurrency.toUpperCase())) {
                     return m.reply({ embed: new Discord.MessageEmbed()
-                        .setAuthor("400: Too few arguments", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-                        .setColor("#ff3860")
-                        .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
-                }
-                console.log(currencies)
-                var floatNumber = parseFloat(a[0])
-                if (isNaN(floatNumber)) {
-                    return m.reply({ embed: new Discord.MessageEmbed()
-                        .setAuthor("400: First argument is not a number.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-                        .setColor("#ff3860")
-                        .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
-                }
-                if (!currencies.includes(a[1].toUpperCase())) {
-                    return m.reply({ embed: new Discord.MessageEmbed()
-                        .setAuthor(`400: ${a[1]} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+                        .setAuthor(`400: ${a.sourceCurrency} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
                         .setColor("#ff3860")
                         .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
                 }
                 
-                if (!currencies.includes(a[2].toUpperCase())) {
+                if (!currencies.includes(a.targetCurrency.toUpperCase())) {
                     return m.reply({ embed: new Discord.MessageEmbed()
-                        .setAuthor(`400: ${a[2]} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+                        .setAuthor(`400: ${a.targetCurrency} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
                         .setColor("#ff3860")
                         .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
                 }
-                if (a[2].toUpperCase() == a[1].toUpperCase()) {
+                if (a.targetCurrency.toUpperCase() == a.sourceCurrency.toUpperCase()) {
                     return m.reply({ embed: new Discord.MessageEmbed()
-                        .setTitle(`${floatNumber} ${a[1]} = ${floatNumber} ${a[2]}`)
+                        .setTitle(`${a.amount} ${a.sourceCurrency} = ${a.amount} ${a.targetCurrency}`)
                         .setColor("#3273dc")
                         .setFooter(`Currency conversion powered by alphavantage.io`) });
                 }
                 requestsRemaining -= 1
-                var ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a[1]}&to_currency=${a[2]}&apikey=${config.alphaVantageKey}`)
+                var ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a.sourceCurrency}&to_currency=${a.targetCurrency}&apikey=${config.alphaVantageKey}`)
                 var j = await ftch.json()
+                if (j["Error Message"]) {
+                    var ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a.targetCurrency}&to_currency=${a.sourceCurrency}&apikey=${config.alphaVantageKey}`)
+                    var j = await ftch.json()
+                    if (j["Error Message"]) { throw new Error(j["Error Message"])}
+                    var c = j["Realtime Currency Exchange Rate"]["4. To_Currency Name"]
+                    j["Realtime Currency Exchange Rate"]["4. To_Currency Name"] = j["Realtime Currency Exchange Rate"]["2. From_Currency Name"]
+                    j["Realtime Currency Exchange Rate"]["2. From_Currency Name"] = c
+                     j["Realtime Currency Exchange Rate"]["5. Exchange Rate"] = 1 / parseFloat(j["Realtime Currency Exchange Rate"]["5. Exchange Rate"])
+                }
                 var exchange = j["Realtime Currency Exchange Rate"]
                 var fromName = exchange["2. From_Currency Name"]
                 var toName = exchange["4. To_Currency Name"]
                 var rate = parseFloat(exchange["5. Exchange Rate"])
                 return m.reply({ embed: new Discord.MessageEmbed()
-                    .setTitle(`${floatNumber} ${fromName} = ${floatNumber * rate} ${toName}`)
+                    .setTitle(`${a.amount} ${fromName} = ${a.amount * rate} ${toName}`)
                     .setColor("#3273dc")
                     .setFooter(`Currency conversion powered by alphavantage.io`) });
 			}

@@ -59,7 +59,16 @@ var types = {
     int: (input) => [!isNaN(parseInt(input,10)),parseInt(input,10), "Not a whole number!"],
     float: (input) => [!isNaN(parseFloat(input)),parseFloat(input), "Not a floating point number!"],
     bool: (input) => [(truthy.includes(input.toLowerCase()) || falsey.includes(input.toLowerCase())),truthy.includes(input.toLowerCase()), "Not one of " + truthy.join(", ") + " or " + falsey.join(", ")],
-    enum: (input,type) => [type.allowedValues.includes(input),input,"Not one of " + type.allowedValues.join(", ")]
+    enum: (input,type) => [type.allowedValues.includes(input),input,"Not one of " + type.allowedValues.join(", ")],
+    user: async (input) => {
+        try {
+            var id = input.replace(/\D/g,'');
+            var user = await global.client.users.fetch(id)
+            return [!!user,user,"User is " + user]
+        } catch(e) {
+            return [true, undefined, e.toString()]
+        }
+    },
 }
 
 function parseWord(enumeration,sep) {
@@ -173,7 +182,7 @@ function parseGrammar(grammar) {
     return args
 }
 
-function parseInput(input,against) {
+async function parseInput(input,against,context) {
     var grammar = []
     for (var g of against) {
         if (g.type.count) {
@@ -196,7 +205,7 @@ function parseInput(input,against) {
 
         if (!g) {return ["Too many arguments"]}
         if (!types[g.type.kind]) {throw new Error("Unknown type " + g.type.kind)}
-        var valid = types[g.type.kind](word,g.type)
+        var valid = await (types[g.type.kind](word,g.type,context))
         if (!valid[0]) { return ["Value for \'" + g.name + "\' (\"" + word + "\") is not a valid " + g.type.kind + ": " + valid[2]]}
         if (g.type.count) {
             if (!retval[g.name]) {retval[g.name] = []}
@@ -211,14 +220,14 @@ function parseInput(input,against) {
         retval[g.name] = valid[1]
     }
     for (var g of grammar) {
-        if (!g.optional && !g.default) {
+        if (!g.optional) {
             return ["Too few arguments! Missing a value for required \'" + g.name + "\'"]
         }
     }
     if (words[0] && endType) {
         for (var word of words) {
-            var valid = types[g.type.kind](word,g.type)
-            if (!valid[0]) { return ["Value for \'" + g.name + "\' (\"" + word + "\") is not a valid " + g.type.kind + ": " + valid[2]]}
+            var valid = await (types[g.type.kind](word,g.type))
+            if (!valid[0]) {  return ["Value for \'" + g.name + "\' (\"" + word + "\") is not a valid " + g.type.kind + ": " + valid[2]]}
             retval[g.name].push(valid[1])
         }
     }

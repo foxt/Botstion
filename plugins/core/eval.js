@@ -9,11 +9,23 @@ module.exports = {
 		name: "eval",
 		usage: "word[] code=console.log(\"Hello World!\")",
 		description: "Executes some code.",
+		/**
+		 * 
+		 * @param {Discord.Client} c 
+		 * @param {Discord.Message} m 
+		 * @param {Object} a 
+		 */
 		execute: async(c, m, a) => {
 			if (config.maintainers.includes(m.author.id)) {
 				try {
-					let result = await eval(`(async function() {return ${a.join(" ").replace("c.token", "").replace("client.token", "").replace("[\"token\"]", "")}})()`);
-					var str = JSON.stringify(result)
+					var s = m.content.split(" ")
+					s.shift()
+					var cntnt = s.join(" ")
+					let result = await eval(`(async function() {return ${cntnt.replace("c.token", "").replace("client.token", "").replace("[\"token\"]", "")}})()`);
+					var str = result.toString()
+					try {
+						str = JSON.stringify(result,null,1)
+					} catch(e) {}
 					console.log(result,str)
 					if (result && !str) {
 						if (typeof result.toString == "function") {
@@ -26,7 +38,17 @@ module.exports = {
 						result = "undefined"
 					}
 					str = str.replace(eval(`/${config.token}/g`), "no");
-					return m.reply(str);
+					if (str.length > 1990) {
+						return m.reply([new Discord.MessageEmbed().setTitle(`Evaluation Result`)
+						.setFooter("Limited to first 1990 characters")
+						.setDescription("```json\n" +str.substring(0,1990) + "```")
+						.setColor("#FFCA28"),new Discord.MessageAttachment(Buffer.from(str),`Eval-${new Date()}.txt`)])
+					} else {
+						return m.reply(new Discord.MessageEmbed().setTitle(`Evaluation Result`)
+						.setDescription("```json\n" +str + "```")
+						.setColor("#FFCA28"))
+					}
+					
 				} catch (err) {
 					return m.reply(`Woops, we had an error.\n\`\`\`${err}\`\`\``);
 				}

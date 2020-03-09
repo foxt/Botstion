@@ -122,5 +122,18 @@ client.on("error", (e) => {
 	console.error(e)
 	process.exit(-1)
 })
+process.setUncaughtExceptionCaptureCallback(async (e) => {
+	console.error(e)
+	try {
+		var stack = (e.stack || e.toString())
+		if (stack.length > 1950) {
+			stack = stack.substr(0,1950)
+		}
+		(await client.channels.fetch(config.errorReportChannel)).send({ embed: new discord.MessageEmbed()
+		   .setAuthor("Uncaught exception, somewhere!", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+		   .setColor("#ff3860")
+		   .setDescription('```' + stack + '```') });
+   }catch(e){console.error(e)}
+})
 
 client.login(config.token);

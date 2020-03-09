@@ -1,6 +1,50 @@
 const Discord = require("discord.js");
 const fetch = require("node-fetch")
+class UserFlags extends Discord.BitField {
+    FLAGS = {
+        DISCORD_EMPLOYEE: 1 << 0,
+        PARTNERED_SERVER_OWNER: 1 << 1,
+        HYPESQUAD_EVENTS: 1 << 2,
+        BUGHUNTER_LEVEL_1: 1 << 3,
+        HOUSE_BRAVERY: 1 << 6,
+        HOUSE_BRILLIANCE: 1 << 7,
+        HOUSE_BALANCE: 1 << 8,
+        EARLY_SUPPORTER: 1 << 9,
+        TEAM_USER: 1 << 10,
+        SYSTEM: 1 << 12,
+        BUGHUNTER_LEVEL_2: 1 << 14,
+        VERIFIED_BOT: 1 << 16,
+        EARLY_VERIFIED_DEVELOPER: 1 << 17,
+    };
+}
+var userFlags =  {
+    DISCORD_EMPLOYEE: "Employee", //
+    PARTNERED_SERVER_OWNER: "Partner", //
+    HYPESQUAD_EVENTS: "HypeSquad (Old)",//
+    BUGHUNTER_LEVEL_1: "BugHunter",//
+    BUGHUNTER_LEVEL_2: "Gold BugHunter",//
+    HOUSE_BRAVERY: "Bravery",//
+    HOUSE_BRILLIANCE: "Brilliance", //
+    HOUSE_BALANCE: "Balance", //
+    EARLY_SUPPORTER: "Early Supporter", // 
+    TEAM_USER: "Team",
+    SYSTEM: "System",
+    VERIFIED_BOT: "Verified",
+    EARLY_VERIFIED_DEVELOPER: "Verified Bot Dev" // 
+}
 
+var flagEmojis = {
+    DISCORD_EMPLOYEE:"795732813067321385",
+    PARTNERED_SERVER_OWNER:"795732813654654986",
+    HYPESQUAD_EVENTS:"795732813323829281",
+    BUGHUNTER_LEVEL_1:"795732813399588924",
+    BUGHUNTER_LEVEL_2:"795732813398671390",
+    HYPESQUAD_BRAVERY:"795732813118177332",
+    HYPESQUAD_BRILLIANCE:"795732813663830046",
+    HYPESQUAD_BALANCE:"795732813412433961",
+    EARLY_SUPPORTER:"795732813269696533",
+    EARLY_VERIFIED_DEVELOPER:"795732813432225832"
+}
 module.exports = {
 	name: "Invite",
 	author: "theLMGN",
@@ -9,17 +53,10 @@ module.exports = {
 	commands: [
 		{
 			name: "invite",
-			usage: "word invite=hNgA7va",
+			usage: "word invite=fmhYSCr",
 			description: "Shows you information an invite",
 			execute: async(c, m, a) => {
-                if (a.length < 1) {
-                    return m.reply({ embed: new Discord.MessageEmbed()
-						.setAuthor("400: No invite link provided", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-						.setColor("#ff3860")
-                        .setDescription(`You need to pass an invite link, such as \`b!invite discord.gg/fmhYSCr\` or \`b!invite fmhYSCr\`\n\n
-                        If you meant to grab the bot's invite link, you should use b!info, or click [here](https://discordapp.com/oauth2/authorize?client_id=${c.user.id}&scope=bot&permissions=268561473)`) })
-                }
-                var invite = a[0].replace(/discord.gg\//g,"").replace(/https:\/\//g,"").replace(/http:\/\//g,"").replace(/www./g,"").replace(/discordapp.com\/invite\//g)
+                var invite = a.invite.replace(/discord.gg\//g,"").replace(/https:\/\//g,"").replace(/http:\/\//g,"").replace(/www./g,"").replace(/discordapp.com\/invite\//g)
                 var ftch = await fetch(`https://discordapp.com/api/v6/invites/${encodeURIComponent(invite)}?with_counts=true`)
                 var j = await ftch.json()
                 if (j.message) {
@@ -52,10 +89,16 @@ module.exports = {
                         (j.guild.banner ? `[Splash](https://cdn.discordapp.com/splashes/${j.guild.id}/${j.guild.splash}.png?size=2048)` : ""))
                 }
                 if (j.inviter) {
+                    var flags = new Discord.UserFlags(j.inviter.public_flags);
+                    console.log(flags)
                     embed.setAuthor(j.inviter.username + "#" + j.inviter.discriminator + " (" + j.inviter.id + ")", `https://cdn.discordapp.com/avatars/${j.inviter.id}/${j.inviter.avatar}.${j.inviter.avatar.startsWith("a_") ? "gif" : "png"}?size=2048`) 
+                }
+                if (j.description) {
+                    embed.setDescription(j.description)
                 }
                 return m.reply({ embed: embed })
             }
 		}
 	]
 };
+🚧

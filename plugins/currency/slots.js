@@ -21,11 +21,7 @@ module.exports = {
 		execute: async(c, m, a) => {
 			if (!(c.db.dbLoaded && c.db.tables.wallet)) { return m.reply("The database is unavailable right now. Try again later.") }
             try {
-                var amount = parseInt(a[0])
-                if (isNaN(amount) && amount % 2 == 0) { return m.reply(new Discord.MessageEmbed()
-                    .setTitle("Uhh?")
-                    .setDescription("That doesn't look like a number to me! The bet must be a even number.")
-					.setColor("#ff3860")) }
+                var amount = a.bet
 				var coins = await c.getcoins(m.author)
 				if (amount > coins) { return m.reply(new Discord.MessageEmbed()
                     .setTitle("Nope")
@@ -50,7 +46,7 @@ module.exports = {
 				if (spin[0] == spin[2]) {
 					multiplier = 0.5
 					embed = embed.setTitle(`Well, at least you didn't lose it all.`)
-					.setFooter(`You lost ${amount * multiplier} coins.`)
+					.setFooter(`You lost ${Math.ceil(amount * multiplier)} coins.`)
 					.setColor("#ffdd57") 
 				}
 				if (spin[0] == spin[1] || spin[2] == spin[1]) {
@@ -65,8 +61,8 @@ module.exports = {
 					.setFooter(`You won ${amount*multiplier} coins.`)
 					.setColor("#23d160")
 				}
-				await c.db.tables.wallet.update({ coins:(coins - amount) + (amount * multiplier) }, { where: { userId: m.author.id } });
-				m.reply(embed)
+				await c.db.tables.wallet.update({ coins:Math.min((coins - amount) + (amount * multiplier)) }, { where: { userId: m.author.id } });
+				return m.reply(embed)
             } catch (e) {
                 return m.reply(e.toString());
             }
