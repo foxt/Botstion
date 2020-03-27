@@ -6,7 +6,7 @@ async function getPost(search,allowNSFW,index) {
         if (index > 5) {
             return a("Couldn't find a suitable post after 5 tries.")
         }
-        var ftch = await fetch("https://e621.net/posts.json?limit=1&tags=" + encodeURIComponent(search))
+        var ftch = await fetch("https://e621.net/posts.json?limit=1&tags=" + encodeURIComponent(search), {headers: {"User-Agent": "Botstion/4.0 (https://github.com/thelmgn/Botstion, mailto:leo@thelmgn.com)"}})
         var j = (await ftch.json()).posts[0]
         if (!j) {
             return a("No posts returned.")
