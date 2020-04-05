@@ -50,6 +50,5 @@ module.exports = {
 			db["dbLoaded"] = true
 		}
 	}],
-	timer: [],
 	addons: addons
 };
