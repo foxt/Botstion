@@ -1,5 +1,7 @@
 function shuffle(array) {
-  array.sort(() => Math.random() - 0.5);
+   var newArray = array.slice()
+   newArray.sort(() => Math.random() - 0.5);
+   return newArray
 }
 function randomFromArray(array) {
   return array[Math.round(Math.random() * (array.length - 1))]
@@ -8,6 +10,7 @@ var images = []
 var imageSize = 64
 var oldWidth = 0
 function fill() {
+  console.trace("Repainting wall")
   var height = document.body.clientHeight
   var width = document.body.clientWidth
   var ctx = document.querySelector("canvas#imagewallCanvas").getContext("2d")
@@ -18,18 +21,18 @@ function fill() {
   if (imageSize > 128) { imageSize = 128 }
   var imagesPerRow = Math.ceil(width / imageSize)
   var rows = Math.ceil(height / imageSize)
-  var clone = images.slice(0);
+  var clone = shuffle(images);
   
   for (row = 0; row <= rows; row++) {
     for (img = 0; img <= imagesPerRow; img++) {
       if (clone.length < 1) {
-        clone = images.slice(0);
+        clone = shuffle(images);
       }
       image = clone.pop()
       try { ctx.drawImage(image, img * imageSize,row * imageSize,imageSize,imageSize) } catch(e) {}
     }
   }
-  requestAnimationFrame(fill)
+  //requestAnimationFrame(fill)
 }
 
 // flip effect
@@ -48,7 +51,7 @@ setInterval(function() {
 
 async function load() {
   var j = await (await fetch("/api/info")).json()
-  log(j)
+  //log(j)
   for (var g of j.serverIcons) {
     var image = document.createElement("img")
     image.src = `https://cdn.discordapp.com/icons/${g}.png?size=128`
@@ -58,7 +61,7 @@ async function load() {
   var resizeTimeout = 0
   window.addEventListener('resize',function() {
     //clearTimeout(resizeTimeout)
-    //resizeTimeout = setTimeout(fill,150)
+    resizeTimeout = setTimeout(fill,1)
   })
 }
 

@@ -16,7 +16,7 @@ function animation() {
     fill()
     ffsfsfsfsfsf = true
   }
-  
+  try{fill()}catch(e){}
   setTimeout(function() {
     ls.transition = "none"
     try { document.querySelector("#logoIndent").remove() } catch(e) {}
@@ -24,6 +24,7 @@ function animation() {
     ls.backgroundSize = "100% 100%"
     ls.transition = "1s transform, 1s border-radius,1s top,1s width,1s height,1s left,1s top"
     ls.borderRadius = "2.5vh"
+//try{fill()}catch(e){}
     setTimeout(function() {
       var goto = document.querySelector("#botstion-main-logo").getBoundingClientRect()
       var at = document.querySelector("#logo").getBoundingClientRect()
@@ -33,7 +34,7 @@ function animation() {
       ls.height = goto.height + "px"
       ls.left = goto.x + "px"
       ls.top = goto.y + "px"
-      
+      try{fill()}catch(e){} 
       setTimeout(function() {
         document.body.parentElement.style.overflowY = "scroll"
         document.querySelector("#logo").remove()
