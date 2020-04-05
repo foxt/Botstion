@@ -4,6 +4,6 @@ module.exports = {
 	version: 1,
 	description: "Sets the bots playing message",
 	timer: [async c => {
-		c.user.setPresence({ activity: { name: `in ${c.guilds.array().length} guilds | ${require("../../configLoader").defaultPrefix}help` }, status: "online" });
+		c.user.setPresence({ activity: { name: `in ${c.guilds.cache.size} guilds | ${require("../../configLoader").defaultPrefix}help` }, status: "online" });
 	}],
 };

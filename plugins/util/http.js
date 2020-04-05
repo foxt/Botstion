@@ -27,10 +27,10 @@ module.exports = {
 			app.get("/api/info", async function(req,res) {
 				var j = {
 					serverIcons: [],
-					members: c.users.array().length,
-					servers: c.guilds.array().length
+					members: c.users.cache.size,
+					servers: c.guilds.cache.size
 				}
-				for (var g of c.guilds.array()) {
+				for (var g of c.guilds.cache.array()) {
 					if (g.icon) {j.serverIcons.push(g.id + "/" + g.icon)}
 				}
 				res.send(JSON.stringify(j))
