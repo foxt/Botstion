@@ -1,5 +1,12 @@
 const Discord = require("discord.js");
 
+function userIsPlaying(activities,game) {
+	for (var activity of activities) {
+		if (activity.name.toLowerCase() == game) { return true}
+	}
+	return false
+}
+
 module.exports = {
 	name: "Playing Count",
 	author: "theLMGN",
@@ -16,13 +23,13 @@ module.exports = {
 				var total = 0;
 				var inGame = 0;
 
-				for (var users of c.users.array()) {
+				for (var users of c.users.cache.array()) {
 					if (!users.bot) {
 						if (users.presence.status != "offline") {
 							total += 1;
-							if (users.presence.activity) {
+							if (users.presence.activities && users.presence.activities[0]) {
 								inGame += 1;
-								if (users.presence.activity.name.toLowerCase() == game) {
+								if (userIsPlaying(users.presence.activities,game)) {
 									count += 1;
 								}
 							}
@@ -31,7 +38,7 @@ module.exports = {
 					}
 
 				}
-				m.reply(new Discord.MessageEmbed()
+				return m.reply(new Discord.MessageEmbed()
 				.setColor("#23d160")
 				.setDescription(`:video_game: I know ${total} people who are online, ${inGame} (${Math.floor((inGame / total) * 100)}%) are in a game, and ${count} (${Math.floor((count / total) * 100)}% out of total users, ${Math.floor((count / inGame) * 100)}% out of all users in game) are playing **${game}**`));
 			},
