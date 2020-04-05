@@ -15,7 +15,7 @@ function presenceEmoji(presence) {
 		return "";
 	}
 }
-var clientPresenseEmojiMap = {
+const clientPresenseEmojiMap = {
 	web: {
 		online: "<:OnlineOnWeb:627611397659951134>",
 		idle: "<:IdleOnWeb:627611397735579668>",
@@ -32,6 +32,15 @@ var clientPresenseEmojiMap = {
 		dnd: "<:DNDOnMobile:627611397647499264>"
 	}
 }
+
+const presenceTypeMap = {
+    PLAYING: "Playing ",
+    STREAMING: "Streaming ",
+    LISTENING: "Listening to ",
+    WATCHING: "Watching ",
+    CUSTOM_STATUS: ""
+}
+
 function clientPresenseEmoji(client,presence) {
 	try {
 		var e = clientPresenseEmojiMap[client][presence]
@@ -47,15 +56,6 @@ function messageToGuild(m) {
 		return "(in DMs)";
 	}
 }
-function playingType(user) {
-	if (user.presence.game.type == 0) {
-		return "Playing";
-	} else if (user.presence.game.type == 2) {
-		return "Watching";
-	} else if (user.presence.game.type == 3) {
-		return "Listening to";
-	}
-}
 
 function processUser(user, c) {
 	var embed = new Discord.MessageEmbed()
@@ -63,39 +63,39 @@ function processUser(user, c) {
 		.setAuthor(`Profile for ${user.tag}`, user.avatarURL)
 		.setColor("#3273dc")
 		.setThumbnail(user.avatarURL({ size: 256 }));
+	embed.addField(":hash: User's name and discrim", user.tag);
+	embed.addField("<:mention:406520790402727937> User's mention", user.toString(),true);
+	embed.addField(":id: User ID", user.id,true);
 	if (user.avatarURL) {
 		embed.addField(":frame_photo: Profile Picture", `[User](${user.avatarURL({ size: 2048, format: "png" })}) [Animated](${user.avatarURL({ format: "gif" })}) [Default](${user.defaultAvatarURL})`);
 	} else {
 		embed.addField(":frame_photo: Profile Picture", `[User hasn't set a profile picture, but here's their colored Discord logo](${user.defaultAvatarURL})`);
 	}
 	embed.addField(":birthday: Discord Birthday (creation date)", user.createdAt.toString());
-	if (user.dmChannel) {
-		embed.addField(":mailbox_with_mail:  User has had DM conversation with me.", "<:Tick:375377712786833419> ");
-	} else {
-		embed.addField(":mailbox_with_no_mail:  User has had DM conversation with me.", "<:Cross:375377712367534082>");
-	}
-	embed.addField(":id: User ID", user.id);
-	if (user.lastMessage && user.lastMessage.editedAt) { embed.addField(":e_mail: Last active", user.lastMessage.editedAt); }
-	if (user.presence.game) {
-		if (user.presence.game.streaming) {
-			embed.addField(`Streaming`, `[${user.presence.game.name}](${user.presence.url})`);
-		} else {
-			embed.addField(`${playingType(user)}`, user.presence.game.name);
-		}
-	}
+	if (user.lastMessage) { embed.addField(":e_mail: Last seen", user.lastMessage.createdAt || user.lastMessage.editedAt); }
 	try {
 		var pres = c.guild.members.get(user.id).presence.clientStatus
 		var a = ""
 		for (var p in pres) {
 			a += clientPresenseEmoji(p,pres[p])
 		}
-		embed.addField(`${presenceEmoji(user.presence)} Status`, a);
+		embed.addField(`${presenceEmoji(user.presence)} Status`, a,true);
 	} catch(e) {
-		embed.addField(`${presenceEmoji(user.presence)} Status`, user.presence.status);
+		embed.addField(`${presenceEmoji(user.presence)} Status`, user.presence.status,true);
+	}
+	if (user.presence.activities && user.presence.activities[0]) {
+		var activities = []
+		for (var activity of user.presence.activities) {
+			if (activity.type == "CUSTOM_STATUS") {
+				activities.push((activity.emoji ? activity.emoji.name : ":smiley:") + " " + (activity.state || ""))
+			} else {
+				activities.push(((activity.details || activity.applicationID) ? "<:rich_presence:696433216801734736> " : ":video_game: ") + activity.name)
+			}
+		}
+		embed.addField(`:video_game: ${activities.length == 1 ? "Activity" : "Activities"}`, activities.join(", "),true);	
 	}
 
-	embed.addField(":hash: User's name and discrim", user.tag);
-	embed.addField("<:mention:406520790402727937> User's mention", user.toString());
+	
 	return embed;
 }
 
@@ -118,9 +118,9 @@ module.exports = {
 					if (m.guild.afkChannel && m.guild.afkTimeout) {
 						embed.addField(":zzz: AFK", `<#${m.guild.afkChannelID}> (${m.guild.afkTimeout / 60} mins)`);
 					}
-					embed.addField(":hash: Channel count", `${m.guild.channels.array().length}`);
+					embed.addField(":hash: Channel count", `${m.guild.channels.cache.size}`);
 					embed.addField(":calendar_spiral: Created", `${m.guild.createdAt}`);
-					embed.addField(":smile: Emojis", `${m.guild.emojis.array().length} (use b!semojis to view them)`);
+					embed.addField(":smile: Emojis", `${m.guild.emojis.cache.size} (use b!semojis to view them)`);
 					if (m.guild.icon) {
 						embed.addField(":frame_photo: Icon URL", `[${m.guild.icon}](${m.guild.iconURL()})`);
 					}
@@ -163,8 +163,8 @@ module.exports = {
 			description: "Shows you the emojis in the server.",
 			execute: async(c, m, a) => {
 				if (m.channel.guild) {
-					m.reply({ embed: new Discord.MessageEmbed().setTitle(`${m.guild.name} has ${m.guild.emojis.array().length} emoji(s)`)
-						.setDescription(`${m.guild.emojis.array().join("")}`)
+					m.reply({ embed: new Discord.MessageEmbed().setTitle(`${m.guild.name} has ${m.guild.emojis.cache.size} emoji(s)`)
+						.setDescription(`${m.guild.emojis.cache.array().join("")}`)
 						.setColor("#3273dc"),
 					});
 				} else {
