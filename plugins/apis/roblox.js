@@ -2,6 +2,51 @@ const Discord = require("discord.js");
 const cheerio = require("cheerio");
 const fetch = require("node-fetch");
 
+
+// <snippet> from ExtraDataInitializer.lua
+// Written by Xsitsu
+// Copyright (c) Roblox Corp.
+// https://github.com/Roblox/Core-Scripts/blob/master/CoreScriptsRoot/Modules/Server/ServerChat/DefaultChatModules/ExtraDataInitializer.lua#L86
+// (this link was last updated 2018, I grabbed a fresh copy of the chat scripts)
+// Ported to JavaScript by theLMGN
+
+const NAME_COLORS =
+    [
+      "#fd2943", // red
+      "#01a2ff", // blue
+      "#02b857", // green
+      "#6b327c", // purple
+      "#da8541", //orange
+      "#f5cd30", // yellow
+      "#eabac8", // pink
+      "#d7c59a", // cream
+    ]
+
+function GetNameValue(pName) {
+  var value = 0
+  for (var index = 0; index < pName.length; index++) {
+    var cValue = pName.charCodeAt(index)
+    var reverseIndex = pName.length - index + 1
+    if (index.length % 2 == 1) {
+      reverseIndex = reverseIndex - 1
+    }
+    if (reverseIndex % 4 >= 2) {
+      cValue = -cValue
+    }
+    value = value + cValue
+  }
+  if (value < 0) { return -value}
+  return value
+}
+
+var color_offset = 0
+function ComputeNameColor(pName) {
+  return NAME_COLORS[((GetNameValue(pName) + color_offset) % NAME_COLORS.length)]
+}
+
+// </snippet>
+
+
 const assetTypes = ["???", "Image", "T-Shirt", "Audio", "Mesh", "Lua", "HTML", "Text", "Hat", "Place", "Model", "Shirt", "Pants", "Decal", "???","???", "Avatar", "Head", "Face", "Gear", "???", "Badge", "Group Emblem", "???", "Animation", "Arms", "Legs", "Torso", "Right Arm", "Left Arm", "Left Leg", "Right Leg", "Package", "YouTubeVideo", "Game Pass", "App", "???", "Code", "Plugin", "SolidModel", "MeshPart", "Hair Accessory", "Face Accessory", "Neck Accessory", "Shoulder Accessory", "Front Accessory", "Back Accessory", "Waist Accessory", "Climb Animation", "Death Animation", "Fall Animation", "Idle Animation", "Jump Animation", "Run Animation", "Swim Animation", "Walk Animation", "Pose Animation"]
 
 async function getAssetThumbnail(id) {
@@ -71,7 +116,7 @@ async function embedAsset(m,a) {
 			.setThumbnail(await getAssetThumbnail(details.AssetId))
 			.setDescription(details.Description)
 			.setTitle(tags.join(" "))
-				.setAuthor(details.Creator.Name, pfp, details.Creator.CreatorType == "User" ? `https://roblox.com/users/${details.Creator.CreatorTargetId}/profile` : "https://www.roblox.com/groups/" + details.Creator.CreatorTargetId)
+			.setAuthor(details.Creator.Name, pfp, details.Creator.CreatorType == "User" ? `https://roblox.com/users/${details.Creator.CreatorTargetId}/profile` : "https://www.roblox.com/groups/" + details.Creator.CreatorTargetId)
 			.addField("Type", assetTypes[details.AssetTypeId])
 			.addField("Public Domain?", details.IsPublicDomain ? "Yes" : "No")
 			.addField("For Sale?", details.IsForSale ? "Yes" : "No")
@@ -187,7 +232,7 @@ module.exports = {
 							}
 						}
 						var embed = new Discord.MessageEmbed()
-						.setColor("#E2231A")
+						.setColor(ComputeNameColor(userName) || "#E2231A")
 						.addField("Friends",info["data-friendscount"],true)
 						.addField("Followers",info["data-followerscount"],true)
 						.addField("Following",info["data-followingscount"],true)
