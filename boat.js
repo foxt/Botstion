@@ -8,6 +8,7 @@ require("./configUpdate")
 const config = require("./configLoader")
 
 const client = new discord.Client();
+global.client = client
 client.meta = {
 	name: "Botstion 4",
 	devs: ["theLMGN", "SunburntRock89"],
