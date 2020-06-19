@@ -34,6 +34,9 @@ module.exports = {
                         .setColor("#de5833"))
                     }
                 }
+                if (embeds.length < 1) { 
+                    return m.reply("No results.")
+                }
                 c.paginate(m,embeds)
             }
         }
