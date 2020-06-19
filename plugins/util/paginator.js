@@ -8,16 +8,19 @@ module.exports = {
 	version: 1,
 	description: "Paginator Module",
 	addons: {
-		paginate: function(m,embeds) {
+		paginate: async function(m,embeds,msg) {
 			if (!m.channel.permissionsFor(m.guild.member(m.client.user)).has("MANAGE_MESSAGES")) {
 				return m.reply(":warning: Botstion tried to paginate this message, but doesn't have Manage Messages permission. Ask an administrator to grant Botstion this permission to see the other " + (embeds.length - 1) + " pages.", embeds[0])
 			}
-			return new EmbedsMode()
+			if (!msg) {msg = m.channel.send("Loading...")}
+			new EmbedsMode()
 				.setArray(embeds)
 				.setAuthorizedUsers([m.author.id])
 				.setChannel(m.channel)
+				.setClientAssets({message:await msg})
 				.setPageIndicator(true)
 				.build();
+			return msg
 		}
 	}
 };

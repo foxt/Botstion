@@ -147,11 +147,13 @@ module.exports = {
 				for (var element of m.mentions.users.array()) {
 					embeds.push(processUser(element, m.channel));
 				}
-				embeds.push(processUser(m.author, m.channel));
+				if (!m.mentions.users.get(m.author.id)) {
+					embeds.push(processUser(m.author, m.channel));
+				}
 				if (embeds.length > 1) {
 					c.paginate(m,embeds)
 				} else if (embeds.length == 1) {
-					m.reply(embeds[0])
+					return m.reply(embeds[0])
 				} else {
 					throw new Error(embeds.length + " embeds")
 				}
