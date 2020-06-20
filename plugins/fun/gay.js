@@ -11,14 +11,10 @@ function seed(str) {
         return (h ^= h >>> 16) >>> 0;
     }
 }
-
-const overrides = {
-    '158311402677731328': "NaN", // me
-    '101588913746890752': "40", // fishy
-    '195252536389664768': "50", // jaffa
-    '262989909411758080': "99.9" // archie
-}
-
+var overrides = {}
+try { 
+    overrides = require("../../config/gaydar.js")
+} catch(e){}
 module.exports = {
 	name: "Gaydar™",
 	author: "theLMGN",
