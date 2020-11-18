@@ -29,7 +29,7 @@
     "express": "^4.17.1",
     "lyricist": "^2.2.2",
     "mysql2": "^1.7.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.0.0",
