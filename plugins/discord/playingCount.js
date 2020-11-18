@@ -11,6 +11,7 @@ module.exports = {
 	name: "Playing Count",
 	author: "theLMGN",
 	version: 1,
+	disabled: true,
 	description: "A command that shows all the user the bot knows who are playing a game.",
 	commands: [
 		{

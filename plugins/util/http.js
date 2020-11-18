@@ -26,12 +26,10 @@ module.exports = {
 			log("[HTTP] Adding servers endpoint")
 			app.get("/api/info", async function(req,res) {
 				var j = {
-					serverIcons: [],
+					serverIcons: ["http://bot.thelmgn.com/logo.svg"],
 					members: c.users.cache.size,
-					servers: c.guilds.cache.size
-				}
-				for (var g of c.guilds.cache.array()) {
-					if (g.icon) {j.serverIcons.push(g.id + "/" + g.icon)}
+					servers: c.guilds.cache.size,
+					commands: c.allCommands
 				}
 				res.send(JSON.stringify(j))
 			})

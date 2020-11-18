@@ -57,7 +57,10 @@ function messageToGuild(m) {
 	}
 }
 
-function processUser(user, c) {
+async function processUser(user, c) {
+	console.log("f")
+	await user.fetch(true)
+	console.log("ff")
 	var embed = new Discord.MessageEmbed()
 		.setTitle(`${presenceEmoji(user.presence)} ${user.typingIn(c) ? ":keyboard:" : ""} ${user.tag} ${user.bot ? "<:BOT:375377712648421386>" : ""}`)
 		.setAuthor(`Profile for ${user.tag}`, user.avatarURL)
@@ -73,6 +76,9 @@ function processUser(user, c) {
 	}
 	embed.addField(":birthday: Discord Birthday (creation date)", user.createdAt.toString());
 	if (user.lastMessage) { embed.addField(":e_mail: Last seen", user.lastMessage.createdAt || user.lastMessage.editedAt); }
+	if (user.presence.status == "offline") {
+		return embed;
+	}
 	try {
 		var pres = c.guild.members.get(user.id).presence.clientStatus
 		var a = ""
@@ -145,10 +151,10 @@ module.exports = {
 			execute: async(c, m, a) => {
 				var embeds = []
 				for (var element of m.mentions.users.array()) {
-					embeds.push(processUser(element, m.channel));
+					embeds.push(await processUser(element, m.channel));
 				}
 				if (!m.mentions.users.get(m.author.id)) {
-					embeds.push(processUser(m.author, m.channel));
+					embeds.push(await processUser(m.author, m.channel));
 				}
 				if (embeds.length > 1) {
 					c.paginate(m,embeds)
