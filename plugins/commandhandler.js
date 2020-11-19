@@ -19,7 +19,7 @@ function handleError(e,msg) {
 			.setDescription('```' + stack + '```')
 			.setFooter(msg.content) });
 		emb.setFooter("This server has been reported to the Botstion development team, and we may message you if we see fit.") 
-	}catch(e){log.error(e)}
+	}catch(e){console.error(e)}
 	return msg.reply({ embed: emb });
 }
 
@@ -27,9 +27,9 @@ function noop(){}
 
 async function invokeCommand(command,msg,suffix,cmd) {
 	if (msg.guild) {
-		log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name} with arguments ${suffix.join(" ")}`);
+		console.log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name} with arguments ${suffix.join(" ")}`);
 	} else {
-		log(`${msg.author.username} invoked ${cmd} with arguments ${suffix.join(" ")}`);
+		console.log(`${msg.author.username} invoked ${cmd} with arguments ${suffix.join(" ")}`);
 	}
 	try {
 		var rtrn = command.execute(msg.client, msg, suffix)
@@ -59,7 +59,7 @@ async function invokeCommand(command,msg,suffix,cmd) {
 				
 			}
 		} else {
-			log.warn(`Command ${cmd} didn't return a Message object with arguments .`)
+			console.warn(`Command ${cmd} didn't return a Message object with arguments .`)
 		}
 	} catch(e) {
 		handleError(e,msg)
