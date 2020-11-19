@@ -51,7 +51,7 @@ setInterval(function() {
 
 async function load() {
   var j = await (await fetch("/api/info")).json()
-  //log(j)
+  //console.log(j)
   for (var g of j.serverIcons) {
     var image = document.createElement("img")
     image.src = `https://cdn.discordapp.com/icons/${g}.png?size=128`

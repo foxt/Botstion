@@ -1,8 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const discord = require("discord.js");
-require("./logger")
-log("Botstion 4: A modular bot for Discord. Licenced under GPL 3.0 (see https://www.gnu.org/licenses/)")
+console.log("Botstion 4: A modular bot for Discord. Licenced under GPL 3.0 (see https://www.gnu.org/licenses/)")
 
 require("./configUpdate")
 const config = require("./configLoader")
@@ -37,9 +36,9 @@ function scanFolder(folder) {
 var pluginLoadEvent = new Promise(function(a,r) {
 	var items = scanFolder("./plugins")
 
-	log(`Read plugins folders and found ${items.length} plugins.`);
+	console.log(`Read plugins folders and found ${items.length} plugins.`);
 	for (var plugin of items) {
-		log(`	Loading ${plugin}`);
+		console.log(`	Loading ${plugin}`);
 		try {
 			var pluginf = require("./" + plugin);
 			var shouldLoad = false;
@@ -60,24 +59,24 @@ var pluginLoadEvent = new Promise(function(a,r) {
 				shouldLoad = "it's disabled"
 			}
 			if (shouldLoad == true) {
-				log(`		Loaded ${pluginf.name} v${pluginf.version} by ${pluginf.author}`);
+				console.log(`		Loaded ${pluginf.name} v${pluginf.version} by ${pluginf.author}`);
 				plugins.push(pluginf);
 			} else {
-				log.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because ${shouldLoad}`);
+				console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because ${shouldLoad}`);
 			}
 			
 		} catch(err) {
-			log.error(`${plugin} experienced an error whilst loading`)
-			log.error(err)
-			log.error(`Skipping over ${plugin}..`)
+			console.error(`${plugin} experienced an error whilst loading`)
+			console.error(err)
+			console.error(`Skipping over ${plugin}..`)
 		}
 		
 	}
-	log("Adding addons.")
+	console.log("Adding addons.")
 	for (var plugin of plugins) {
 		if (plugin.addons) {
 			for (var addon in plugin.addons) {
-				log("	Adding addon " + addon + " from plugin " + plugin.name)
+				console.log("	Adding addon " + addon + " from plugin " + plugin.name)
 				client[addon] = plugin.addons[addon]
 			}
 		}
@@ -87,18 +86,18 @@ var pluginLoadEvent = new Promise(function(a,r) {
 
 client.on("ready", async () => {
 	client.user.setPresence({ activity: { name: `Botstion is loading plugins...` }, status: "away" });
-	log(`Connected to Discord.`);
+	console.log(`Connected to Discord.`);
 	var plugins = await pluginLoadEvent
 	client["plugins"] = plugins
 	const commandhandler = require("./plugins/commandhandler");
-	log(`Loaded commandhandler (${commandhandler.name} v${commandhandler.version})`);
-	log(`Sending ${plugins.length} and client plugins to the commandhandler`);
+	console.log(`Loaded commandhandler (${commandhandler.name} v${commandhandler.version})`);
+	console.log(`Sending ${plugins.length} and client plugins to the commandhandler`);
 	commandhandler.init(plugins, client);
-	log("Assigining events");
+	console.log("Assigining events");
 	for (var plugin of plugins) {
 		if (plugin.events) {
 			for (var event of plugin.events) {
-				log(`Giving ${plugin.name} the ${event.name} event`);
+				console.log(`Giving ${plugin.name} the ${event.name} event`);
 				client.on(event.name, event.exec);
 				if (event.name == "ready") {
 					event.exec(client)
@@ -106,7 +105,7 @@ client.on("ready", async () => {
 			}
 		}
 	}
-	log("Setting up timer...");
+	console.log("Setting up timer...");
 	setInterval(() => {
 		for (var plugin of plugins) {
 			if (plugin.timer) {
@@ -120,7 +119,7 @@ client.on("ready", async () => {
 });
 
 client.on("error", (e) => {
-	log.error(e)
+	console.error(e)
 	process.exit(-1)
 })
 

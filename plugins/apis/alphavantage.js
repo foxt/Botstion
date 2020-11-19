@@ -45,7 +45,7 @@ module.exports = {
                         .setColor("#ff3860")
                         .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
                 }
-                log(currencies)
+                console.log(currencies)
                 var floatNumber = parseFloat(a[0])
                 if (isNaN(floatNumber)) {
                     return m.reply({ embed: new Discord.MessageEmbed()
@@ -94,15 +94,15 @@ module.exports = {
 					requestsRemaining = 5;
 					uptimeAtLastReset = process.uptime();
                 },60000)
-                log("[AlphaVantage] Downloading list of real currencies")
+                console.log("[AlphaVantage] Downloading list of real currencies")
                 var realFetch = await fetch("https://www.alphavantage.co/physical_currency_list/")
                 parseCurrencyList(await realFetch.text())
 
-                log("[AlphaVantage] Downloading list of virtual currencies")
+                console.log("[AlphaVantage] Downloading list of virtual currencies")
                 var digitalFetch = await fetch("https://www.alphavantage.co/digital_currency_list/")
                 parseCurrencyList(await digitalFetch.text())
                 currencyListDownloaded = true
-                log(`[AlphaVantage] ${currencies.length} currencies loaded.`)
+                console.log(`[AlphaVantage] ${currencies.length} currencies loaded.`)
 			}
 		}
 	]
