@@ -18,7 +18,7 @@
  *  PARSED : {name: "Ganymede"}
  * 
  * Argument (enumeration)
- *  GRAMMAR: enum{"red","green","blue"} colour
+ *  GRAMMAR: enum{red,green,blue} colour
  *  EXAMPLE: red
  *  PARSED : {colour: "red"}
  * 
@@ -38,20 +38,54 @@
  *  PARSED : {firstName: "John", lastName: "Doe", age: 27, pronoun: "he", description: "Lorem Ipsum Sit Amet."}
  * Optional Arguments
  * 
+ * Optional Arguments
+ * GRAMMAR: int optional xkcdComic
+ * EXAMPLE: 
+ * PARSED : {}
+ * 
+ * Default Values
+ * GRAMMAR: word gitBranch=master
+ * 
  */
 
- var seperator = " "
+var seperator = " "
+var argSeperator = ","
 
- /**
-  * Parse a grammar into its constituent parts
-  * @param {String} grammar The grammar to split out
-  */
- function parseGrammar(grammar) {
-     // Split out grammar
-     var arguments = grammar.split(",").map((arg) => arg.trim())
-     var gram = {}
-     
-     for (var argument of arguments) {
+/**
+ * Parse a grammar 
+ * @param {String} grammar The grammar to split out
+ */
+function parseGrammar(grammar) {
+    // Split out grammar
+    var chars = grammar.split("")
+    var args = []
+    var cstring = ""
+    var quoted = false
+    var escaped = false
+    var arguments = false
+    var carg = {}
+    for (var c of chars) {
+        if (escaped) {cstring += c;escaped = false;continue}
+        if (c == "\\") {cstring += c;escaped = true; continue;}
 
-     }
- }
+        if (c == "\"") {cstring += c;quoted = !quoted; continue;}
+        if (quoted) {cstring += c;continue}
+
+        if (c == "{" && !arguments) {cstring += c;arguments = true; continue;}
+        if (c == "}" && arguments) {cstring += c;arguments = false; continue;}
+        if (arguments) {cstring += c;continue}
+
+        if (c == argSeperator) {args.push(carg); carg ={};cstring = ""; continue;}
+        cstring += c
+    }
+    if (cstring.trim().length > 1) { args.push(cstring.trim()) }
+    return args
+}
+
+function parseInput() {
+
+}
+
+parseInput.parseGrammar = parseGrammar
+
+module.exports = parseInput
