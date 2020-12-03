@@ -186,10 +186,14 @@ function parseInput(input,against) {
     }
     var words = parseWord(input,seperator)
     var retval = {}
+    for (var g of grammar) {
+        if (g.default) {retval[g.name] = g.default}
+    }
     var word;
     var endType;
     while (word = words.shift()) {
         var g = grammar.shift()
+
         if (!g) {return ["Too many arguments"]}
         if (!types[g.type.kind]) {throw new Error("Unknown type " + g.type.kind)}
         var valid = types[g.type.kind](word,g.type)
@@ -206,8 +210,10 @@ function parseInput(input,against) {
         }
         retval[g.name] = valid[1]
     }
-    if (grammar[0] && !grammar[0].optional) {
-        return ["Too few arguments! Missing a value for required \'" + grammar[0].name + "\'"]
+    for (var g of grammar) {
+        if (!g.optional && !g.default) {
+            return ["Too few arguments! Missing a value for required \'" + g.name + "\'"]
+        }
     }
     if (words[0] && endType) {
         for (var word of words) {
