@@ -18,3 +18,4 @@ config/configBackup.js
 *.sqlite
 botstion.sqlite-journal
 config/gaydar.js
+*.icloud
