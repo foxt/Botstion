@@ -6,7 +6,7 @@ console.log("Botstion 4: A modular bot for Discord. Licenced under GPL 3.0 (see 
 require("./configUpdate")
 const config = require("./configLoader")
 
-const client = new discord.Client();
+const client = new discord.Client({autoReconnect:true});
 global.client = client
 client.meta = {
 	name: "Botstion 4",
