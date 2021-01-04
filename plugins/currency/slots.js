@@ -16,8 +16,8 @@ module.exports = {
 	description: "Slots game using coins.",
 	commands: [{
 		name: "slots",
-		usage: "100",
-		description: "Play slots. The provided input is your bet.",
+		usage: "int bet=100",
+		description: "Play slots.",
 		execute: async(c, m, a) => {
 			if (!(c.db.dbLoaded && c.db.tables.wallet)) { return m.reply("The database is unavailable right now. Try again later.") }
             try {

@@ -13,7 +13,7 @@ module.exports = {
 	commands: [
 		{
 			name: "fortnite",
-			usage: "pc theLMGN",
+			usage: "enum{kbm,gamepad,touch} platform=kbm, word playerName=theLMGN",
 			description: "Fortnite statistics. (Powered by https://fortnitetracker.com/, valid platforms are currently `pc`,`xbl` and `psn`)",
 			execute: async(c, m, a) => {
 				if (a.length >= 2) {

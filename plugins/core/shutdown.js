@@ -8,7 +8,6 @@ module.exports = {
 	description: "Destroys the client then kills the process. (Ported from Botstion3)",
 	commands: [{
 		name: "shutdown",
-		usage: "",
 		description: "Shutdown the bot.",
 		execute: async(c, m, a) => {
 			if (config.maintainers.includes(m.author.id)) {

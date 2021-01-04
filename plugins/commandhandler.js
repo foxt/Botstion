@@ -2,6 +2,7 @@ var allCommands = [];
 var allPlugins = [];
 const config = require("../configLoader");
 const Discord = require("discord.js");
+const argparser = require("../util/argparser")
 
 function handleError(e,msg) {
 	var stack = (e.stack || e.toString())
@@ -74,11 +75,11 @@ module.exports = {
 	commands: [
 		{
 			name: "help",
-			usage: "",
 			description: "Lists commands and their descriptions/examples",
 			execute: async(c, m, a) => {
 				var emb = new Discord.MessageEmbed()
 					.setTitle(`There are ${allCommands.length} available for you to use`)
+					.setFooter("* = this argument is required")
 					.setColor("#3273dc")
 				var fields = 0;
 				for (i in  allCommands) {
@@ -90,7 +91,7 @@ module.exports = {
 									.setTitle(`There are ${allCommands.length} commands available for you to use`)
 									.setColor("#3273dc")
 					}
-					emb.addField(`${config.defaultPrefix}${command.name} ${command.usage}`, command.description, false);
+					emb.addField(`${config.defaultPrefix}${command.name} ${command.usage.map((a) => (a.optional ? "" : "*") + a.name).join(" ")}`, `**Example: ${config.defaultPrefix}${command.name} ${command.usage.map((a) => a.default).join(" ")}**\n${command.description}`, false);
 				}
 				try {
 					m.author.send(emb);
@@ -134,6 +135,7 @@ module.exports = {
 			allPlugins.push(plugin);
 			if (plugin.commands) {
 				for (var command of plugin.commands) {
+					command.usage = argparser.parseGrammar(command.usage || "")
 					allCommands.push(command);
 				}
 			}

@@ -148,7 +148,7 @@ module.exports = {
 	commands: [
 		{
 			name: "rblxprofile",
-			usage: "theLMGN",
+			usage: "word username=Builderman",
 			description: "Shows you the profile of a Roblox user. You can pass either a Roblox username (e.g. theLMGN), a Roblox user ID, (e.g 47757673) or mention a user if they've verified with [RoVer](https://eryn.io/RoVer/)",
 			execute: async(c, m, a) => {
 				var input = a[0]
@@ -257,7 +257,7 @@ module.exports = {
 		},
 		{
 			name: "rblxgroup",
-			usage: "3534114",
+			usage: "int groupId=3534114",
 			description: "Shows you the profile of a Roblox group. Requires ID, not name",
 			execute: async(c, m, a) => {
 				var input = a[0]
@@ -305,7 +305,7 @@ module.exports = {
 
 		{
 			name: "rblxasset",
-			usage: "14083380",
+			usage: "int itemId=14083380",
 			description: "Shows you the information of a Roblox asset provided by it's ID",
 			execute: (c, m, a) => {
 				return embedAsset(m,a)

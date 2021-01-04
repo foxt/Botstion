@@ -10,7 +10,7 @@ module.exports = {
 	commands: [
 		{
 			name: "shortcuts",
-			usage: "https://www.icloud.com/shortcuts/5e8f36990cec481db78872ed70b3dcc8",
+			usage: "word shortcutUrl=https://www.icloud.com/shortcuts/5e8f36990cec481db78872ed70b3dcc8",
 			description: "Data on Apple iOS Shortcuts",
 			execute: async(c, m, a) => {
 

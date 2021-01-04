@@ -22,7 +22,7 @@ module.exports = {
 	description: "Implements Gaydar™ technology",
 	commands: [{
 		name: "gay",
-		usage: "<@321746347550310411>",
+		usage: "word user=<@321746347550310411>",
         description: "Uses Gaydar™ on a specific user",
          /**
          * @param {Discord.Client} c Client

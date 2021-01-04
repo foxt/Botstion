@@ -10,12 +10,13 @@ module.exports = {
 	name: "Genius Lyrics",
 	author: "theLMGN",
 	version: 1,
+	disabled: true,
 	description: "Lyrics from genius.com (Ported from Botstion3)",
 	requiresConfig: "geniusAccessToken",
 	commands: [
 		{
 			name: "lyrics",
-			usage: "Junction Seven",
+			usage: "word[] searchQuery=\"Bohemian Rhapsody\"",
 			description: "Lyrics from Genius.com",
 			execute: async(c, msg, args) => {
 				var r = await fetch(`https://api.genius.com/search?q=${encodeURIComponent(args.join(" "))}`, {headers: {"Authorization": `Bearer ${config.geniusAccessToken}`}})

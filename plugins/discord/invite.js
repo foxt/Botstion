@@ -9,7 +9,7 @@ module.exports = {
 	commands: [
 		{
 			name: "invite",
-			usage: "hNgA7va",
+			usage: "word invite=hNgA7va",
 			description: "Shows you information an invite",
 			execute: async(c, m, a) => {
                 if (a.length < 1) {

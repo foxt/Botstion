@@ -9,7 +9,6 @@ module.exports = {
 	commands: [
 		{
 			name: "inspirobot",
-			usage: "",
 			description: "Inspires you.",
 			execute: async(c, m, a) => {
 				var ftch = await fetch("http://inspirobot.me/api?generate=true")

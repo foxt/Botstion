@@ -16,7 +16,7 @@ module.exports = {
 	commands: [
 		{
 			name: "playing",
-			usage: "Team Fortress 2",
+			usage: "word[] game=Team Fortress 2",
 			description: "Shows you a number of how many people are playing the specified game",
 			execute: async(c, m, a) => {
 				var game = a.join(" ").toLowerCase();

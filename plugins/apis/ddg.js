@@ -8,7 +8,7 @@ module.exports = {
 	commands: [
 		{
 			name: "d",
-			usage: "Discord",
+			usage: "word[] searchQuery=Discord",
 			description: "DuckDuckGo instant answers",
 			execute: async(c, m, a) => {
                 var a = a.join(" ")

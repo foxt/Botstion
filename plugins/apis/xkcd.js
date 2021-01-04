@@ -10,7 +10,7 @@ module.exports = {
 	commands: [
 		{
 			name: "xkcd",
-			usage: "(optional comic no.)",
+			usage: "int optional comicId",
 			description: "Shows information of a XKCD comic.",
 			execute: async(c, m, a) => {
 				if (a.length >= 1) {

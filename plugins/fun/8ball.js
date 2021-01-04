@@ -17,7 +17,7 @@ module.exports = {
 	description: "A simple random answer generator based of the famous 8ball toy. (Ported from Botstion3)",
 	commands: [{
 		name: "8ball",
-		usage: "",
+		usage: "word[] question=are you real?",
 		description: "Consult the magic 8ball",
 		execute: async(c, m, a) => {
 			var random = getRandomInt(1, 4);

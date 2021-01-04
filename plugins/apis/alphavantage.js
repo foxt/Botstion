@@ -24,8 +24,8 @@ module.exports = {
 	commands: [
 		{
 			name: "currency",
-			usage: "50 GBP BTC",
-			description: "Currency conversions, {amount} {source currency} {to currency}",
+            usage: "float amount=50, word sourceCurrency=GBP, word targetCurrency=BTC",
+			description: "Currency conversions",
 			execute: async(c, m, a) => {
                 if (!currencyListDownloaded) {
                     return m.reply({ embed: new Discord.MessageEmbed()

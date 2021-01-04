@@ -114,7 +114,6 @@ module.exports = {
 	commands: [
 		{
 			name: "serverinfo",
-			usage: "",
 			description: "Shows you information about the current guild",
 			execute: async(c, m, a) => {
 				if (m.channel.guild) {
@@ -146,7 +145,7 @@ module.exports = {
 		},
 		{
 			name: "profile",
-			usage: "<@158311402677731328>",
+			usage: "word optional user=<@158311402677731328>",
 			description: "Shows you information on the specified user(s)",
 			execute: async(c, m, a) => {
 				var embeds = []
@@ -167,7 +166,6 @@ module.exports = {
 		},
 		{
 			name: "semojis",
-			usage: "",
 			description: "Shows you the emojis in the server.",
 			execute: async(c, m, a) => {
 				if (m.channel.guild) {

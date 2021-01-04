@@ -8,7 +8,6 @@ module.exports = {
 	description: "DBTest",
 	commands: [{
 		name: "dbsave",
-		usage: "hello",
 		description: "db test save",
 		execute: async(c, m, a) => {
 			console.log(c.db)
@@ -30,7 +29,6 @@ module.exports = {
 	},
 	{
 		name: "dbload",
-		usage: "",
 		description: "db test load",
 		execute: async(c, m, a) => {
 			console.log(c.db)

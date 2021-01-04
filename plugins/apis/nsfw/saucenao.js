@@ -10,7 +10,7 @@ module.exports = {
 	commands: [
 		{
 			name: "sauce",
-			usage: "https://example.org/example.png",
+			usage: "word url=https://example.org/example.png",
             description: "Checks SauceNAO for image source.",
             /**
              * @param c {Discord.Client}

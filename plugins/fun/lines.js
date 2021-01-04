@@ -35,7 +35,6 @@ module.exports = {
 	commands: [
 		{
 			name: "lines",
-			usage: "",
 			description: "A command that shows all the lines of code in js files, excluding node_modules.",
 			execute: async(c, m, a) => {
 

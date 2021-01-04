@@ -13,7 +13,7 @@ module.exports = {
 	commands: [
 		{
 			name: "weather",
-			usage: "London",
+			usage: "word[] city=London",
 			description: "Weather powered by DarkSky",
 			execute: async(c, m, a) => {
 				if (a.includes("vlagland")) { a = ["bucharest"]}

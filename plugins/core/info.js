@@ -30,7 +30,6 @@ module.exports = {
 	description: "Shows you some information about the bot. (Ported from Botstion3)",
 	commands: [{
 		name: "info",
-		usage: "",
 		description: "Shows you some information about the bot.",
 		aliases: ["botstion","about"],
 		execute: async(c, m, a) => {

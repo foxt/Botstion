@@ -7,7 +7,7 @@ module.exports = {
 	description: "Evaluates code from a message.",
 	commands: [{
 		name: "eval",
-		usage: "console.log(\"Hello World!\")",
+		usage: "word[] code=console.log(\"Hello World!\")",
 		description: "Executes some code.",
 		execute: async(c, m, a) => {
 			if (config.maintainers.includes(m.author.id)) {

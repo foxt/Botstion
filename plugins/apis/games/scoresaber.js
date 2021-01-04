@@ -85,7 +85,7 @@ module.exports = {
 	commands: [
 		{
 			name: "scoresaber",
-			usage: "theLMGN",
+			usage: "word playerName=theLMGN",
 			description: "Show Beat Saber ranking for a player. Accepts username or SteamID64.",
 			execute: async(c, m, a) => {
 				if (a[0]) {
