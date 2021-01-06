@@ -38,6 +38,7 @@ module.exports = {
 			name: "e621",
 			usage: "word[] optional searchQuery=fluffy",
             description: "Grabs a random image from e621.net (will only grab safe images in SFW channels)",
+            category: "NSFW",
             stipulations: {
                 nsfw: 1,
             },

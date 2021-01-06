@@ -18,6 +18,7 @@ module.exports = {
 			name: "lyrics",
 			usage: "word[] searchQuery=\"Bohemian Rhapsody\"",
 			description: "Lyrics from Genius.com",
+			category: "Music",
 			execute: async(c, msg, args) => {
 				var r = await fetch(`https://api.genius.com/search?q=${encodeURIComponent(args.join(" "))}`, {headers: {"Authorization": `Bearer ${config.geniusAccessToken}`}})
 				var j = await r.json()

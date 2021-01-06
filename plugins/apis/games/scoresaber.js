@@ -86,7 +86,8 @@ module.exports = {
 		{
 			name: "scoresaber",
 			usage: "word playerName=theLMGN",
-			description: "Show Beat Saber ranking for a player. Accepts username or SteamID64.",
+            description: "Show Beat Saber ranking for a player. Accepts username or SteamID64.",
+            category: "Games",
 			execute: async(c, m, a) => {
                 var un = encodeURIComponent(a.playerName)
                 var msg 

@@ -7,8 +7,9 @@ module.exports = {
 	description: "Allows users to pay eachother and view their balance",
 	commands: [{
 		name: "pay",
-		usage: "user recipient=<@321746347550310411>, int amount=50",
+		usage: "user recipient=<@158311402677731328>, int amount=50",
 		description: "Pay another user",
+		category: "Currency",
 		execute: async(c, m, a) => {
 			if (c.db.dbLoaded && c.db.tables.wallet) {
 				try {
@@ -65,6 +66,7 @@ module.exports = {
 	{
 		name: "balance",
 		description: "Allows you to see how many coins you have in your wallet.",
+		category: "Currency",
 		execute: async(c, m, a) => {
 			if (c.db.dbLoaded && c.db.tables.wallet) {
 				try {

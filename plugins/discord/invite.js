@@ -53,7 +53,8 @@ module.exports = {
 		{
 			name: "invite",
 			usage: "word invite=fmhYSCr",
-			description: "Shows you information an invite",
+            description: "Shows you information an invite",
+            category: "Utilities",
 			execute: async(c, m, a) => {
                 var invite = a.invite.replace(/discord.gg\//g,"").replace(/https:\/\//g,"").replace(/http:\/\//g,"").replace(/www./g,"").replace(/discordapp.com\/invite\//g)
                 var ftch = await fetch(`https://discordapp.com/api/v6/invites/${encodeURIComponent(invite)}?with_counts=true`)

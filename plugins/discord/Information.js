@@ -127,6 +127,7 @@ module.exports = {
 			stipulations: {
 				context: 1
 			},
+			category: "Utilities",
 			execute: async(c, m, a) => {
 				var embed = new Discord.MessageEmbed()
 					.setTitle(`Here's some info about this server!`)
@@ -152,6 +153,7 @@ module.exports = {
 			name: "profile",
 			usage: "user[] optional user=<@158311402677731328>",
 			description: "Shows you information on the specified user(s)",
+			category: "Utilities",
 			execute: async(c, m, a) => {
 				var embeds = []
 				var containsAuthor = false
@@ -178,6 +180,7 @@ module.exports = {
 			stipulations: {
 				context: 1
 			},
+			category: "Utilities",
 			execute: async(c, m, a) => {
 				m.reply({ embed: new Discord.MessageEmbed().setTitle(`${m.guild.name} has ${m.guild.emojis.cache.size} emoji(s)`)
 					.setDescription(`${m.guild.emojis.cache.array().join("")}`)

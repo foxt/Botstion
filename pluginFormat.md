@@ -11,6 +11,7 @@ module.exports = {
 			name: "hello",
 			usage: "word optional name=Bob", // see util/argparser.js
             description: "Greetings!",
+            category: "Basic",
             stipulations: {
                 nsfw: 1, // whether the command is NSFW or not, defaults to 0
                          // 0 - never returns nsfw

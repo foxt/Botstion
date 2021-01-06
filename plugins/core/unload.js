@@ -165,7 +165,8 @@ module.exports = {
         usage: "word[] pluginName=\"plugin unloader\"",
         stipulations: {
 			maintainer: true
-		},
+        },
+        category: "Meta",
 		execute: unloadPluginCommand
     },
     {
@@ -174,7 +175,8 @@ module.exports = {
         usage: "word[] path=\"./unload.js\"",
         stipulations: {
 			maintainer: true
-		},
+        },
+        category: "Meta",
 		execute: loadPluginCommand
     },
     {
@@ -183,7 +185,8 @@ module.exports = {
         usage: "word[] pluginName=\"plugin unloader\"",
         stipulations: {
 			maintainer: true
-		},
+        },
+        category: "Meta",
 		execute: async(c, m, a) => {
             var b =await unloadPluginCommand(c,m,a)
             return await loadPluginCommand(c,m,{path:[b]})

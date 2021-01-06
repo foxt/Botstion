@@ -9,6 +9,7 @@ module.exports = {
 		name: "eval",
 		usage: "word[] code=console.log(\"Hello World!\")",
 		description: "Executes some code.",
+		category: "Meta",
 		stipulations: {
 			maintainer: true
 		},

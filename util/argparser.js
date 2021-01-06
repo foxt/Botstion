@@ -196,7 +196,7 @@ async function parseInput(input,against,context) {
     var words = parseWord(input,seperator)
     var retval = {}
     for (var g of grammar) {
-        if (g.default) {retval[g.name] = g.default}
+        if (g.default) {retval[g.name] = (await (types[g.type.kind](g.default,g.type,context)))[1]}
     }
     var word;
     var endType;

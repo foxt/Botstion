@@ -15,6 +15,7 @@ module.exports = {
 			usage: "word ipAddress=8.8.8.8",
 			description: "ipinfo.io support",
 			aliases: ["ipinfo"],
+			category: "Utilities",
 			execute: async(c, m, a) => {
 				var e = await m.reply({ embed: new Discord.MessageEmbed()
 					.setTitle("Working...")

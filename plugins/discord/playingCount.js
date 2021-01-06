@@ -18,6 +18,7 @@ module.exports = {
 			name: "playing",
 			usage: "word[] game=Team Fortress 2",
 			description: "Shows you a number of how many people are playing the specified game",
+			category: "Utilities",
 			execute: async(c, m, a) => {
 				var game = a.join(" ").toLowerCase();
 				var count = 0;

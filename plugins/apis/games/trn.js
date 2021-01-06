@@ -79,6 +79,7 @@ module.exports = {
 			name: "ow",
 			usage: "enum{battlenet,xbl,psn} platform=battlenet, word username=theLMGN#2143",
 			description: "Overwatch statistics. (Powered by https://thetrackernetwork.com/, valid platforms are currently `battlenet`,`xbl` and `psn`)",
+			category: "Games",
 			execute: async(c, m, a) => {
 				return await trnCmdHandler({
 					id: "overwatch",
@@ -92,6 +93,7 @@ module.exports = {
 			name: "apex",
 			usage: "enum{origin,xbl,psn} platform=origin, word username=thetheLMGN",
 			description: "Apex Legends statistics. (Powered by https://thetrackernetwork.com/, valid platforms are currently `origin`,`xbl` and `psn`)",
+			category: "Games",
 			execute: async(c, m, a) => {
 				return trnCmdHandler({
 					id: "apex",
@@ -105,6 +107,7 @@ module.exports = {
 			name: "csgo",
 			usage: "word username=lmgn",
 			description: "CS:GO statistics. (Powered by https://thetrackernetwork.com/, platform must be `steam`)",
+			category: "Games",
 			execute: async(c, m, a) => {
 				a.platform = "steam"
 				return trnCmdHandler({
@@ -120,6 +123,7 @@ module.exports = {
 			name: "division",
 			usage: "enum{uplay,xbl,psn} platform=uplay, word username=DivisionPlayer",
 			description: "The Division 2 statistics. (Powered by https://thetrackernetwork.com/, platform must be `uplay`, `xbl` or `psn`)",
+			category: "Games",
 			execute: async(c, m, a) => {
 				return trnCmdHandler({
 					id: "division-2",

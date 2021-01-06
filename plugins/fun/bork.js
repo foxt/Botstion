@@ -7,6 +7,7 @@ module.exports = {
 		{
 			name: "<@321746347550310411>",
 			description: "Bork",
+			category: "Fun",
 			execute: async(c, m, a) => {
 				m.reply("bork")
 			}

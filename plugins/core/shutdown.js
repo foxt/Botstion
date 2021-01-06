@@ -9,6 +9,7 @@ module.exports = {
 	commands: [{
 		name: "shutdown",
 		description: "Shutdown the bot.",
+		category: "Meta",
 		stipulations: {
 			maintainer: true
 		},

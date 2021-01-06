@@ -15,6 +15,7 @@ module.exports = {
 			name: "weather",
 			usage: "word[] city=London",
 			description: "Weather powered by DarkSky",
+			category: "Utilities",
 			execute: async(c, m, a) => {
 				var e = await m.reply({ embed: new Discord.MessageEmbed()
 					.setTitle("Working...")

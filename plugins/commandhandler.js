@@ -109,7 +109,16 @@ module.exports = {
 		{
 			name: "help",
 			description: "Lists commands and their descriptions/examples",
+			category: "Meta",
+			usage: "bool optional legacy=false",
 			execute: async(c, m, a) => {
+				console.log(a)
+				if (!a.legacy) {
+					return m.reply(new Discord.MessageEmbed()
+					.setDescription("The commands list has moved to [the website](https://bot.thelmgn.com/commands?hideMaintainer)")
+					.setFooter("However, you can still get the old documentation by using " + config.defaultPrefix + "help true")
+					.setColor("#3273dc"))
+				}
 				var emb = new Discord.MessageEmbed()
 					.setTitle(`There are ${allCommands.length} available for you to use`)
 					.setFooter("* = this argument is required")

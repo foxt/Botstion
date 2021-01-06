@@ -12,6 +12,7 @@ module.exports = {
 			name: "sauce",
 			usage: "word url=https://example.org/example.png",
             description: "Checks SauceNAO for image source.",
+            category: "NSFW",
             stipulations: {
                 nsfw: 2,
             },

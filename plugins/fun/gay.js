@@ -22,13 +22,14 @@ module.exports = {
 	description: "Implements Gaydar™ technology",
 	commands: [{
 		name: "gay",
-		usage: "user user=<@321746347550310411>",
+		usage: "user user=<@158311402677731328>",
         description: "Uses Gaydar™ on a specific user",
          /**
          * @param {Discord.Client} c Client
          * @param {Discord.Message} m Invoking message
          * @param {Array} a Arguments
          */
+        category: "Fun",
 		execute: async(c, m, a) => {
             var member = a.user
             if (member.bot) {

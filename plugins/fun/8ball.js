@@ -19,6 +19,7 @@ module.exports = {
 		name: "8ball",
 		usage: "word[] question=are you real?",
 		description: "Consult the magic 8ball",
+		category: "Fun",
 		execute: async(c, m, a) => {
 			var random = getRandomInt(1, 4);
 			if (random == 1) {

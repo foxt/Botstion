@@ -69,6 +69,7 @@ module.exports = {
 			name: "rblxprofile",
 			usage: "word username=Builderman",
 			description: "Shows you the profile of a Roblox user. You can pass either a Roblox username (e.g. theLMGN), a Roblox user ID, (e.g 47757673) or mention a user if they've verified with [RoVer](https://eryn.io/RoVer/)",
+			category: "Games",
 			execute: async(c, m, a) => {
 				var input = a.username
 
@@ -170,6 +171,7 @@ module.exports = {
 			name: "rblxgroup",
 			usage: "int groupId=3534114",
 			description: "Shows you the profile of a Roblox group. Requires ID, not name",
+			category: "Games",
 			execute: async(c, m, a) => {
 				var input = a.groupId
 
@@ -206,6 +208,7 @@ module.exports = {
 			name: "rblxasset",
 			usage: "int itemId=14083380",
 			description: "Shows you the information of a Roblox asset provided by it's ID",
+			category: "Games",
 			execute: async (c, m, a) => {
 				var input = a.itemId
 

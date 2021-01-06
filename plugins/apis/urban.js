@@ -13,6 +13,7 @@ module.exports = {
 			name: "urban",
 			usage: "word[] word=\"Hello, world\"",
 			description: "Urban Dictionary lookup",
+			category: "Utilities",
 			execute: async(c, msg, args) => {
 				var r = await fetch(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(args.word)}`)
 				var j = await r.json()

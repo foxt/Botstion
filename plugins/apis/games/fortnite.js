@@ -15,6 +15,7 @@ module.exports = {
 			name: "fortnite",
 			usage: "enum{kbm,gamepad,touch} platform=kbm, word playerName=theLMGN",
 			description: "Fortnite statistics. (Powered by https://fortnitetracker.com/, valid platforms are currently `pc`,`xbl` and `psn`)",
+			category: "Games",
 			execute: async(c, m, a) => {
 				var platform = a.platform
 				if (requestsRemaining < 6) {
