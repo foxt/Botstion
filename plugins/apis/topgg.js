@@ -9,7 +9,7 @@ function updateServerCount(c) {
 			'Content-Type':"application/json"
 		},
 		method: "POST",
-		body: JSON.stringify({server_count: c.guilds.size})
+		body: JSON.stringify({server_count: c.guilds.cache.size})
 	}).then(async function(e) {
 		if (!e.ok) {
 			console.error("[t.gg] Updating server count failed,", await e.text())
