@@ -124,32 +124,28 @@ module.exports = {
 		{
 			name: "serverinfo",
 			description: "Shows you information about the current guild",
+			stipulations: {
+				context: 1
+			},
 			execute: async(c, m, a) => {
-				if (m.channel.guild) {
-					var embed = new Discord.MessageEmbed()
-						.setTitle(`Here's some info about this server!`)
-						.setColor("#3273dc");
-					if (m.guild.afkChannel && m.guild.afkTimeout) {
-						embed.addField(":zzz: AFK", `<#${m.guild.afkChannelID}> (${m.guild.afkTimeout / 60} mins)`);
-					}
-					embed.addField(":hash: Channel count", `${m.guild.channels.cache.size}`);
-					embed.addField(":calendar_spiral: Created", `${m.guild.createdAt}`);
-					embed.addField(":smile: Emojis", `${m.guild.emojis.cache.size} (use b!semojis to view them)`);
-					if (m.guild.icon) {
-						embed.addField(":frame_photo: Icon URL", `[${m.guild.icon}](${m.guild.iconURL()})`);
-					}
-					embed.addField(":calendar: Joined at", `${m.guild.joinedAt}`);
-					embed.addField(":busts_in_silhouette: Members", `${m.guild.memberCount}`);
-					embed.addField(":pencil: Server name and acronym", `${m.guild.name} (${m.guild.nameAcronym})`);
-					embed.addField(":bust_in_silhouette: Owner", `${m.guild.owner}`);
-					embed.addField(":map: Region", `${m.guild.region}`);
-					m.reply({ embed: embed });
-				} else {
-					m.reply({ embed: new Discord.MessageEmbed()
-						.setAuthor("404: Guild not found.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-						.setColor("#ff3860")
-						.setFooter(`It seems this command was ran in DMs, but it's required to be ran in a server, not through DMs.`) });
+				var embed = new Discord.MessageEmbed()
+					.setTitle(`Here's some info about this server!`)
+					.setColor("#3273dc");
+				if (m.guild.afkChannel && m.guild.afkTimeout) {
+					embed.addField(":zzz: AFK", `<#${m.guild.afkChannelID}> (${m.guild.afkTimeout / 60} mins)`);
 				}
+				embed.addField(":hash: Channel count", `${m.guild.channels.cache.size}`);
+				embed.addField(":calendar_spiral: Created", `${m.guild.createdAt}`);
+				embed.addField(":smile: Emojis", `${m.guild.emojis.cache.size} (use b!semojis to view them)`);
+				if (m.guild.icon) {
+					embed.addField(":frame_photo: Icon URL", `[${m.guild.icon}](${m.guild.iconURL()})`);
+				}
+				embed.addField(":calendar: Joined at", `${m.guild.joinedAt}`);
+				embed.addField(":busts_in_silhouette: Members", `${m.guild.memberCount}`);
+				embed.addField(":pencil: Server name and acronym", `${m.guild.name} (${m.guild.nameAcronym})`);
+				embed.addField(":bust_in_silhouette: Owner", `${m.guild.owner}`);
+				embed.addField(":map: Region", `${m.guild.region}`);
+				m.reply({ embed: embed });
 			},
 		},
 		{
@@ -179,18 +175,14 @@ module.exports = {
 		{
 			name: "semojis",
 			description: "Shows you the emojis in the server.",
+			stipulations: {
+				context: 1
+			},
 			execute: async(c, m, a) => {
-				if (m.channel.guild) {
-					m.reply({ embed: new Discord.MessageEmbed().setTitle(`${m.guild.name} has ${m.guild.emojis.cache.size} emoji(s)`)
-						.setDescription(`${m.guild.emojis.cache.array().join("")}`)
-						.setColor("#3273dc"),
-					});
-				} else {
-					m.reply({ embed: new Discord.MessageEmbed()
-						.setAuthor("404: Guild not found.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-						.setColor("#ff3860")
-						.setFooter(`It seems this command was ran in DMs, but it's required to be ran in a server, not through DMs.`) });
-				}
+				m.reply({ embed: new Discord.MessageEmbed().setTitle(`${m.guild.name} has ${m.guild.emojis.cache.size} emoji(s)`)
+					.setDescription(`${m.guild.emojis.cache.array().join("")}`)
+					.setColor("#3273dc"),
+				});
 			},
 		},
 	]

@@ -9,19 +9,16 @@ module.exports = {
 	commands: [{
 		name: "shutdown",
 		description: "Shutdown the bot.",
+		stipulations: {
+			maintainer: true
+		},
 		execute: async(c, m, a) => {
-			if (config.maintainers.includes(m.author.id)) {
-				await m.reply({ embed: new Discord.MessageEmbed()
-					.setTitle("See ya!")
-					.setDescription("Botstion is about to go down.")
-					.setColor("#23d160") });
-				c.destroy().then(() => process.exit());
-			} else {
-				m.reply({ embed: new Discord.MessageEmbed()
-					.setAuthor("401: Access denied.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-					.setColor("#ff3860")
-					.setFooter(`You do not have permissions to run this command. Sorry.`) });
-			}
+			await m.reply({ embed: new Discord.MessageEmbed()
+				.setTitle("See ya!")
+				.setDescription("Botstion is about to go down.")
+				.setColor("#23d160") });
+			await c.destroy()
+			process.exit()
 		},
 	}]
 };

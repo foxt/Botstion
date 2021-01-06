@@ -63,7 +63,7 @@ module.exports = {
 				}
 			} else {
 				m.reply({ embed: new Discord.MessageEmbed()
-					.setAuthor("401: Access denied.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+					.setAuthor("403: Access denied.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 					.setColor("#ff3860")
 					.setFooter(`You do not have permissions to run this command. Sorry.`) });
 			}

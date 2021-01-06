@@ -36,6 +36,29 @@ async function invokeCommand(command,msg,suffix,cmd) {
 	}
 
 	try {
+		if (command.stipulations.nsfw >= 2) {
+			var allowNSFW = msg.channel.nsfw || !msg.channel.guild
+			if (!allowNSFW) {
+				return msg.reply({ embed: new Discord.MessageEmbed()
+					.setAuthor("451: This command cannot be ran here!", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+					.setColor("#ff3860")
+					.setFooter(`Due to the NSFW content that this command may return, we have disabled it in non-NSFW channels. Try again in DMs or in a NSFW channel.`) });
+			}
+		}
+		if (command.stipulations.maintainer) {
+			if (!config.maintainers.includes(msg.author.id)) {
+				return msg.reply({ embed: new Discord.MessageEmbed()
+					.setAuthor("403: Access denied.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+					.setColor("#ff3860")
+					.setFooter(`You must be a Botstion maintainer to run this command.`) });
+			}
+		}
+		if ((command.stipulations.context == 1 && !msg.channel.guild) || (command.stipulations.context == 2 && msg.channel.guild)) {
+			return msg.reply({ embed: new Discord.MessageEmbed()
+				.setAuthor("405: This command cannot be ran here", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+				.setColor("#ff3860")
+				.setFooter(`This command must be ran in ${command.stipulations.context == 1 ? "a server" : "direct messages"}.`) });
+		}
 		var parse = await argparser(suffix.join(" "),command.usage)
 		if (parse[0]) {
 			return msg.reply({ embed: new Discord.MessageEmbed()
@@ -146,6 +169,7 @@ module.exports = {
 			if (plugin.commands) {
 				for (var command of plugin.commands) {
 					command.rawUsage = command.usage
+					command.stipulations = Object.assign({nsfw: 0, perms: [],requiresPerms: [],maintainer:false, context:0},command.stipulations || {})
 					command.usage = argparser.parseGrammar(command.usage || "")
 					allCommands.push(command);
 				}

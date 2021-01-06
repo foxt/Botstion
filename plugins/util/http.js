@@ -29,10 +29,13 @@ module.exports = {
 					serverIcons: ["http://bot.thelmgn.com/logo.svg"],
 					members: c.users.cache.size,
 					servers: c.guilds.cache.size,
-					commands: c.allCommands
 				}
 				res.send(JSON.stringify(j))
 			})
+			app.get("/commands", async function(req,res) {
+				res.send("<h1>commands</h1>" + c.allCommands.map((c) => c.name).join("<br>"))
+			})
+
 			console.log("[HTTP] Listening on port " + config.httpPort)
 			app.listen(config.httpPort)
 		}

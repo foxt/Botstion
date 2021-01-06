@@ -7,12 +7,6 @@ function getKeyByValue(object, value) {
   }
 
 async function unloadPluginCommand(c,m,a) {
-    if (!config.maintainers.includes(m.author.id)) {
-        return m.reply({ embed: new Discord.MessageEmbed()
-            .setAuthor("401: Access denied.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-            .setColor("#ff3860")
-            .setFooter(`You do not have permissions to run this command. Sorry.`) });
-    }
     var name = a.pluginName.join(" ").toLowerCase()
     var plugins =  global.client.plugins.filter((n) => n.name.toLowerCase().includes(name))
     if (plugins.length > 1) {
@@ -90,12 +84,6 @@ async function unloadPluginCommand(c,m,a) {
     return k
 }
 async function loadPluginCommand(c,m,a) {
-    if (!config.maintainers.includes(m.author.id)) {
-        return m.reply({ embed: new Discord.MessageEmbed()
-            .setAuthor("401: Access denied.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-            .setColor("#ff3860")
-            .setFooter(`You do not have permissions to run this command. Sorry.`) });
-    }
     
     var plugin = a.path.join(" ")
     console.log(`	Loading ${plugin}`);
@@ -175,18 +163,27 @@ module.exports = {
 		name: "unload",
         description: "Unload a plugin",
         usage: "word[] pluginName=\"plugin unloader\"",
+        stipulations: {
+			maintainer: true
+		},
 		execute: unloadPluginCommand
     },
     {
 		name: "load",
         description: "Load a plugin",
         usage: "word[] path=\"./unload.js\"",
+        stipulations: {
+			maintainer: true
+		},
 		execute: loadPluginCommand
     },
     {
 		name: "reload",
         description: "Reload a plugin",
         usage: "word[] pluginName=\"plugin unloader\"",
+        stipulations: {
+			maintainer: true
+		},
 		execute: async(c, m, a) => {
             var b =await unloadPluginCommand(c,m,a)
             return await loadPluginCommand(c,m,{path:[b]})

@@ -62,7 +62,7 @@ module.exports = {
 						.setFooter('Shortcut last updated ' + shortcut.modificationDate.toString()) });
 				} else {
 					return e.edit({ embed: new Discord.MessageEmbed()
-						.setAuthor("400: Failed to parse", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+						.setAuthor("415: Failed to parse", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
 						.setColor("#ff3860")
 						.setFooter('This command only accepts 1 argument, the shortcut URL.') });
 				}

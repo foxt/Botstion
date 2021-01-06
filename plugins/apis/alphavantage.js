@@ -41,14 +41,14 @@ module.exports = {
                 }
                 if (!currencies.includes(a.sourceCurrency.toUpperCase())) {
                     return m.reply({ embed: new Discord.MessageEmbed()
-                        .setAuthor(`400: ${a.sourceCurrency} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+                        .setAuthor(`404: ${a.sourceCurrency} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
                         .setColor("#ff3860")
                         .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
                 }
                 
                 if (!currencies.includes(a.targetCurrency.toUpperCase())) {
                     return m.reply({ embed: new Discord.MessageEmbed()
-                        .setAuthor(`400: ${a.targetCurrency} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+                        .setAuthor(`404: ${a.targetCurrency} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
                         .setColor("#ff3860")
                         .setFooter(`This command only accepts 3 arguments, {amount} {source currency} {to currency}`) });
                 }

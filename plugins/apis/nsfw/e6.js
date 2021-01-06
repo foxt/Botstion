@@ -37,7 +37,10 @@ module.exports = {
 		{
 			name: "e621",
 			usage: "word[] optional searchQuery=fluffy",
-            description: "Grabs a random image from e621.net (will only grab safe images in SFW channels",
+            description: "Grabs a random image from e621.net (will only grab safe images in SFW channels)",
+            stipulations: {
+                nsfw: 1,
+            },
             /**
              * @param c {Discord.Client}
              * @param m {Discord.Message}
