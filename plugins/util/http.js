@@ -106,6 +106,12 @@ module.exports = {
 <title>Botstion Commands</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+<style>
+body,h2.title.is-2 {
+	background:#222428;
+	color: #fff;
+}
+</style>
 </head>
 <body>
 <section class="hero is-dark">
