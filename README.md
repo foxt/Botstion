@@ -6,7 +6,7 @@ Open-source Discord.js bot with the aim of opening Discord channels to as many A
 
 # Links
 
-[Support Server](http://discord.gg/V6Ez2N6) 
+[Support Server](https://discord.gg/tQGsFNmgyX) 
 
 [Invite the official bot!](https://discordapp.com/oauth2/authorize?client_id=321746347550310411&scope=bot&permissions=8) 
 
