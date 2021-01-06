@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const e = require("express");
-const config = require("../../configLoader");
+const config = require("../../util/configLoader");
 
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key].exports === value);

@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const config = require("../../../configLoader");
+const config = require("../../util/configLoader");
 const fetch = require("node-fetch")
 let requestsRemaining = 30;
 let uptimeAtLastReset = process.uptime();

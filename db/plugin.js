@@ -1,7 +1,7 @@
 console.log("		[DB] Initializing")
 const Sequelize = require('sequelize')
 const fs = require("fs")
-const config = require("../configLoader")
+const config = require("../util/configLoader")
 
 var dbLoaded = false
 var db = {tables:{}}

@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const config = require("../../configLoader");
+const config = require("../../util/configLoader");
 
 module.exports = {
 	name: "Shutdown",

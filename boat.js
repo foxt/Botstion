@@ -3,8 +3,7 @@ const path = require("path");
 const discord = require("discord.js");
 console.log("Botstion 4: A modular bot for Discord. Licenced under GPL 3.0 (see https://www.gnu.org/licenses/)")
 
-require("./configUpdate")
-const config = require("./configLoader")
+const config = require("./util/configLoader")
 
 const client = new discord.Client({autoReconnect:true});
 global.client = client

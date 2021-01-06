@@ -1,6 +1,6 @@
 var allCommands = [];
 var allPlugins = [];
-const config = require("../configLoader");
+const config = require("../util/configLoader");
 const Discord = require("discord.js");
 const argparser = require("../util/argparser")
 

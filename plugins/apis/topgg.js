@@ -1,6 +1,6 @@
 const Discord = require("discord.js")
 const fetch = require('node-fetch')
-const config = require("../../configLoader");
+const config = require("../../util/configLoader");
 
 function updateServerCount(c) {
 	fetch(`https://discordbots.org/api/bots/${c.user.id}/stats`, {

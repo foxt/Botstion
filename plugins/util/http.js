@@ -1,5 +1,5 @@
 const Express = require('express')
-const config = require("../../configLoader")
+const config = require("../../util/configLoader")
 
 console.log("		[HTTP] Creating express app")
 const app = Express()

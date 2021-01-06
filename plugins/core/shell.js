@@ -1,4 +1,4 @@
-const config = require("../../configLoader");
+const config = require("../../util/configLoader");
 const Discord = require("discord.js");
 const child_process_1 = require("child_process");
 module.exports = {

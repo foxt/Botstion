@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const querystring = require("querystring")
 const fetch = require("node-fetch")
-const config = require("../../configLoader");
+const config = require("../../util/configLoader");
 
 
 module.exports = {
