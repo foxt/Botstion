@@ -2,60 +2,45 @@ const Discord = require("discord.js");
 const mcjs = require("../../util/minecraft")
 
 module.exports = {
-	name: "Fortnite",
+	name: "Minecraft",
 	author: "theLMGN",
 	version: 1,
-	description: "Fortnite stats provided by fortnitetracker.com",
-	requiresConfig: "trackerNetworkApiKey",
+	description: "i like to build with brown bricks in mine craf",
 	commands: [
 		{
-			name: "fortnite",
-			usage: "enum{kbm,gamepad,touch} platform=kbm, word playerName=theLMGN",
-			description: "Fortnite statistics. (Powered by https://fortnitetracker.com/, valid platforms are currently `pc`,`xbl` and `psn`)",
+			name: "mcsrv",
+			usage: "word ip=mc.hypixel.net, int optional port=25565",
+			description: "Shows you details of a Minecraft server",
 			category: "Games",
-			execute: async(c, m, a) => {
-				var platform = a.platform
-				if (requestsRemaining < 6) {
-					return m.reply({ embed: new Discord.MessageEmbed()
-						.setAuthor("429: Ratelimited!", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-						.setColor("#ff3860")
-						.setFooter(`Try again in ${60 - Math.floor(process.uptime() - uptimeAtLastReset)} seconds.`) });
-				}
-				var e = await m.reply({ embed: new Discord.MessageEmbed()
+			execute: async(c, msg, a) => {
+				var e = await msg.reply({ embed: new Discord.MessageEmbed()
 					.setTitle("Working...")
-					.setDescription(`Please wait a few seconds`)
+                    .setDescription(`Please wait a few seconds`)
+                    .setFooter("Trying 1.7+ server...")
 					.setColor("#ffdd57") });
-
-				var r = await fetch(`https://api.fortnitetracker.com/v1/profile/${platform}/${a.playerName}`,{
-					headers: {"TRN-Api-Key": config.trackerNetworkApiKey}
-				})
-				var j = await r.json()
-				if (j.error) {
-					var text = j.error
-					if (text == "Player Not Found") {
-						return e.edit({ embed: new Discord.MessageEmbed()
-							.setAuthor("404: Account not found.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-							.setColor("#ff3860")
-							.setFooter(`Make sure you've got the name correct!`) });
-					} else {
-						return e.edit({ embed: new Discord.MessageEmbed()
-							.setAuthor("500: Something broke", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-							.setColor("#ff3860")
-							.setFooter(text) });
-					}
-				} else {
-					var emb = new Discord.MessageEmbed()
-					.setAuthor(`[${j.platformNameLong}] ${j.epicUserHandle}`)
-					.setColor("#23d160")
-					.setFooter("Epic Account ID: " + j.accountId + " (powered by fortnitetracker.com)")
-					.setThumbnail("https://i.imgur.com/QDzGMB8.png")
-					.setURL(`https://fortnitetracker.com/profile/${j.platformName}/${j.epicUserHandle}`)
-					.setDescription(`[View full stats on FortniteTracker.com](https://fortnitetracker.com/profile/${j.platformName}/${j.epicUserHandle})`)
-					for (var stat of j.lifeTimeStats) {
-						emb.addField(stat.key,stat.value, true);
-					}
-					return e.edit({ embed: emb });
-				}
+                try {
+                    var m = await mcjs.pingModernMinecraftServer(a.ip,a.port)
+                    if (m) {
+                        console.log(m)
+                        if (m.description.extra) {
+                            var t = m.description.text || "";
+                            m.description.extra.map((a) => t += a.bold ? "**" + a.text + "**" : a.italic ? "*" + a.text + "*" : a.text)
+                            m.description = t
+                        }
+                        var emb = new Discord.MessageEmbed()
+                        .setTitle(a.ip + ":" + a.port)
+                        .setDescription(m.description.toString().replace(/§./g,""))
+                        .addField(m.players.online + "/" + m.players.max,(m.players.sample || []).length > 0 ? m.players.sample.map((p) => "[" + p.name + "](https://namemc.com/profile/" + p.id + ")" ).join("\n") : m.players.online > 0 ? "The server doesn't want to tell us who they are" : "There are no players online.")
+                        .setFooter(m.version.name + " (" +m.version.protocol+")")
+                        .setColor("#23d160")
+                        var b = Buffer.from(m.favicon.split(",")[1], 'base64')
+                        emb.attachFiles(new Discord.MessageAttachment(b,"icon.png"))
+                        .setThumbnail("attachment://icon.png")
+                        e.delete()
+                        return msg.reply(emb )
+                    }
+                } catch(e) {console.error(e)}
+				
 			}
 		}
 	],

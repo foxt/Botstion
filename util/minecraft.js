@@ -149,8 +149,11 @@ async function pingModernMinecraftServer(server,port,opts) {
 
 
             if (bRecieved >= length) {
-                require("fs").writeFileSync("test.bin",bytesRecieived)
                 conn.destroy();
+
+                var b = bytesRecieived.split("{")
+                b.shift()
+                bytesRecieived = "{" + b.join("{")
                 return a(JSON.parse(bytesRecieived))
                 
             }
