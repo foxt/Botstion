@@ -158,7 +158,7 @@ module.exports = {
 				var embeds = []
 				var containsAuthor = false
 				for (var element of a.user) {
-					if (typeof element == "undefined " || !element || !element.name) continue;
+					if (typeof element == "undefined" || !element || !element.username) continue;
 					if (element.id == m.author.id) containsAuthor = true;
 					embeds.push(await processUser(element, m.channel));
 				}
