@@ -128,6 +128,12 @@ async function pingModernMinecraftServer(server,port,opts) {
             conn.write(new Uint8Array([0x01,0x00]))
 
         })
+        conn.on("error", (e)=> {
+            if (!conn.destroyed) {
+                conn.destroy()
+                r(e)
+            }
+        })
         var length;
         var bytesRecieived = "";
         var bRecieved = 0;
@@ -197,9 +203,16 @@ async function pingMinecraftServer(server,port,opts) {
             conn.write(hostname)
             conn.write(new Uint8Array([0,0,port >> 8,port & 255]))
         })
+        conn.on("error", (e)=> {
+            if (!conn.destroyed) {
+                conn.destroy()
+                r(e)
+            }
+        })
         conn.on("data",function(d) {
             done = true
             var data = d.slice(9).swap16().toString("utf16le").split(String.fromCharCode(0))
+            console.log(data)
             a({
                 version: {
                     protocol: parseInt(data[0]),
@@ -238,6 +251,12 @@ async function pingAncientMinecraftServer(server,port) {
         const conn = net.createConnection(port,server,async function() {
             protocolVersion = 2
             conn.write(new Uint8Array([0xfe]))
+        })
+        conn.on("error", (e)=> {
+            if (!conn.destroyed) {
+                conn.destroy()
+                r(e)
+            }
         })
         conn.on("data",function(d) {
             var data = d.slice(1).swap16().toString("utf16le").substr(1).split("§")
