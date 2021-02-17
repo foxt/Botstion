@@ -59,8 +59,8 @@ module.exports = {
                 a.unshift("-shota")
                 a.unshift("-cub")
                 a.unshift("-death")
-                a.unshift("-swf")
-                a.unshift("-webm")
+                a.unshift("-type:swf")
+                a.unshift("-type:webm")
                 var allowNSFW = m.channel.nsfw || !m.channel.guild
                 if (!allowNSFW) {
                     a.unshift("rating:s")
