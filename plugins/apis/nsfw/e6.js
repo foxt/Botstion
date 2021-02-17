@@ -58,6 +58,7 @@ module.exports = {
                 a.unshift("-loli")
                 a.unshift("-shota")
                 a.unshift("-cub")
+                a.unshift("-death")
                 var allowNSFW = m.channel.nsfw || !m.channel.guild
                 if (!allowNSFW) {
                     a.unshift("rating:s")
