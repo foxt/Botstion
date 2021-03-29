@@ -27,7 +27,7 @@ module.exports = {
 				let result = await eval(`(async function() {return ${cntnt.replace("c.token", "").replace("client.token", "").replace("[\"token\"]", "")}})()`);
 				var str = result.toString()
 				try {
-					str = require('util').inspect(str)
+					str = require('util').inspect(result)
 				} catch(e) {}
 				console.log(result,str)
 				if (result && !str) {
