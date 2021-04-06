@@ -42,10 +42,7 @@ module.exports = {
 				}
 				str = str.replace(eval(`/${config.token}/g`), "no");
 				if (str.length > 1990) {
-					return m.reply([new Discord.MessageEmbed().setTitle(`Evaluation Result`)
-					.setFooter("Limited to first 1990 characters")
-					.setDescription("```json\n" +str.substring(0,1990) + "```")
-					.setColor("#FFCA28"),new Discord.MessageAttachment(Buffer.from(str),`Eval-${new Date()}.txt`)])
+					return m.reply([new Discord.MessageAttachment(Buffer.from(str),`Eval-${new Date()}.txt`)])
 				} else {
 					return m.reply(new Discord.MessageEmbed().setTitle(`Evaluation Result`)
 					.setDescription("```json\n" +str + "```")
@@ -55,10 +52,7 @@ module.exports = {
 			} catch (err) {
 				var str = err.stack || err.toString()
 				if (str.length > 1990) {
-					return m.reply([new Discord.MessageEmbed().setTitle(`Evaluation Error`)
-					.setFooter("Limited to first 1990 characters")
-					.setDescription("```json\n" +str.substring(0,1990) + "```")
-					.setColor("#ff3860"),new Discord.MessageAttachment(Buffer.from(str),`EvalError-${new Date()}.txt`)])
+					return m.reply([new Discord.MessageAttachment(Buffer.from(str),`EvalError-${new Date()}.txt`)])
 				} else {
 					return m.reply(new Discord.MessageEmbed().setTitle(`Evaluation Error`)
 					.setDescription("```json\n" +str + "```")
