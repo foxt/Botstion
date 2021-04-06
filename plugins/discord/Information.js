@@ -157,6 +157,7 @@ module.exports = {
 			execute: async(c, m, a) => {
 				var embeds = []
 				var containsAuthor = false
+				if (!a.user.length) a.user = [a.user]
 				for (var element of a.user) {
 					if (typeof element == "undefined" || !element || !element.username) continue;
 					if (element.id == m.author.id) containsAuthor = true;
