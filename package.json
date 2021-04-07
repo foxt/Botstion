@@ -27,7 +27,7 @@
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "github:hydrabolt/discord.js",
     "express": "^4.17.1",
-    "lyricist": "^2.2.2",
+    "genius-lyrics": "^4.2.7",
     "mysql2": "^1.7.0",
     "node-fetch": "^2.6.1",
     "pg": "^7.12.1",
