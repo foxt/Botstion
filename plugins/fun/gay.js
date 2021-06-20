@@ -47,7 +47,7 @@ module.exports = {
             var rnd = seed(member.id)
 			m.reply({ embed: new Discord.MessageEmbed()
                 .setTitle("Gaydar™")
-          .setDescription(`${member.username} is ${Math.round(rnd() / 70000000)}% gay`)
+          .setDescription(`${member.username} is ${100 - Math.round(rnd() / 70000000)}% gay`)
                 .setColor("#3273dc")})
 		},
 	}]
