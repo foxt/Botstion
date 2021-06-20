@@ -407,6 +407,7 @@ module.exports = {
             var results = []
             var seeded = seed(member.id + "uwu")
             var percent = Math.floor(((seeded / 4294967296) * 106) - 4)
+            if (m.author.id === "158311402677731328") percent = 100;
             console.log(percent)
             var random = Math.floor(Math.random() * 70000000)
             if (percent <= 6) results.push("Congrats, you're a bonafide normie.", "Oh relax, that's nothing.")
