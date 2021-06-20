@@ -1,24 +1,24 @@
-module.exports = function(db) {
-    var cache = {}
-    setInterval(function() {
-        cache = {}
-    },600000)
-    return async function(server) {
-        var serverId = user.toString()
+module.exports = (db) => {
+    let cache = {};
+    setInterval(() => {
+        cache = {};
+    }, 600000);
+    return async(server) => {
+        let serverId = server.toString();
         if (server.id) {
-            serverId = server.id
+            serverId = server.id;
         }
-        if (cache[serverId]) {return cache[serverId]}
-        var serverConfig = await db.tables.serverConfig.findOne({ where: { serverId } });
+        if (cache[serverId]) { return cache[serverId]; }
+        let serverConfig = await db.tables.serverConfig.findOne({ where: { serverId } });
         if (serverConfig) {
-            cache[serverId] = serverConfig.prefix
-            return serverConfig.prefix
+            cache[serverId] = serverConfig.prefix;
+            return serverConfig.prefix;
         } else {
             await db.tables.serverConfig.create({
                 serverId: serverId,
-                prefix: "b!",
+                prefix: "b!"
             });
-            return "b!"
+            return "b!";
         }
-    }
-}
+    };
+};
