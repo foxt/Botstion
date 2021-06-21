@@ -13,7 +13,7 @@ module.exports = {
             usage: "word shortcutUrl=https://www.icloud.com/shortcuts/5e8f36990cec481db78872ed70b3dcc8",
             description: "Data on Apple iOS Shortcuts",
             category: "Utilities",
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 let e = await m.reply({ embed: new Discord.MessageEmbed()
                     .setTitle("Working...")
                     .setDescription("Please wait a few seconds")

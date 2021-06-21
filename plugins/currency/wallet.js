@@ -10,7 +10,7 @@ module.exports = {
         usage: "user recipient=<@158311402677731328>, int amount=50",
         description: "Pay another user",
         category: "Currency",
-        execute: async(c, m, a) => {
+        execute: async (c, m, a) => {
             if (c.db.dbLoaded && c.db.tables.wallet) {
                 try {
                     let amount = a.amount;
@@ -64,7 +64,7 @@ module.exports = {
         name: "balance",
         description: "Allows you to see how many coins you have in your wallet.",
         category: "Currency",
-        execute: async(c, m, a) => {
+        execute: async (c, m, a) => {
             if (c.db.dbLoaded && c.db.tables.wallet) {
                 try {
                     c.db.tables.wallet.sync();

@@ -13,7 +13,7 @@ module.exports = {
         stipulations: {
             maintainer: true
         },
-        execute: async(c, m, a) => {
+        execute: async (c, m, a) => {
             await m.reply({ embed: new Discord.MessageEmbed()
                 .setTitle("See ya!")
                 .setDescription("Botstion is about to go down.")

@@ -12,8 +12,8 @@ module.exports = {
             usage: "word[] searchQuery=Discord",
             description: "DuckDuckGo instant answers",
             category: "Utilities",
-            execute: async(c, m, a) => {
-                var a = a.searchQuery;
+            execute: async (c, m, a) => {
+                a = a.searchQuery;
                 let r = await fetch("https://api.duckduckgo.com/?format=json&atb=v131-1&q=" + encodeURIComponent(a));
                 let j = await r.json();
                 let embeds = [];

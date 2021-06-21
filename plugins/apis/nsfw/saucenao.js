@@ -21,7 +21,7 @@ module.exports = {
              * @param m {Discord.Message}
              * @param a {Array}
              */
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 let ftch = await fetch("https://saucenao.com/search.php?output_type=2" + (config.sourceNAOApiKey ? "&api_key=" + config.sourceNAOApiKey : "") + "&url=" + encodeURIComponent(a.url));
                 let j = await ftch.json();
                 if (j.header.message) {

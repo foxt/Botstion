@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const seed = require("../../util/seedprng");
 const begin = [
     "Let's take a look here...",
     "You think you're furry? We'll see about that...",
@@ -389,7 +388,7 @@ module.exports = {
         * @param {Array} a Arguments
         */
         category: "Fun",
-        execute: async(c, m, a) => {
+        execute: async (c, m, a) => {
             let member = a.user;
             if (member.bot) {
                 return m.reply({ embed: new Discord.MessageEmbed()
@@ -399,7 +398,7 @@ module.exports = {
             }
 
             let results = [];
-            let seeded = seed(member.id + "uwu");
+            let seeded = c.seed(member.id + "uwu");
             let percent = Math.floor(((seeded / 4294967296) * 106) - 4);
             console.log(percent);
             let random = Math.floor(Math.random() * 70000000);

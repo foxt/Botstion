@@ -19,13 +19,13 @@ module.exports = {
 		 * @param {Discord.Message} m
 		 * @param {Object} a
 		 */
-        execute: async(c, m, a) => {
+        execute: async (c, m, a) => {
             try {
                 let s = m.content.split(" ");
                 s.shift();
                 let cntnt = s.join(" ");
                 let result = await eval(`(async function() {return ${cntnt.replace("c.token", "").replace("client.token", "").replace("[\"token\"]", "")}})()`);
-                var str = result.toString();
+                let str = result.toString();
                 try {
                     str = require("util").inspect(result);
                 } catch (e) {}
@@ -49,12 +49,12 @@ module.exports = {
                         .setColor("#FFCA28"));
                 }
             } catch (err) {
-                var str = err.stack || err.toString();
-                if (str.length > 1990) {
-                    return m.reply([new Discord.MessageAttachment(Buffer.from(str), `EvalError-${new Date()}.txt`)]);
+                let msg = err.stack || err.toString();
+                if (msg.length > 1990) {
+                    return m.reply([new Discord.MessageAttachment(Buffer.from(msg), `EvalError-${new Date()}.txt`)]);
                 } else {
                     return m.reply(new Discord.MessageEmbed().setTitle("Evaluation Error")
-                        .setDescription("```json\n" + str + "```")
+                        .setDescription("```json\n" + msg + "```")
                         .setColor("#ff3860"));
                 }
             }

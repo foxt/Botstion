@@ -60,7 +60,7 @@ let types = {
     float: (input) => [!isNaN(parseFloat(input)), parseFloat(input), "Not a floating point number!"],
     bool: (input) => [truthy.includes(input.toLowerCase()) || falsey.includes(input.toLowerCase()), truthy.includes(input.toLowerCase()), "Not one of " + truthy.join(", ") + " or " + falsey.join(", ")],
     enum: (input, type) => [type.allowedValues.includes(input), input, "Not one of " + type.allowedValues.join(", ")],
-    user: async(input) => {
+    user: async (input) => {
         try {
             let id = input.replace(/\D/g, "");
             let user = await global.client.users.fetch(id);

@@ -19,7 +19,7 @@ module.exports = {
             usage: "word[] searchQuery=\"Bohemian Rhapsody\"",
             description: "Lyrics from Genius.com",
             category: "Music",
-            execute: async(c, msg, args) => {
+            execute: async (c, msg, args) => {
                 let songs = await ly.songs.search(args.searchQuery.join(" "));
                 if (songs.length < 1) {
                     return msg.reply({ embed: new Discord.MessageEmbed()

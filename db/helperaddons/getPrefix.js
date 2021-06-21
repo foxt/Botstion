@@ -3,7 +3,7 @@ module.exports = (db) => {
     setInterval(() => {
         cache = {};
     }, 600000);
-    return async(server) => {
+    return async (server) => {
         let serverId = server.toString();
         if (server.id) {
             serverId = server.id;

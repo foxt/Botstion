@@ -48,7 +48,7 @@ function addpopup(url, elem) {
 
 let timeoutAnimation = setTimeout(animation, 5000)
 
-;(async() => {
+;(async () => {
     let gh = await (await fetch("https://api.github.com/repositories/107296088/stats/commit_activity")).json();
     let commits = 0;
     for (let week of gh) {

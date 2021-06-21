@@ -80,7 +80,7 @@ module.exports = {
             usage: "enum{battlenet,xbl,psn} platform=battlenet, word username=theLMGN#2143",
             description: "Overwatch statistics. (Powered by https://thetrackernetwork.com/, valid platforms are currently `battlenet`,`xbl` and `psn`)",
             category: "Games",
-            execute: async(c, m, a) => trnCmdHandler({
+            execute: async (c, m, a) => trnCmdHandler({
                 id: "overwatch",
                 name: "Overwatch",
                 logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Overwatch_circle_logo.svg/768px-Overwatch_circle_logo.svg.png",
@@ -92,7 +92,7 @@ module.exports = {
             usage: "enum{origin,xbl,psn} platform=origin, word username=thetheLMGN",
             description: "Apex Legends statistics. (Powered by https://thetrackernetwork.com/, valid platforms are currently `origin`,`xbl` and `psn`)",
             category: "Games",
-            execute: async(c, m, a) => trnCmdHandler({
+            execute: async (c, m, a) => trnCmdHandler({
                 id: "apex",
                 name: "Apex Legends",
                 logo: "https://upload.wikimedia.org/wikipedia/fr/thumb/0/03/Apex_Legends_Logo.png/1200px-Apex_Legends_Logo.png",
@@ -104,7 +104,7 @@ module.exports = {
             usage: "word username=lmgn",
             description: "CS:GO statistics. (Powered by https://thetrackernetwork.com/, platform must be `steam`)",
             category: "Games",
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 a.platform = "steam";
                 return trnCmdHandler({
                     id: "csgo",
@@ -119,7 +119,7 @@ module.exports = {
             usage: "enum{uplay,xbl,psn} platform=uplay, word username=DivisionPlayer",
             description: "The Division 2 statistics. (Powered by https://thetrackernetwork.com/, platform must be `uplay`, `xbl` or `psn`)",
             category: "Games",
-            execute: async(c, m, a) => trnCmdHandler({
+            execute: async (c, m, a) => trnCmdHandler({
                 id: "division-2",
                 name: "The Division 2",
                 logo: "https://upload.wikimedia.org/wikipedia/en/a/af/The_Division_2_art.jpg",

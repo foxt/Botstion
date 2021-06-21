@@ -10,7 +10,7 @@ module.exports = {
         name: "dbsave",
         description: "db test save",
         category: "Meta",
-        execute: async(c, m, a) => {
+        execute: async (c, m, a) => {
             console.log(c.db);
             if (c.db.dbLoaded && c.db.tables.test) {
                 try {
@@ -31,7 +31,7 @@ module.exports = {
         name: "dbload",
         description: "db test load",
         category: "Meta",
-        execute: async(c, m, a) => {
+        execute: async (c, m, a) => {
             console.log(c.db);
             if (c.db.dbLoaded && c.db.tables.test) {
                 try {

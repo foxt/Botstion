@@ -13,7 +13,7 @@ module.exports = {
             usage: "int optional comicId",
             description: "Shows information of a XKCD comic.",
             category: "Fun",
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 if (a.comicId) {
                     a.comicId += "/";
                 } else {

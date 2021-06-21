@@ -2,15 +2,15 @@ const Discord = require("discord.js");
 const fetch = require("node-fetch");
 const config = require("../../util/configLoader");
 
-function updateServerCount(c) {
-    fetch(`https://discordbots.org/api/bots/${c.user.id}/stats`, {
+function updateServerCount() {
+    fetch(`https://discordbots.org/api/bots/${global.client.user.id}/stats`, {
         headers: {
             Authorization: config.dblToken,
             "Content-Type": "application/json"
         },
         method: "POST",
-        body: JSON.stringify({ server_count: c.guilds.cache.size })
-    }).then(async(e) => {
+        body: JSON.stringify({ server_count: global.client.guilds.cache.size })
+    }).then(async (e) => {
         if (!e.ok) {
             console.error("[t.gg] Updating server count failed,", await e.text());
         }
@@ -29,14 +29,14 @@ module.exports = {
         name: "ready",
         exec: function(c) {
             // Update server count
-            updateServerCount(c);
+            updateServerCount();
             setInterval(() => {
-                updateServerCount(c);
+                updateServerCount();
             }, 1800000);
 
             // Webhook setup
 
-            c.express.post("/performVote", async(req, res) => {
+            global.client.express.post("/performVote", async (req, res) => {
                 try {
                     console.log("[t.gg] Incoming vote from " + req.ip);
                     if (req.get("Authorization") != config.dblToken) {
@@ -46,12 +46,12 @@ module.exports = {
                     let vote = req.body;
                     if (vote) {
                         if (!vote.bot || vote.bot != c.user.id) {
-                            console.log("	wrong bot id ", vote.bot, "!=", c.user.id);
+                            console.log("	wrong bot id ", vote.bot, "!=", global.client.user.id);
                             return res.send("wrong/no bot id!");
                         }
                         let user = await c.users.fetch(vote.user);
                         if (user) {
-                            await c.db.tables.wallet.update({ coins: await c.getcoins(vote.user) + 50 }, { where: { userId: vote.user } });
+                            await c.db.tables.wallet.update({ coins: await global.client.getcoins(vote.user) + 50 }, { where: { userId: vote.user } });
                             let e = new Discord.MessageEmbed();
                             e.setTitle(":blush: Thank you!");
                             e.setDescription("Thanks for voting for Botstion on top.gg! You've recieved **50 coins**!");

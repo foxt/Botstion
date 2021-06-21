@@ -41,7 +41,7 @@ module.exports = {
              * @param m {Discord.Message}
              * @param a {Array}
              */
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 a = a.searchQuery || [];
                 if (a == "fluffy") a = [];
                 a.unshift("order:random");

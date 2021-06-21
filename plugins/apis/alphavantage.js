@@ -27,7 +27,7 @@ module.exports = {
             usage: "float amount=50, word sourceCurrency=GBP, word targetCurrency=BTC",
             description: "Currency conversions",
             category: "Utilities",
-            execute: async(c, m, a) => {
+            execute: async (client, m, a) => {
                 if (!currencyListDownloaded) {
                     return m.reply({ embed: new Discord.MessageEmbed()
                         .setAuthor("428: Currency list not loaded.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
@@ -60,13 +60,13 @@ module.exports = {
                         .setFooter("Currency conversion powered by alphavantage.io") });
                 }
                 requestsRemaining -= 1;
-                var ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a.sourceCurrency}&to_currency=${a.targetCurrency}&apikey=${config.alphaVantageKey}`);
-                var j = await ftch.json();
+                let ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a.sourceCurrency}&to_currency=${a.targetCurrency}&apikey=${config.alphaVantageKey}`);
+                let j = await ftch.json();
                 if (j["Error Message"]) {
-                    var ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a.targetCurrency}&to_currency=${a.sourceCurrency}&apikey=${config.alphaVantageKey}`);
-                    var j = await ftch.json();
+                    ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a.targetCurrency}&to_currency=${a.sourceCurrency}&apikey=${config.alphaVantageKey}`);
+                    j = await ftch.json();
                     if (j["Error Message"]) { throw new Error(j["Error Message"]); }
-                    var c = j["Realtime Currency Exchange Rate"]["4. To_Currency Name"];
+                    let c = j["Realtime Currency Exchange Rate"]["4. To_Currency Name"];
                     j["Realtime Currency Exchange Rate"]["4. To_Currency Name"] = j["Realtime Currency Exchange Rate"]["2. From_Currency Name"];
                     j["Realtime Currency Exchange Rate"]["2. From_Currency Name"] = c;
                     j["Realtime Currency Exchange Rate"]["5. Exchange Rate"] = 1 / parseFloat(j["Realtime Currency Exchange Rate"]["5. Exchange Rate"]);

@@ -19,7 +19,7 @@ module.exports = {
         usage: "int bet=100",
         description: "Play slots.",
         category: "Currency",
-        execute: async(c, m, a) => {
+        execute: async (c, m, a) => {
             if (!(c.db.dbLoaded && c.db.tables.wallet)) { return m.reply("The database is unavailable right now. Try again later."); }
             try {
                 let amount = a.bet;

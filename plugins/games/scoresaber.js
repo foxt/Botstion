@@ -50,12 +50,12 @@ async function createPage(msg, j, m) {
     let latest = await (await fetch("https://new.scoresaber.com/api/player/" + p.playerId + "/scores/recent/1")).json();
     if (!latest.error) {
         emb.addField("Last Seen", latest.scores[0].timeSet);
-        var e = new Discord.MessageEmbed()
+        let e = new Discord.MessageEmbed()
             .setColor("#F5D842")
             .setTitle(p.playerName + "'s Latest Scores")
             .setThumbnail("https://new.scoresaber.com" + p.avatar)
             .setURL("https://new.scoresaber.com/u/" + p.playerId);
-        for (var score of latest.scores) {
+        for (let score of latest.scores) {
             e.addField(`${score.songName} ${getName(score.difficultyRaw)}`, `[${score.score.toLocaleString()} ${score.maxScore > 0 ? `${(score.score / (score.maxScore / 100)).toLocaleString()}% ${Math.floor(score.pp)}pp` : "Unranked"}](https://scoresaber.com/leaderboard/${score.leaderboardId})`, true);
         }
         embeds.push(e);
@@ -64,12 +64,12 @@ async function createPage(msg, j, m) {
     if (!top.error) {
         let topScore = top.scores[0];
         emb.addField("Top Play", `[${topScore.score.toLocaleString()} ${(topScore.score / (topScore.maxScore / 100)).toLocaleString()}% ${Math.floor(topScore.pp)}pp](https://scoresaber.com/leaderboard/${topScore.leaderboardId})`);
-        var e = new Discord.MessageEmbed()
+        let e = new Discord.MessageEmbed()
             .setColor("#F5D842")
             .setTitle(p.playerName + "'s Top Scores")
             .setThumbnail("https://new.scoresaber.com" + p.avatar)
             .setURL("https://new.scoresaber.com/u/" + p.playerId);
-        for (var score of top.scores) {
+        for (let score of top.scores) {
             e.addField(`${score.songName} ${getName(score.difficultyRaw)}`, `[${score.score.toLocaleString()} ${score.maxScore > 0 ? `${(score.score / (score.maxScore / 100)).toLocaleString()}% ${Math.floor(score.pp)}pp` : "Unranked"}](https://scoresaber.com/leaderboard/${score.leaderboardId})`, true);
         }
         embeds.push(e);
@@ -88,19 +88,19 @@ module.exports = {
             usage: "word playerName=theLMGN",
             description: "Show Beat Saber ranking for a player. Accepts username or SteamID64.",
             category: "Games",
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 let un = encodeURIComponent(a.playerName);
                 let msg;
                 if (!isNaN(parseInt(un))) {
                     msg = await m.reply(new Discord.MessageEmbed().setColor("#ffdd57").setTitle("Validating ID `" + un + "`"));
-                    var j = await (await fetch(`https://new.scoresaber.com/api/player/${un}/full`)).json();
+                    let j = await (await fetch(`https://new.scoresaber.com/api/player/${un}/full`)).json();
                     if (!j.error) {
                         createPage(msg, j, m);
                         // return msg
                     }
                 }
                 msg = msg || await m.reply(new Discord.MessageEmbed().setColor("#ffdd57").setTitle("Searching for player `" + un + "`"));
-                var j = await (await fetch("https://new.scoresaber.com/api/players/by-name/" + un)).json();
+                let j = await (await fetch("https://new.scoresaber.com/api/players/by-name/" + un)).json();
                 if (j.error) {
                     return msg.edit({ embed: new Discord.MessageEmbed()
                         .setAuthor(j.error.message, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
@@ -118,7 +118,7 @@ module.exports = {
                     .setURL("https://new.scoresaber.com/u/" + p.playerId)
                     .setFooter("Player ID: " + p.playerId);
                 msg.edit(mbd);
-                var j = await (await fetch(`https://new.scoresaber.com/api/player/${p.playerId}/full`)).json();
+                j = await (await fetch(`https://new.scoresaber.com/api/player/${p.playerId}/full`)).json();
                 if (!j.error) {
                     j.playerInfo.difference = p.difference;
                     createPage(msg, j, m);

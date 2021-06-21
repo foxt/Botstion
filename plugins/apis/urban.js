@@ -14,7 +14,7 @@ module.exports = {
             usage: "word[] word=\"Hello, world\"",
             description: "Urban Dictionary lookup",
             category: "Utilities",
-            execute: async(c, msg, args) => {
+            execute: async (c, msg, args) => {
                 let r = await fetch(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(args.word)}`);
                 let j = await r.json();
                 if (j.error) {

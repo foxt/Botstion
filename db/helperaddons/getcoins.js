@@ -1,4 +1,4 @@
-module.exports = (db) => async(user) => {
+module.exports = (db) => async (user) => {
     let userID = user.toString();
     if (user.id) {
         userID = user.id;

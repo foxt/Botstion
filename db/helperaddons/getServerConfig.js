@@ -1,4 +1,4 @@
-module.exports = (db) => async(server) => {
+module.exports = (db) => async (server) => {
     let serverId = server.toString();
     if (server.id) {
         serverId = server.id;

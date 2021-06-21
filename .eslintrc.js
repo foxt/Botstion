@@ -4,29 +4,19 @@ module.exports = {
         es2021: true,
         node: true
     },
-    extends: "eslint:recommended",
     parserOptions: {
         ecmaVersion: 12,
         sourceType: "module"
     },
+    extends: ["eslint:recommended"],
     rules: {
-        indent: [
-            "error",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        quotes: [
-            "error",
-            "double"
-        ],
-        "no-constant-condition": [
-            "off"
-        ],
+        indent: ["error", 4],
+        "linebreak-style": ["error", "unix"],
+        quotes: ["error", "double"],
+        "no-constant-condition": ["off"],
         "no-empty": ["error", { allowEmptyCatch: true }],
-        "no-var": ["error"],
+        "no-var": ["warn"],
+        "no-shadow": "warn",
         "require-atomic-updates": 0,
         "no-compare-neg-zero": "error",
         "no-extra-parens": ["warn", "all", { nestedBinaryExpressions: false }],
@@ -61,7 +51,6 @@ module.exports = {
         "wrap-iife": "error",
         yoda: "error",
         "no-label-var": "error",
-        "no-shadow": "error",
         "no-undef-init": "error",
         "callback-return": "error",
         "handle-callback-err": "error",
@@ -97,13 +86,19 @@ module.exports = {
         "nonblock-statement-body-position": "error",
         "object-curly-spacing": ["error", "always"],
         "operator-assignment": "error",
-        "operator-linebreak": ["error", "after"],
         "padded-blocks": ["error", "never"],
         "quote-props": ["error", "as-needed"],
         "semi-spacing": "error",
         semi: "error",
         "space-before-blocks": "error",
-        "space-before-function-paren": ["error", "never"],
+        "space-before-function-paren": [
+            "error",
+            {
+                anonymous: "never",
+                named: "never",
+                asyncArrow: "always"
+            }
+        ],
         "space-in-parens": "error",
         "space-infix-ops": "error",
         "space-unary-ops": "error",
@@ -123,7 +118,10 @@ module.exports = {
         "rest-spread-spacing": "error",
         "template-curly-spacing": "error",
         "no-console": "off",
-        "no-irregular-whitespace": ["error", { skipStrings: true, skipComments: true, skipTemplates: true }],
+        "no-irregular-whitespace": [
+            "error",
+            { skipStrings: true, skipComments: true, skipTemplates: true }
+        ],
         "no-unused-vars": "off"
     }
 };

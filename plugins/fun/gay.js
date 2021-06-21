@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const seed = require("../../util/seedprng");
 
 let overrides = {};
 try {
@@ -20,7 +19,7 @@ module.exports = {
          * @param {Array} a Arguments
          */
         category: "Fun",
-        execute: async(c, m, a) => {
+        execute: async (c, m, a) => {
             let member = a.user;
             if (member.bot) {
                 return m.reply({ embed: new Discord.MessageEmbed()
@@ -30,7 +29,7 @@ module.exports = {
             }
             m.reply({ embed: new Discord.MessageEmbed()
                 .setTitle("Gaydar™")
-                .setDescription(`${member.username} is ${overrides[member.id] || 100 - Math.round(seed(member.id) / 70000000)}% gay`)
+                .setDescription(`${member.username} is ${overrides[member.id] || 100 - Math.round(c.seed(member.id) / 70000000)}% gay`)
                 .setColor("#3273dc") });
         }
     }]

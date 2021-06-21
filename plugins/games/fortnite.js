@@ -16,7 +16,7 @@ module.exports = {
             usage: "enum{kbm,gamepad,touch} platform=kbm, word playerName=theLMGN",
             description: "Fortnite statistics. (Powered by https://fortnitetracker.com/, valid platforms are currently `pc`,`xbl` and `psn`)",
             category: "Games",
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 let platform = a.platform;
                 if (requestsRemaining < 6) {
                     return m.reply({ embed: new Discord.MessageEmbed()

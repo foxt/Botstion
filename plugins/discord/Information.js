@@ -74,7 +74,7 @@ async function processUser(user, c) {
     embed.addField(":birthday: Discord Birthday (creation date)", user.createdAt.toString());
     if (user.lastMessage) { embed.addField(":e_mail: Last seen", user.lastMessage.createdAt || user.lastMessage.editedAt); }
     try {
-        var pres = await c.guild.members.fetch(user.id);
+        let pres = await c.guild.members.fetch(user.id);
         console.log(pres);
         if (pres.premiumSince) { embed.addField(":sparkles: Boosting since", pres.premiumSince); }
         if (pres.nickname) { embed.addField(":label: Nickname", pres.nickname); }
@@ -89,7 +89,7 @@ async function processUser(user, c) {
         return embed;
     }
     try {
-        var pres = (await c.guild.members.fetch(user.id)).presence.clientStatus;
+        let pres = (await c.guild.members.fetch(user.id)).presence.clientStatus;
         let a = "";
         for (let p in pres) {
             a += clientPresenseEmoji(p, pres[p]);
@@ -128,7 +128,7 @@ module.exports = {
                 context: 1
             },
             category: "Utilities",
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 let embed = new Discord.MessageEmbed()
                     .setTitle("Here's some info about this server!")
                     .setColor("#3273dc");
@@ -154,7 +154,7 @@ module.exports = {
             usage: "user[] optional user=<@158311402677731328>",
             description: "Shows you information on the specified user(s)",
             category: "Utilities",
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 let embeds = [];
                 let containsAuthor = false;
                 if (!a.user.length) a.user = [a.user];
@@ -182,7 +182,7 @@ module.exports = {
                 context: 1
             },
             category: "Utilities",
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 m.reply({ embed: new Discord.MessageEmbed().setTitle(`${m.guild.name} has ${m.guild.emojis.cache.size} emoji(s)`)
                     .setDescription(`${m.guild.emojis.cache.array().join("")}`)
                     .setColor("#3273dc")

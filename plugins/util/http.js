@@ -36,7 +36,7 @@ module.exports = {
         name: "ready",
         exec: function(c) {
             console.log("[HTTP] Adding servers endpoint");
-            app.get("/api/info", async(req, res) => {
+            app.get("/api/info", async (req, res) => {
                 let j = {
                     serverIcons: ["http://bot.thelmgn.com/logo.svg"],
                     members: c.users.cache.size,
@@ -44,7 +44,7 @@ module.exports = {
                 };
                 res.send(JSON.stringify(j));
             });
-            app.get("/commands", async(req, res) => {
+            app.get("/commands", async (req, res) => {
                 let cats = {
                     Meta: "",
                     Utilities: "",

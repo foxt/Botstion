@@ -16,7 +16,7 @@ module.exports = {
             description: "ipinfo.io support",
             aliases: ["ipinfo"],
             category: "Utilities",
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 let e = await m.reply({ embed: new Discord.MessageEmbed()
                     .setTitle("Working...")
                     .setDescription("Please wait a few seconds")

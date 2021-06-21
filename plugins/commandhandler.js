@@ -21,7 +21,7 @@ async function handleError(e, msg) {
             .setDescription("```" + stack + "```")
             .setFooter(msg.content) });
         emb.setFooter("This server has been reported to the Botstion development team, and we may message you if we see fit.");
-    } catch (e) { console.error(e); }
+    } catch (err) { console.error(e); }
     e.handled = true;
     return msg.reply({ embed: emb });
 }
@@ -87,7 +87,7 @@ async function invokeCommand(command, msg, suffix, cmd) {
                     }
                 };
                 rtrn.awaitReactions(filter, { time: 15000 })
-                    .then((collected) => {})
+                    .then(() => { /**/ })
                     .catch(noop);
             } catch (e) {
 
@@ -111,7 +111,7 @@ module.exports = {
             description: "Lists commands and their descriptions/examples",
             category: "Meta",
             usage: "bool optional legacy=false",
-            execute: async(c, m, a) => {
+            execute: async (c, m, a) => {
                 console.log(a);
                 if (!a.legacy) {
                     return m.reply(new Discord.MessageEmbed()
@@ -124,7 +124,7 @@ module.exports = {
                     .setFooter("* = this argument is required")
                     .setColor("#3273dc");
                 let fields = 0;
-                for (i in allCommands) {
+                for (let i in allCommands) {
                     let command = allCommands[i];
                     if (fields > 24) {
                         try { m.author.send(emb); } catch (e) {}
@@ -133,7 +133,7 @@ module.exports = {
                             .setTitle(`There are ${allCommands.length} commands available for you to use`)
                             .setColor("#3273dc");
                     }
-                    emb.addField(`${config.defaultPrefix}${command.name} ${command.rawUsage || ""}`, `**Example: ${config.defaultPrefix}${command.name} ${command.usage.map((a) => a.default).join(" ")}**\n${command.description}`, false);
+                    emb.addField(`${config.defaultPrefix}${command.name} ${command.rawUsage || ""}`, `**Example: ${config.defaultPrefix}${command.name} ${command.usage.map((arg) => arg.default).join(" ")}**\n${command.description}`, false);
                 }
                 try {
                     m.author.send(emb);
@@ -150,9 +150,9 @@ module.exports = {
     ],
     events: [{
         name: "message",
-        exec: async(msg) => {
+        exec: async (msg) => {
             let prefix = config.defaultPrefix; // todo: mongo prefix
-                                               // LUL
+            // LUL
             if (msg.author.bot) return null;
             if (!msg.content.startsWith(prefix)) return null;
             const cmd = msg.content.split(" ")[0].trim().toLowerCase().replace(prefix, "");
@@ -171,7 +171,9 @@ module.exports = {
             }
         }
     }],
-    init: async(plugins) => {
+    init: async (plugins) => {
+        allPlugins = [];
+        allCommands = [];
         for (let plugin of plugins) {
             allPlugins.push(plugin);
             if (plugin.commands) {
