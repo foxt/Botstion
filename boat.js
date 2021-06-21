@@ -4,6 +4,7 @@ const discord = require("discord.js");
 console.log("Botstion 4: A modular bot for Discord. Licenced under GPL 3.0 (see https://www.gnu.org/licenses/)");
 
 const config = require("./util/configLoader");
+const { loadPlugin } = require("./util/pluginloader");
 
 const client = new discord.Client({ autoReconnect: true });
 global.client = client;
@@ -15,6 +16,8 @@ client.meta = {
 // client.on("debug",console.log)
 
 const plugins = [];
+client.plugins = plugins;
+client.config = config;
 
 function scanFolder(folder) {
     let a = [];
@@ -35,90 +38,49 @@ let pluginLoadEvent = new Promise((a, r) => {
     let items = scanFolder("./plugins");
 
     console.log(`Read plugins folders and found ${items.length} plugins.`);
-    for (const plugin of items) {
-        console.log(`	Loading ${plugin}`);
-        try {
-            let pluginf = require("./" + plugin);
-            let shouldLoad = false;
-            if (pluginf.requiresConfig) {
-                if (config[pluginf.requiresConfig]) {
-                    if (config[pluginf.requiresConfig] == "") {
-                        shouldLoad = `it requires the config value ${pluginf.requiresConfig}`;
-                    } else {
-                        shouldLoad = true;
-                    }
-                } else {
-                    shouldLoad = `it requires the config value ${pluginf.requiresConfig}`;
-                }
-            } else {
-                shouldLoad = true;
-            }
-            if (pluginf.disable) {
-                shouldLoad = "it's disabled";
-            }
-            if (shouldLoad == true) {
-                console.log(`		Loaded ${pluginf.name} v${pluginf.version} by ${pluginf.author}`);
-                plugins.push(pluginf);
-            } else {
-                console.error(`		Refusing to load ${pluginf.name} v${pluginf.version} by ${pluginf.author} because ${shouldLoad}`);
-            }
-        } catch (err) {
-            console.error(`${plugin} experienced an error whilst loading`);
-            console.error(err);
-            console.error(`Skipping over ${plugin}..`);
-        }
-    }
-    console.log("Adding addons.");
-    for (const plugin of plugins) {
-        if (plugin.addons) {
-            for (let addon in plugin.addons) {
-                console.log("	Adding addon " + addon + " from plugin " + plugin.name);
-                client[addon] = plugin.addons[addon];
-            }
-        }
-    }
+    for (const plugin of items) loadPlugin(plugin);
     a();
 });
 
-client.on("ready", async() => {
+client.on("ready", async () => {
     client.user.setPresence({ activity: { name: "Botstion is loading plugins..." }, status: "away" });
     console.log("Connected to Discord.");
     await pluginLoadEvent;
-    client.plugins = plugins;
     const commandhandler = require("./plugins/commandhandler");
     console.log(`Loaded commandhandler (${commandhandler.name} v${commandhandler.version})`);
-    console.log(`Sending ${plugins.length} and client plugins to the commandhandler`);
-    commandhandler.init(plugins, client);
-    console.log("Assigining events");
+    console.log(`Sending ${client.plugins.length} and client plugins to the commandhandler`);
+    commandhandler.init(client.plugins, client);
+    console.log("Firing ready events");
     for (let plugin of plugins) {
         if (plugin.events) {
             for (let event of plugin.events) {
-                console.log(`Giving ${plugin.name} the ${event.name} event`);
-                client.on(event.name, event.exec);
-                if (event.name == "ready") {
+                if (event.name == "ready" && !event.fired) {
+                    console.log("    Firing ready event for: " + plugin.name);
+                    event.fired = true;
                     event.exec(client);
                 }
             }
         }
     }
-    console.log("Setting up timer...");
-    setInterval(() => {
-        for (let plugin of plugins) {
-            if (plugin.timer) {
-                for (let timerHandler of plugin.timer) {
-                    timerHandler(client);
-                }
+
+
+    client.user.setPresence({ activity: { name: `Loaded ${client.plugins.length} plugins successfully!` }, status: "online" });
+});
+setInterval(() => {
+    for (let plugin of client.plugins) {
+        if (plugin.timer) {
+            for (let timerHandler of plugin.timer) {
+                timerHandler(client);
             }
         }
-    }, 10000);
-    client.user.setPresence({ activity: { name: `Loaded ${plugins.length} plugins successfully!` }, status: "online" });
-});
+    }
+}, 10000);
 
 client.on("error", (e) => {
     console.error(e);
     process.exit(-1);
 });
-process.setUncaughtExceptionCaptureCallback(async(e) => {
+process.setUncaughtExceptionCaptureCallback(async (e) => {
     console.error(e);
     try {
         let stack = e.stack || e.toString();
