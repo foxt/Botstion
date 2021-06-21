@@ -151,8 +151,7 @@ module.exports = {
     events: [{
         name: "message",
         exec: async (msg) => {
-            let prefix = config.defaultPrefix; // todo: mongo prefix
-            // LUL
+            let prefix = config.defaultPrefix;
             if (msg.author.bot) return null;
             if (!msg.content.startsWith(prefix)) return null;
             const cmd = msg.content.split(" ")[0].trim().toLowerCase().replace(prefix, "");
