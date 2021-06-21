@@ -9,7 +9,6 @@ module.exports = {
     events: [{
         name: "message",
         exec: async (m) => {
-            console.log(m);
             if (!m.content.startsWith("b$")) {
                 return false;
             }

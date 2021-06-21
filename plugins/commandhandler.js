@@ -67,7 +67,7 @@ async function invokeCommand(command, msg, suffix, cmd) {
                 .setFooter("Usage: " + (command.rawUsage || "")) });
         }
         let rtrn = command.execute(msg.client, msg, parse[1]);
-        if (rtrn.catch) {
+        if (rtrn && rtrn.catch) {
             rtrn.catch((e) => {
                 handleError(e, msg);
             });

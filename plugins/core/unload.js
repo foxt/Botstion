@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const e = require("express");
 const config = require("../../util/configLoader");
+const { loadPlugin } = require("../../util/pluginloader");
 const noop = () => { /**/ };
 
 function getKeyByValue(object, value) {
@@ -84,7 +85,9 @@ async function unloadPluginCommand(c, m, a) {
 }
 async function loadPluginCommand(c, m, a) {
     let plugin = a.path.join(" ");
-
+    plugin = loadPlugin(plugin);
+    require("../commandhandler").init(global.client.plugins);
+    console.log(plugin);
     return m.reply("Plugin loaded!", [new Discord.MessageEmbed()
         .setAuthor(plugin.author)
         .setTitle(plugin.name)
@@ -129,6 +132,7 @@ module.exports = {
         category: "Meta",
         execute: async (c, m, a) => {
             let b = await unloadPluginCommand(c, m, a);
+            if (!b || typeof b != "string") return;
             return loadPluginCommand(c, m, { path: [b] });
         }
     }]

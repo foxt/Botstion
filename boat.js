@@ -38,7 +38,15 @@ let pluginLoadEvent = new Promise((a, r) => {
     let items = scanFolder("./plugins");
 
     console.log(`Read plugins folders and found ${items.length} plugins.`);
-    for (const plugin of items) loadPlugin(plugin);
+    for (const plugin of items) {
+        try {
+            loadPlugin(path.resolve(plugin));
+        } catch (err) {
+            console.error(`${plugin} experienced an error whilst loading`);
+            console.error(err);
+            console.error(`Skipping over ${plugin}..`);
+        }
+    }
     a();
 });
 
