@@ -1,4 +1,3 @@
-const Discord = require("discord.js");
 const { Embeds: EmbedsMode } = require("discord-paginationembed");
 
 

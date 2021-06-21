@@ -3,6 +3,9 @@ body {
   margin: 0;
   color: #fff;
   overscroll-behavior: none;
+  background: #222;
+  display:flex;
+  
 
 }
  #botstion-main-logo {

@@ -85,7 +85,7 @@ module.exports = {
     events: [
         {
             name: "ready",
-            exec: async function(c) {
+            exec: async function() {
                 setInterval(() => {
                     requestsRemaining = 5;
                     uptimeAtLastReset = process.uptime();

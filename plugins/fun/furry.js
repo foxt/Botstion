@@ -371,7 +371,7 @@ const pick = (array, number) => array[number % array.length] || array[0];
 
 let overrides = {};
 try {
-    overrides = require("../../config/gaydar.js");
+    overrides = require("../../config/furdar.js");
 } catch (e) {}
 module.exports = {
     name: "Furrydar",
@@ -398,7 +398,7 @@ module.exports = {
             }
 
             let results = [];
-            let seeded = c.seed(member.id + "uwu");
+            let seeded = overrides[member.id] || c.seed(member.id + "uwu");
             let percent = Math.floor(((seeded / 4294967296) * 106) - 4);
             console.log(percent);
             let random = Math.floor(Math.random() * 70000000);

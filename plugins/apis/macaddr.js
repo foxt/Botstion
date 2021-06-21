@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
-const config = require("../../util/configLoader");
 const fetch = require("node-fetch");
-let lastRequest = 0;
 
 module.exports = {
     name: "MAC Address lookup",

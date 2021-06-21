@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
-const config = require("../../util/configLoader");
 const fetch = require("node-fetch");
-let lastRequest = {};
 let queue = [];
 let langs;
 let versions;
@@ -58,7 +56,7 @@ module.exports = {
                 if (!langs.includes(l)) {
                     return m.reply({ embed: new Discord.MessageEmbed()
                         .setTitle("Unknown language")
-                        .setDescription("Valid languages are " + versions.map((l) => `\`${l.name}\``).join(",") + "\nEnter code like so:\n\\`\\`\\`js\nconsole.log(\"Hello, world!\")\n\\`\\`\\`")
+                        .setDescription("Valid languages are " + versions.map((lang) => `\`${lang.name}\``).join(",") + "\nEnter code like so:\n\\`\\`\\`js\nconsole.log(\"Hello, world!\")\n\\`\\`\\`")
                         .setColor("#ff3860") });
                 }
                 let e = await m.reply({ embed: new Discord.MessageEmbed()
@@ -73,7 +71,7 @@ module.exports = {
     events: [
         {
             name: "ready",
-            exec: async function(c) {
+            exec: async function() {
                 let f = await fetch("https://emkc.org/api/v1/piston/versions");
                 versions = await f.json();
                 langs = [];

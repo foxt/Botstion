@@ -122,6 +122,7 @@ module.exports = {
             "error",
             { skipStrings: true, skipComments: true, skipTemplates: true }
         ],
-        "no-unused-vars": "off"
+        "no-unused-vars": "warn",
+        "no-cond-assign": "off"
     }
 };

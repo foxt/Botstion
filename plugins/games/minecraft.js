@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
 
-let requestsRemaining = 30;
-let uptimeAtLastReset = process.uptime();
 
 module.exports = {
     name: "Minecraft",
@@ -64,17 +62,6 @@ module.exports = {
                         .setColor("#ff3860");
                     return responseMessage.edit(emb);
                 }
-            }
-        }
-    ],
-    events: [
-        {
-            name: "ready",
-            exec: function(c) {
-                setInterval(() => {
-                    requestsRemaining = 30;
-                    uptimeAtLastReset = process.uptime();
-                }, 60000);
             }
         }
     ]

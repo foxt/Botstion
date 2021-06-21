@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
 const config = require("../../util/configLoader");
-const url = require("url");
-const fetch = require("node-fetch");
 const lyr = require("genius-lyrics");
 let ly = null;
 
@@ -66,7 +64,7 @@ module.exports = {
     events: [
         {
             name: "ready",
-            exec: function(c) {
+            exec: function() {
                 ly = new lyr.Client(config.geniusAccessToken);
             }
         }

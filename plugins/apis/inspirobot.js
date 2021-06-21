@@ -11,7 +11,7 @@ module.exports = {
             name: "inspirobot",
             description: "Inspires you.",
             category: "Fun",
-            execute: async (c, m, a) => {
+            execute: async (c, m) => {
                 let ftch = await fetch("http://inspirobot.me/api?generate=true");
                 return m.reply({ embed: new Discord.MessageEmbed().setTitle("Inspirational Quote").setDescription("I just cooked up a hot new inspirational quote")
                     .setColor("#3273dc")

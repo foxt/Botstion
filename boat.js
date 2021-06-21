@@ -34,7 +34,7 @@ function scanFolder(folder) {
     return a;
 }
 
-let pluginLoadEvent = new Promise((a, r) => {
+let pluginLoadEvent = new Promise((a) => {
     let items = scanFolder("./plugins");
 
     console.log(`Read plugins folders and found ${items.length} plugins.`);
