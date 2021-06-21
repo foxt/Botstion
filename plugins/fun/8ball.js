@@ -20,7 +20,7 @@ module.exports = {
         usage: "word[] question=are you real?",
         description: "Consult the magic 8ball",
         category: "Fun",
-        execute: async (c, m, a) => {
+        execute: async (c, m) => {
             let random = getRandomInt(1, 4);
             if (random == 1) {
                 return m.reply({ embed: new Discord.MessageEmbed()

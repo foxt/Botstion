@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const config = require("../../util/configLoader");
 
 module.exports = {
     name: "Shutdown",
@@ -13,7 +12,7 @@ module.exports = {
         stipulations: {
             maintainer: true
         },
-        execute: async (c, m, a) => {
+        execute: async (c, m) => {
             await m.reply({ embed: new Discord.MessageEmbed()
                 .setTitle("See ya!")
                 .setDescription("Botstion is about to go down.")

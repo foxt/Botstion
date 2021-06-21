@@ -33,13 +33,6 @@ const clientPresenseEmojiMap = {
     }
 };
 
-const presenceTypeMap = {
-    PLAYING: "Playing ",
-    STREAMING: "Streaming ",
-    LISTENING: "Listening to ",
-    WATCHING: "Watching ",
-    CUSTOM_STATUS: ""
-};
 
 function clientPresenseEmoji(client, presence) {
     try {
@@ -47,13 +40,6 @@ function clientPresenseEmoji(client, presence) {
         if (e) { return e; } else { return presence + " on " + client; }
     } catch (e) {
         return presence + " on " + client;
-    }
-}
-function messageToGuild(m) {
-    if (m.channel.guild) {
-        return `(in ${m.channel.guild.name})`;
-    } else {
-        return "(in DMs)";
     }
 }
 
@@ -128,7 +114,7 @@ module.exports = {
                 context: 1
             },
             category: "Utilities",
-            execute: async (c, m, a) => {
+            execute: async (c, m) => {
                 let embed = new Discord.MessageEmbed()
                     .setTitle("Here's some info about this server!")
                     .setColor("#3273dc");
@@ -182,7 +168,7 @@ module.exports = {
                 context: 1
             },
             category: "Utilities",
-            execute: async (c, m, a) => {
+            execute: async (c, m) => {
                 m.reply({ embed: new Discord.MessageEmbed().setTitle(`${m.guild.name} has ${m.guild.emojis.cache.size} emoji(s)`)
                     .setDescription(`${m.guild.emojis.cache.array().join("")}`)
                     .setColor("#3273dc")

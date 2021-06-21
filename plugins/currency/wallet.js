@@ -64,7 +64,7 @@ module.exports = {
         name: "balance",
         description: "Allows you to see how many coins you have in your wallet.",
         category: "Currency",
-        execute: async (c, m, a) => {
+        execute: async (c, m) => {
             if (c.db.dbLoaded && c.db.tables.wallet) {
                 try {
                     c.db.tables.wallet.sync();

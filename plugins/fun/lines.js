@@ -35,7 +35,7 @@ module.exports = {
             name: "lines",
             description: "A command that shows all the lines of code in js files, excluding node_modules.",
             category: "Meta",
-            execute: async (c, m, a) => {
+            execute: async (c, m) => {
                 let t = thing(".");
                 m.reply(new Discord.MessageEmbed()
                     .setColor("#23d160")

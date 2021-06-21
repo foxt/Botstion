@@ -2,7 +2,6 @@
  * @description A module for pinging Minecraft servers for the server-list information.
  */
 
-const { Socket } = require("dgram");
 const net = require("net");
 String.prototype.hexEncode = () => {
     let hex, i;
@@ -53,14 +52,9 @@ function writeVarInt(value) {
     return b;
 }
 
-function padArray(array, length) {
-    while (array.length < length) {
-        array.unshift(0);
-    }
-}
 
 function sleep(t) {
-    return new Promise((a, r) => setTimeout(a, t));
+    return new Promise((a) => setTimeout(a, t));
 }
 
 /**
@@ -189,14 +183,11 @@ async function pingModernMinecraftServer(server, port, opts) {
 async function pingMinecraftServer(server, port, opts) {
     return new Promise((a, r) => {
         opts = opts || {};
-        let protocolVersion = 0;
         let done = false;
         const conn = net.createConnection(port, server, async () => {
-            protocolVersion = 2;
             conn.write(new Uint8Array([0xfe, 0x01]));
             await sleep(opts.oneSixUpgradeTimeout || 50);
             if (!conn.writable) return;
-            protocolVersion = 3;
             conn.write(new Uint8Array([0xfa, 0x00, 0x0b]));
             conn.write(Buffer.from("MC|PingHost", "utf16le").swap16());
             let hostname = Buffer.from(server, "utf16le").swap16();
@@ -249,10 +240,8 @@ async function pingMinecraftServer(server, port, opts) {
  */
 async function pingAncientMinecraftServer(server, port) {
     return new Promise((a, r) => {
-        let protocolVersion = 0;
         let done = false;
         const conn = net.createConnection(port, server, async () => {
-            protocolVersion = 2;
             conn.write(new Uint8Array([0xfe]));
         });
         conn.on("error", (e) => {

@@ -19,7 +19,7 @@ module.exports = {
 		 * @param {Discord.Message} m
 		 * @param {Object} a
 		 */
-        execute: async (c, m, a) => {
+        execute: async (c, m) => {
             try {
                 let s = m.content.split(" ");
                 s.shift();

@@ -1,6 +1,5 @@
 document.body.parentElement.style.overflow = "hidden";
 document.scrollingElement.scrollTop = 0;
-let ffsfsfsfsfsf = false;
 function animation() {
     clearTimeout(timeoutAnimation);
     let ls = document.querySelector("#logo").style;
@@ -21,8 +20,6 @@ function animation() {
         ls.borderRadius = "2.5vh";
         setTimeout(() => {
             let goto = document.querySelector("#botstion-main-logo").getBoundingClientRect();
-            let at = document.querySelector("#logo").getBoundingClientRect();
-            let percent = goto.width / at.width;
             ls.borderRadius = "0.1em";
             ls.width = goto.width + "px";
             ls.height = goto.height + "px";
@@ -35,6 +32,7 @@ function animation() {
         }, 150);
     }, 2000);
 }
+// eslint-disable-next-line no-unused-vars
 function addpopup(url, elem) {
     document.getElementById(elem).classList.add("is-loading");
     let windows = window.open(url, "_blank", "width=400,height=430");

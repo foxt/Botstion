@@ -33,7 +33,7 @@ module.exports = {
         description: "Shows you some information about the bot.",
         aliases: ["botstion", "about"],
         category: "Meta",
-        execute: async (c, m, a) => {
+        execute: async (c, m) => {
             let embed = new Discord.MessageEmbed()
                 .setTitle("Botstion⁴")
                 .setDescription(`Developed by [theLMGN](https://thelmgn.com), [Netx](http://ndg.ovh) and [SunburntRock89](https://twitter.com/sunburntrock89) in 2018-21.\n[Contribute](https://github.com/theLMGN/botstion) • [DBL](https://discordbots.org/bot/${c.user.id}) • [Support Server](https://discord.gg/fmhYSCr) • [Invite me!](https://discordapp.com/oauth2/authorize?client_id=${c.user.id}&scope=bot&permissions=268561473)`)

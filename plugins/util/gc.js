@@ -5,7 +5,7 @@ module.exports = {
     disable: typeof gc == "undefined",
     version: 1,
     description: "Makes sure the grabage collector runs at least every time timer() is run.",
-    timer: [async (c) => {
+    timer: [async () => {
         gc(true);
     }]
 };

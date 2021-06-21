@@ -1,6 +1,4 @@
 const Discord = require("discord.js");
-const e = require("express");
-const config = require("../../util/configLoader");
 const { loadPlugin } = require("../../util/pluginloader");
 const noop = () => { /**/ };
 
