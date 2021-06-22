@@ -1,3 +1,6 @@
+/* eslint-disable */
+/* i am too scared */
+
 /**
  * @name Ganymede Argument Parser
  * @author theLMGN
@@ -195,7 +198,7 @@ function parseGrammar(grammar) {
 
 async function parseInput(input, against, context) {
     let grammar = [];
-    for (let g of against) {
+    for (var g of against) {
         if (g.type.count) {
             for (let i = 0; i < g.type.count; i++) {
                 grammar.push(g);
@@ -206,18 +209,18 @@ async function parseInput(input, against, context) {
     }
     let words = parseWord(input, seperator);
     let retval = {};
-    for (let g of grammar) {
+    for (var g of grammar) {
         if (g.default) { retval[g.name] = (await types[g.type.kind](g.default, g.type, context))[1]; }
     }
-    let word;
+    var word;
     let endType;
     while (word = words.shift()) {
-        let g = grammar.shift();
+        var g = grammar.shift();
 
         if (!g) { return ["Too many arguments"]; }
         if (!types[g.type.kind]) { throw new Error("Unknown type " + g.type.kind); }
-        let valid = await types[g.type.kind](word, g.type, context);
-        if (!valid[0]) { return ["Value for '" + g.name + "' (\"" + word + "\") is not a valid " + g.type.kind + ": " + valid[2]]; }
+        var valid = await types[g.type.kind](word, g.type, context);
+        if (!valid[0]) { return ["Value for \'" + g.name + "\' (\"" + word + "\") is not a valid " + g.type.kind + ": " + valid[2]]; }
         if (g.type.count) {
             if (!retval[g.name]) { retval[g.name] = []; }
             retval[g.name].push(valid[1]);
@@ -230,17 +233,16 @@ async function parseInput(input, against, context) {
         }
         retval[g.name] = valid[1];
     }
-    for (let g of grammar) {
+    for (var g of grammar) {
         if (!g.optional) {
-            return ["Too few arguments! Missing a value for required '" + g.name + "'"];
+            return ["Too few arguments! Missing a value for required \'" + g.name + "\'"];
         }
     }
     if (words[0] && endType) {
-        for (let wordd of words) {
-            console.log(word);
-            let valid = await types[word.type.kind](wordd, word.type);
-            if (!valid[0]) { return ["Value for '" + word.name + "' (\"" + wordd + "\") is not a valid " + word.type.kind + ": " + valid[2]]; }
-            retval[word.name].push(valid[1]);
+        for (var word of words) {
+            var valid = await types[g.type.kind](word, g.type);
+            if (!valid[0]) { return ["Value for \'" + g.name + "\' (\"" + word + "\") is not a valid " + g.type.kind + ": " + valid[2]]; }
+            retval[g.name].push(valid[1]);
         }
     }
     return [undefined, retval];
