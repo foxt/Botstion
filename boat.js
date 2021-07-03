@@ -6,7 +6,18 @@ console.log("Botstion 4: A modular bot for Discord. Licenced under GPL 3.0 (see 
 const config = require("./util/configLoader");
 const { loadPlugin } = require("./util/pluginloader");
 
-const client = new discord.Client({ autoReconnect: true });
+class MessageClassWhereTheReplyFunctionIsntCompletelyFuckedInAWayThatMakesItMoreTediousToWriteThanThisClassName extends discord.Message {
+    reply(options) {
+        if (options instanceof discord.MessageEmbed) options = { embeds: [options] };
+        if (options instanceof discord.MessageAttachment) options = { files: [options] };
+        if (options.embed) options.embeds = [options.embed];
+        console.log(options);
+        super.reply(options);
+    }
+}
+discord.Structures.extend("Message", () => MessageClassWhereTheReplyFunctionIsntCompletelyFuckedInAWayThatMakesItMoreTediousToWriteThanThisClassName);
+
+const client = new discord.Client({ autoReconnect: true, intents: discord.Intents.NON_PRIVILEGED, partials: ["CHANNEL"] });
 global.client = client;
 client.meta = {
     name: "Botstion 4",
@@ -95,10 +106,23 @@ process.setUncaughtExceptionCaptureCallback(async (e) => {
         if (stack.length > 1950) {
             stack = stack.substr(0, 1950);
         }
-        (await client.channels.fetch(config.errorReportChannel)).send({ embed: new discord.MessageEmbed()
+        (await client.channels.fetch(config.errorReportChannel)).send({ embeds: [new discord.MessageEmbed()
             .setAuthor("Uncaught exception, somewhere!", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
             .setColor("#ff3860")
-            .setDescription("```" + stack + "```") });
+            .setDescription("```" + stack + "```")] });
+    } catch (er) { console.error(er); }
+});
+client.on("error", async (e) => {
+    console.error(e);
+    try {
+        let stack = e.stack || e.toString();
+        if (stack.length > 1950) {
+            stack = stack.substr(0, 1950);
+        }
+        (await client.channels.fetch(config.errorReportChannel)).send({ embeds: [new discord.MessageEmbed()
+            .setAuthor("Client error, somewhere!", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+            .setColor("#ff3860")
+            .setDescription("```" + stack + "```")] });
     } catch (er) { console.error(er); }
 });
 

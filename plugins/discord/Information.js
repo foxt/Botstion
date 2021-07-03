@@ -58,18 +58,19 @@ async function processUser(user, c) {
         embed.addField(":frame_photo: Profile Picture", `[User hasn't set a profile picture, but here's their colored Discord logo](${user.defaultAvatarURL})`);
     }
     embed.addField(":birthday: Discord Birthday (creation date)", user.createdAt.toString());
-    if (user.lastMessage) { embed.addField(":e_mail: Last seen", user.lastMessage.createdAt || user.lastMessage.editedAt); }
     try {
         let pres = await c.guild.members.fetch(user.id);
-        console.log(pres);
-        if (pres.premiumSince) { embed.addField(":sparkles: Boosting since", pres.premiumSince); }
+        if (pres.premiumSince) { embed.addField(":sparkles: Boosting since", new Date(pres.premiumSince).toLocaleString()); }
         if (pres.nickname) { embed.addField(":label: Nickname", pres.nickname); }
-        if (pres.joinedAt) { embed.addField(":door: Joined at", pres.joinedAt); }
+        if (pres.joinedTimestamp) { embed.addField(":door: Joined at", new Date(pres.joinedTimestamp).toLocaleString()); }
+        if (pres.displayColor != "#000000") embed.setColor(pres.displayColor);
+        if (pres.lastMessageID) { embed.addField(":e_mail: Last seen", `[Here!](https://canary.discord.com/channels/${c.guild.id}/${pres.lastMessageChannelID}/${pres.lastMessageID})`); }
         if (pres.voice.channelID) {
             embed.addField(":microphone2: In voice", `<#${pres.voice.channelID}> ${pres.voice.speaking ? ":microphone:" : ""}${pres.voice.mute ? "" : ":microphone2:"}${pres.voice.deaf ? ":mute:" : ":speaker:"}${pres.voice.selfVideo ? ":camera:" : ""}${pres.voice.streaming ? ":video_camera:" : ""}`);
         }
         embed.setColor(pres.displayColor);
     } catch (e) {
+        console.error(e);
     }
     if (user.presence.status == "offline") {
         return embed;
@@ -95,6 +96,7 @@ async function processUser(user, c) {
         }
         embed.addField(`:video_game: ${activities.length == 1 ? "Activity" : "Activities"}`, activities.join(", "), true);
     }
+
 
 
     return embed;
@@ -132,7 +134,7 @@ module.exports = {
                 embed.addField(":pencil: Server name and acronym", `${m.guild.name} (${m.guild.nameAcronym})`);
                 embed.addField(":bust_in_silhouette: Owner", `${m.guild.owner}`);
                 embed.addField(":map: Region", `${m.guild.region}`);
-                m.reply({ embed: embed });
+                m.reply({ embeds: [embed] });
             }
         },
         {
@@ -152,13 +154,7 @@ module.exports = {
                 if (!containsAuthor) {
                     embeds.push(await processUser(m.author, m.channel));
                 }
-                if (embeds.length > 1) {
-                    c.paginate(m, embeds);
-                } else if (embeds.length == 1) {
-                    return m.reply(embeds[0]);
-                } else {
-                    throw new Error(embeds.length + " embeds");
-                }
+                return m.reply({ embeds });
             }
         },
         {
@@ -169,10 +165,10 @@ module.exports = {
             },
             category: "Utilities",
             execute: async (c, m) => {
-                m.reply({ embed: new Discord.MessageEmbed().setTitle(`${m.guild.name} has ${m.guild.emojis.cache.size} emoji(s)`)
+                m.reply({ embeds: [new Discord.MessageEmbed().setTitle(`${m.guild.name} has ${m.guild.emojis.cache.size} emoji(s)`)
                     .setDescription(`${m.guild.emojis.cache.array().join("")}`)
                     .setColor("#3273dc")
-                });
+                ] });
             }
         }
     ]

@@ -15,6 +15,7 @@ config/config.js
 config/configBackup.json
 config/configBackup.js
 
+
 *.sqlite
 botstion.sqlite-journal
 config/gaydar.js
