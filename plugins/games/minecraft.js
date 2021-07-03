@@ -20,7 +20,7 @@ module.exports = {
                     .setColor("#ffdd57") });
                 let m;
                 try {
-                    m = await c.mcLib.pingModernMinecraftServer(a.ip, a.port);
+                    m = await c.mcLib.pingModernMinecraftServer(a.ip, a.port || 25565);
                 } catch (e) { console.error("[MC		]", e); }
                 if (!m) {
                     await responseMessage.edit({ embed: new Discord.MessageEmbed()
@@ -29,7 +29,7 @@ module.exports = {
                         .setFooter("Trying >=1.4 server...")
                         .setColor("#ffac41") });
                     try {
-                        m = await c.mcLib.pingMinecraftServer(a.ip, a.port);
+                        m = await c.mcLib.pingMinecraftServer(a.ip, a.port || 25565);
                     } catch (e) { console.error("[MC		]", e); }
                 }
                 if (m) {
@@ -46,10 +46,10 @@ module.exports = {
                         .setColor("#23d160");
                     if (m.favicon) {
                         let b = Buffer.from(m.favicon.split(",")[1], "base64");
-                        emb.attachFiles(new Discord.MessageAttachment(b, "icon.png"))
-                            .setThumbnail("attachment://icon.png");
+
+                        emb.setThumbnail("attachment://icon.png");
                         responseMessage.delete();
-                        return msg.reply(emb);
+                        return msg.channel.send({ embeds: [emb], files: [new Discord.MessageAttachment(b, "icon.png")] });
                     } else {
                         return responseMessage.edit(emb);
                     }

@@ -36,49 +36,13 @@ function noop() { /**/ }
 
 async function invokeCommand(command, msg, suffix, cmd) {
     if (msg.guild) {
-        console.log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name} with arguments`, suffix.join ? suffix.join(" ") : suffix);
+        console.log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name} with arguments`, suffix);
     } else {
-        console.log(`${msg.author.username} invoked ${cmd} with arguments`, suffix.join ? suffix.join(" ") : suffix);
+        console.log(`${msg.author.username} invoked ${cmd} with arguments`, suffix);
     }
 
     try {
-        if (command.stipulations.nsfw >= 2) {
-            let allowNSFW = msg.channel.nsfw || !msg.channel.guild;
-            if (!allowNSFW) {
-                return msg.reply({ embed: new Discord.MessageEmbed()
-                    .setAuthor("451: This command cannot be ran here!", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-                    .setColor("#ff3860")
-                    .setFooter("Due to the NSFW content that this command may return, we have disabled it in non-NSFW channels. Try again in DMs or in a NSFW channel.") });
-            }
-        }
-        if (command.stipulations.maintainer) {
-            if (!config.maintainers.includes(msg.author.id)) {
-                return msg.reply({ embed: new Discord.MessageEmbed()
-                    .setAuthor("403: Access denied.", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-                    .setColor("#ff3860")
-                    .setFooter("You must be a Botstion maintainer to run this command.") });
-            }
-        }
-        if ((command.stipulations.context == 1 && !msg.channel.guild) || (command.stipulations.context == 2 && msg.channel.guild)) {
-            return msg.reply({ embed: new Discord.MessageEmbed()
-                .setAuthor("405: This command cannot be ran here", "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-                .setColor("#ff3860")
-                .setFooter(`This command must be ran in ${command.stipulations.context == 1 ? "a server" : "direct messages"}.`) });
-        }
-        let parse;
-        if (typeof suffix == "string") {
-            parse = await argparser(suffix.join(" "), command.usage);
-            if (parse[0]) {
-                return msg.reply({ embed: new Discord.MessageEmbed()
-                    .setAuthor("400: " + parse[0], "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
-                    .setColor("#ff3860")
-                    .setFooter("Usage: " + (command.rawUsage || "")) });
-            }
-        } else {
-            parse = [true, suffix];
-        }
-        console.log(msg.client, msg, parse[1]);
-        let rtrn = command.execute(msg.client, msg, parse[1]);
+        let rtrn = command.execute(msg.client, msg, suffix);
         if (rtrn && rtrn.catch) {
             rtrn.catch((e) => {
                 handleError(e, msg);
@@ -140,7 +104,7 @@ module.exports = {
                 interaction.author = interaction.user;
                 let opts = {};
                 for (let opt of interaction.options.array()) {
-                    opts[opt.name] = opt.member || opts.user || opts.channel || opts.role || opts.value;
+                    opts[opt.name] = opt.user || (opt.member && opt.member.user) || opt.channel || opt.role || opt.value;
                 }
                 invokeCommand(cmd, interaction, opts, interaction.commandName);
             }
@@ -151,7 +115,7 @@ module.exports = {
                 console.log("[Callisto	] Updating remote commands.");
                 let clientCommands = {};
                 client.allCommands.map((c) => {
-                    let allowed = !c.stipulations.nsfw && !c.stipulations.maintainer && !c.stipulations.context && !c.stipulations.perms.length && !c.stipulations.requiresPerms.length;
+                    let allowed = !c.stipulations.nsfw && !c.stipulations.maintainer && !c.stipulations.context && !c.stipulations.perms.length && !c.stipulations.requiresPerms.length && c.stipulations.slashCommands;
                     clientCommands[c.name] = {
                         name: c.name.toLowerCase(),
                         description: (allowed ? c.description : "Please run this command with `b!" + c.name + "`. It is currently not available as a slash command.").substr(0, 99),
@@ -159,8 +123,8 @@ module.exports = {
                         options: c.usage.map((o) => {
                             let opt = {
                                 type: BotstionDiscordTypeMap[o.type.kind],
-                                name: o.name.toLowerCase(),
-                                description: "sussy amongus",
+                                name: o.name,
+                                description: "Example: " + o.default || "The value for " + o.name,
                                 required: !o.optional
                             };
                             if (o.type.allowedValues) opt.choices = o.type.allowedValues.map((e) => ({ name: e, value: e }));

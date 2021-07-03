@@ -51,9 +51,8 @@ async function trnHandler(game, platform, username, m, c) {
             }
             embeds.push(embed);
         }
-        e.delete();
-
-        return c.paginate(m, embeds);
+        console.log(e);
+        return e.edit({ embeds });
     }
 }
 

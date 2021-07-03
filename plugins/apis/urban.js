@@ -30,11 +30,11 @@ module.exports = {
                         .setColor("#da2204") });
                 } else {
                     let s = j.list[0];
-                    return msg.reply({ embed: new Discord.MessageEmbed().setTitle(s.full_title)
+                    return msg.reply({ embed: new Discord.MessageEmbed()
                         .setDescription(`${s.definition.replace(/\[/g, "").replace(/\]/g, "").substr(0, 1950)}`)
                         .setURL(s.permalink)
                         .setAuthor("Urban Dictionary", "https://s2.mzstatic.com/us/r30/Purple/v4/dd/ef/75/ddef75c7-d26c-ce82-4e3c-9b07ff0871a5/mzl.yvlduoxl.png", "https://urbandictionary.com")
-                        .setTitle(s.word)
+                        .setTitle(s.word || args.word)
                         .addField("Example", s.example.replace(/\[/g, "").replace(/\]/g, "").substr(0, 1000))
                         .setColor("#da2204")
                     });

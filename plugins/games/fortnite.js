@@ -13,7 +13,7 @@ module.exports = {
     commands: [
         {
             name: "fortnite",
-            usage: "enum{kbm,gamepad,touch} platform=kbm, word playerName=theLMGN",
+            usage: "enum{kbm,gamepad,touch} platform=kbm, word player_name=theLMGN",
             description: "Fortnite statistics. (Powered by https://fortnitetracker.com/, valid platforms are currently `pc`,`xbl` and `psn`)",
             category: "Games",
             execute: async (c, m, a) => {
@@ -29,7 +29,7 @@ module.exports = {
                     .setDescription("Please wait a few seconds")
                     .setColor("#ffdd57") });
 
-                let r = await fetch(`https://api.fortnitetracker.com/v1/profile/${platform}/${a.playerName}`, {
+                let r = await fetch(`https://api.fortnitetracker.com/v1/profile/${platform}/${a.player_name}`, {
                     headers: { "TRN-Api-Key": config.trackerNetworkApiKey }
                 });
                 let j = await r.json();

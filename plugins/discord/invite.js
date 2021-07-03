@@ -70,7 +70,7 @@ module.exports = {
                 let embed = new Discord.MessageEmbed()
                     .setTitle(j.guild.name)
                     .addField("Guild ID", j.guild.id, true)
-                    .addField("Verification Level", j.guild.verification_level, true)
+                    .addField("Verification Level", j.guild.verification_level.toString(), true)
                     .addField("Vanity URL", j.guild.vanity_url_code ? j.guild.vanity_url_code : "None", true)
                     .addField("Invite Channel", j.channel.name + " (<#" + j.channel.id + ">)", true)
                     .addField("Members", j.approximate_member_count + " (" + j.approximate_presence_count + " online)", true)
@@ -99,7 +99,11 @@ module.exports = {
                 if (j.description) {
                     embed.setDescription(j.description);
                 }
-                return m.reply({ embed: embed });
+                if (j.guild.banner && j.guild.splash) {
+                    return m.reply({ embeds: [embed, new Discord.MessageEmbed().setImage(`https://cdn.discordapp.com/banners/${j.guild.id}/${j.guild.banner}.png?size=2048`)] });
+                } else {
+                    return m.reply({ embeds: [embed] });
+                }
             }
         }
     ]

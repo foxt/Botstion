@@ -144,14 +144,13 @@ module.exports = {
             category: "Utilities",
             execute: async (c, m, a) => {
                 let embeds = [];
-                let containsAuthor = false;
+                a.user = a.user || [];
                 if (!a.user.length) a.user = [a.user];
                 for (let element of a.user) {
                     if (typeof element == "undefined" || !element || !element.username) continue;
-                    if (element.id == m.author.id) containsAuthor = true;
                     embeds.push(await processUser(element, m.channel));
                 }
-                if (!containsAuthor) {
+                if (embeds.length <= 0) {
                     embeds.push(await processUser(m.author, m.channel));
                 }
                 return m.reply({ embeds });

@@ -40,6 +40,7 @@ module.exports = {
             description: "Execute code in different languages",
             aliases: ["piston"],
             category: "Utilities",
+            stipulations: { slashCommands: false },
             execute: async (c, m, a) => {
                 if (!versions) {
                     return m.reply({ embed: new Discord.MessageEmbed()

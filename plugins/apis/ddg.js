@@ -9,11 +9,11 @@ module.exports = {
     commands: [
         {
             name: "d",
-            usage: "word[] searchQuery=Discord",
+            usage: "word[] search_query=Discord",
             description: "DuckDuckGo instant answers",
             category: "Utilities",
             execute: async (c, m, a) => {
-                a = a.searchQuery;
+                a = a.search_query;
                 let r = await fetch("https://api.duckduckgo.com/?format=json&atb=v131-1&q=" + encodeURIComponent(a));
                 let j = await r.json();
                 let embeds = [];
@@ -39,7 +39,7 @@ module.exports = {
                 if (embeds.length < 1) {
                     return m.reply("No results.");
                 }
-                c.paginate(m, embeds);
+                return m.reply(embeds[0]);
             }
         }
     ]

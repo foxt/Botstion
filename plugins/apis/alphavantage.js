@@ -24,7 +24,7 @@ module.exports = {
     commands: [
         {
             name: "currency",
-            usage: "float amount=50, word sourceCurrency=GBP, word targetCurrency=BTC",
+            usage: "float amount=50, word source_currency=GBP, word target_currency=BTC",
             description: "Currency conversions",
             category: "Utilities",
             execute: async (client, m, a) => {
@@ -40,30 +40,30 @@ module.exports = {
                         .setColor("#ff3860")
                         .setFooter(`Try again in ${60 - Math.floor(process.uptime() - uptimeAtLastReset)} seconds.`) });
                 }
-                if (!currencies.includes(a.sourceCurrency.toUpperCase())) {
+                if (!currencies.includes(a.source_currency.toUpperCase())) {
                     return m.reply({ embed: new Discord.MessageEmbed()
-                        .setAuthor(`404: ${a.sourceCurrency} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+                        .setAuthor(`404: ${a.source_currency} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
                         .setColor("#ff3860")
                         .setFooter("This command only accepts 3 arguments, {amount} {source currency} {to currency}") });
                 }
 
-                if (!currencies.includes(a.targetCurrency.toUpperCase())) {
+                if (!currencies.includes(a.target_currency.toUpperCase())) {
                     return m.reply({ embed: new Discord.MessageEmbed()
-                        .setAuthor(`404: ${a.targetCurrency} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
+                        .setAuthor(`404: ${a.target_currency} is not a recognised currency.`, "https://cdn.discordapp.com/attachments/423185454582464512/425761155940745239/emote.png")
                         .setColor("#ff3860")
                         .setFooter("This command only accepts 3 arguments, {amount} {source currency} {to currency}") });
                 }
-                if (a.targetCurrency.toUpperCase() == a.sourceCurrency.toUpperCase()) {
+                if (a.target_currency.toUpperCase() == a.source_currency.toUpperCase()) {
                     return m.reply({ embed: new Discord.MessageEmbed()
-                        .setTitle(`${a.amount} ${a.sourceCurrency} = ${a.amount} ${a.targetCurrency}`)
+                        .setTitle(`${a.amount} ${a.source_currency} = ${a.amount} ${a.target_currency}`)
                         .setColor("#3273dc")
                         .setFooter("Currency conversion powered by alphavantage.io") });
                 }
                 requestsRemaining -= 1;
-                let ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a.sourceCurrency}&to_currency=${a.targetCurrency}&apikey=${config.alphaVantageKey}`);
+                let ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a.source_currency}&to_currency=${a.target_currency}&apikey=${config.alphaVantageKey}`);
                 let j = await ftch.json();
                 if (j["Error Message"]) {
-                    ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a.targetCurrency}&to_currency=${a.sourceCurrency}&apikey=${config.alphaVantageKey}`);
+                    ftch = await fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${a.target_currency}&to_currency=${a.source_currency}&apikey=${config.alphaVantageKey}`);
                     j = await ftch.json();
                     if (j["Error Message"]) { throw new Error(j["Error Message"]); }
                     let c = j["Realtime Currency Exchange Rate"]["4. To_Currency Name"];

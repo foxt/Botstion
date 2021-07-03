@@ -10,7 +10,7 @@ module.exports = {
     commands: [
         {
             name: "shortcuts",
-            usage: "word shortcutUrl=https://www.icloud.com/shortcuts/5e8f36990cec481db78872ed70b3dcc8",
+            usage: "word shortcut_url=https://www.icloud.com/shortcuts/5e8f36990cec481db78872ed70b3dcc8",
             description: "Data on Apple iOS Shortcuts",
             category: "Utilities",
             execute: async (c, m, a) => {
@@ -18,7 +18,7 @@ module.exports = {
                     .setTitle("Working...")
                     .setDescription("Please wait a few seconds")
                     .setColor("#ffdd57") });
-                let input = a.shortcutUrl;
+                let input = a.shortcut_url;
                 let id = shortcuts.idFromURL(input);
                 if (input.length == 32) {
                     id = input;

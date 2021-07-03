@@ -21,7 +21,7 @@ async function handleError(e, msg) {
             .setDescription("```" + stack + "```")
             .setFooter(msg.content) });
         emb.setFooter("This server has been reported to the Botstion development team, and we may message you if we see fit.");
-    } catch (err) { console.error("[Ganymede		]", e); }
+    } catch (err) { console.error("[Ganymede	]", e); }
     e.handled = true;
     return msg.reply({ embed: emb });
 }
@@ -30,9 +30,9 @@ function noop() { /**/ }
 
 async function invokeCommand(command, msg, suffix, cmd) {
     if (msg.guild) {
-        console.log(`[Ganymede		] ${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name} with arguments ${suffix.join(" ")}`);
+        console.log(`[Ganymede	] ${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name} with arguments ${suffix.join(" ")}`);
     } else {
-        console.log(`[Ganymede		] ${msg.author.username} invoked ${cmd} with arguments ${suffix.join(" ")}`);
+        console.log(`[Ganymede	] ${msg.author.username} invoked ${cmd} with arguments ${suffix.join(" ")}`);
     }
 
     try {
@@ -93,7 +93,7 @@ async function invokeCommand(command, msg, suffix, cmd) {
 
             }
         } else {
-            console.warn(`[Ganymede		] Command ${cmd} didn't return a Message object with arguments .`);
+            console.warn(`[Ganymede	] Command ${cmd} didn't return a Message object with arguments .`);
         }
     } catch (e) {
         handleError(e, msg);
@@ -126,16 +126,17 @@ module.exports = {
                 for (let i in allCommands) {
                     let command = allCommands[i];
                     if (fields > 24) {
-                        try { m.author.send(emb); } catch (e) {}
+                        try { m.author.send({ embeds: [emb] }); } catch (e) {}
                         fields = 0;
                         emb = new Discord.MessageEmbed()
                             .setTitle(`There are ${allCommands.length} commands available for you to use`)
                             .setColor("#3273dc");
                     }
                     emb.addField(`${config.defaultPrefix}${command.name} ${command.rawUsage || ""}`, `**Example: ${config.defaultPrefix}${command.name} ${command.usage.map((arg) => arg.default).join(" ")}**\n${command.description}`, false);
+                    fields++;
                 }
                 try {
-                    m.author.send(emb);
+                    m.author.send({ embeds: [emb] });
                     try {
                         await m.react("📬");
                     } catch (e) {
@@ -177,7 +178,7 @@ module.exports = {
             if (plugin.commands) {
                 for (let command of plugin.commands) {
                     command.rawUsage = command.usage;
-                    command.stipulations = Object.assign({ nsfw: 0, perms: [], requiresPerms: [], maintainer: false, context: 0 }, command.stipulations || {});
+                    command.stipulations = Object.assign({ nsfw: 0, perms: [], requiresPerms: [], maintainer: false, context: 0, slashCommands: true }, command.stipulations || {});
                     command.usage = argparser.parseGrammar(command.usage || "");
                     allCommands.push(command);
                 }

@@ -11,7 +11,7 @@ module.exports = {
     commands: [
         {
             name: "ip",
-            usage: "word ipAddress=8.8.8.8",
+            usage: "word ip_address=8.8.8.8",
             description: "ipinfo.io support",
             aliases: ["ipinfo"],
             category: "Utilities",
@@ -21,7 +21,7 @@ module.exports = {
                     .setDescription("Please wait a few seconds")
                     .setColor("#ffdd57") });
 
-                let r = await fetch(`https://ipinfo.io/${a.ipAddress}/json`, { headers: { Authorization: "Bearer" + config.ipinfoioToken } });
+                let r = await fetch(`https://ipinfo.io/${a.ip_address}/json`, { headers: { Authorization: "Bearer" + config.ipinfoioToken } });
                 let j = await r.json();
 
                 if (j.error) {

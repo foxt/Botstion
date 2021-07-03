@@ -7,7 +7,7 @@ function getKeyByValue(object, value) {
 }
 
 async function unloadPluginCommand(c, m, a) {
-    let name = a.pluginName.join(" ").toLowerCase();
+    let name = a.plugin_name.join(" ").toLowerCase();
     let plugins = global.client.plugins.filter((n) => n.name.toLowerCase().includes(name));
     if (plugins.length > 1) {
         return m.reply({ embed: new Discord.MessageEmbed()
@@ -102,7 +102,7 @@ module.exports = {
     commands: [{
         name: "unload",
         description: "Unload a plugin",
-        usage: "word[] pluginName=\"plugin unloader\"",
+        usage: "word[] plugin_name=\"plugin unloader\"",
         stipulations: {
             maintainer: true
         },
@@ -122,7 +122,7 @@ module.exports = {
     {
         name: "reload",
         description: "Reload a plugin",
-        usage: "word[] pluginName=\"plugin unloader\"",
+        usage: "word[] plugin_name=\"plugin unloader\"",
         stipulations: {
             maintainer: true
         },

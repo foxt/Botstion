@@ -21,7 +21,7 @@ function getRank(acc) {
     return "E";
 }
 
-async function createPage(msg, j, m) {
+async function createPage(msg, j) {
     let p = j.playerInfo;
     let s = j.scoreStats;
     if (!p.difference) {
@@ -74,7 +74,7 @@ async function createPage(msg, j, m) {
         }
         embeds.push(e);
     }
-    global.client.paginate(m, embeds, msg);
+    return embeds;
 }
 
 module.exports = {
@@ -85,18 +85,18 @@ module.exports = {
     commands: [
         {
             name: "scoresaber",
-            usage: "word playerName=theLMGN",
+            usage: "word player_name=theLMGN",
             description: "Show Beat Saber ranking for a player. Accepts username or SteamID64.",
             category: "Games",
             execute: async (c, m, a) => {
-                let un = encodeURIComponent(a.playerName);
+                let un = encodeURIComponent(a.player_name);
                 let msg;
                 if (!isNaN(parseInt(un))) {
                     msg = await m.reply(new Discord.MessageEmbed().setColor("#ffdd57").setTitle("Validating ID `" + un + "`"));
                     let j = await (await fetch(`https://new.scoresaber.com/api/player/${un}/full`)).json();
                     if (!j.error) {
-                        createPage(msg, j, m);
-                        // return msg
+                        msg.edit({ embeds: await createPage(msg, j) });
+                        return msg;
                     }
                 }
                 msg = msg || await m.reply(new Discord.MessageEmbed().setColor("#ffdd57").setTitle("Searching for player `" + un + "`"));
@@ -121,8 +121,8 @@ module.exports = {
                 j = await (await fetch(`https://new.scoresaber.com/api/player/${p.playerId}/full`)).json();
                 if (!j.error) {
                     j.playerInfo.difference = p.difference;
-                    createPage(msg, j, m);
-                    // return msg
+                    msg.edit({ embeds: await createPage(msg, j) });
+                    return msg;
                 } else {
                     msg.edit(mbd.setDescription("Error while fetching full results: " + j.error.message).setColor("#ff3860"));
                 }

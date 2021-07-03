@@ -30,7 +30,7 @@ module.exports = {
     commands: [
         {
             name: "e621",
-            usage: "word[] optional searchQuery=fluffy",
+            usage: "word[] optional search_query=fluffy",
             description: "Grabs a random image from e621.net (will only grab safe images in SFW channels)",
             category: "NSFW",
             stipulations: {
@@ -42,7 +42,7 @@ module.exports = {
              * @param a {Array}
              */
             execute: async (c, m, a) => {
-                a = a.searchQuery || [];
+                a = a.search_query || [];
                 if (a == "fluffy") a = [];
                 a.unshift("order:random");
                 // Remove some tags that Discord might not like

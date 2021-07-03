@@ -10,17 +10,17 @@ module.exports = {
     commands: [
         {
             name: "xkcd",
-            usage: "int optional comicId",
+            usage: "int optional comic_id",
             description: "Shows information of a XKCD comic.",
             category: "Fun",
             execute: async (c, m, a) => {
-                if (a.comicId) {
-                    a.comicId += "/";
+                if (a.comic_id) {
+                    a.comic_id += "/";
                 } else {
-                    a.comicId = "";
+                    a.comic_id = "";
                 }
 
-                let r = await fetch(`https://xkcd.com/${a.comicId}info.0.json`);
+                let r = await fetch(`https://xkcd.com/${a.comic_id}info.0.json`);
                 let comic = await r.json();
                 return m.reply({ embed: new Discord.MessageEmbed().setTitle(`Comic #${comic.num}: ${comic.title} (${comic.day}/${comic.month}/${comic.year})`)
                     .setFooter(comic.alt)

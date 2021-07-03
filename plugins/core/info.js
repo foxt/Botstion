@@ -43,8 +43,7 @@ module.exports = {
                 embed.addField("<:git:546791818814292007> Git Version", `[${gitHash.substr(0, 7)}](https://github.com/theLMGN/botstion/commit/${gitHash})`, true);
             }
             embed.addField(":clock10: Client Uptime", stohms(c.uptime / 1000), true)
-                .addField(":ping_pong: Ping", `${c.ping ? Math.floor(c.ping) : Math.floor(c.ws.ping)}ms`, true)
-                .addField(":id: PID", process.pid, true)
+                .addField(":ping_pong: Ping", `${Math.floor(c.ws.ping)}ms`, true)
                 .addField(":card_box: Memory Usage", Math.floor(process.memoryUsage().heapUsed / 1024 / 1024) + "mb", true)
                 .addField(":desktop: System", `${process.platform.replace("win32", "Windows").replace("darwin", "macOS")} (${os.release}) on ${os.hostname}`, true)
                 .setColor("#3273dc");

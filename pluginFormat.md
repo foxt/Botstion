@@ -23,6 +23,7 @@ module.exports = {
                             // 0 - any
                             // 1 - server only
                             // 2 - guild only
+                slashCommands: true, // defaults to true, decides if the command can run as a slash command.
             },
             /**
              * @param client {Discord.Client}

@@ -31,11 +31,12 @@
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "^13.0.0-dev.5842e35.1625011425",
     "express": "^4.17.1",
+    "javascript-time-ago": "^2.3.7",
+    "lyrics-searcher": "^1.0.20",
     "node-fetch": "^2.6.1",
     "setimmediate": "^1.0.5"
   },
   "optionalDependencies": {
-    "genius-lyrics": "^4.2.7",
     "mysql2": "^1.7.0",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
