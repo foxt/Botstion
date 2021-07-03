@@ -15,6 +15,15 @@ class MessageClassWhereTheReplyFunctionIsntCompletelyFuckedInAWayThatMakesItMore
     }
 }
 discord.Structures.extend("Message", () => MessageClassWhereTheReplyFunctionIsntCompletelyFuckedInAWayThatMakesItMoreTediousToWriteThanThisClassName);
+class NewInteraction extends discord.CommandInteraction {
+    reply(options) {
+        if (options instanceof discord.MessageEmbed) options = { embeds: [options] };
+        if (options instanceof discord.MessageAttachment) options = { files: [options] };
+        if (options.embed) options.embeds = [options.embed];
+        super.reply(options);
+    }
+}
+discord.Structures.extend("CommandInteraction", () => NewInteraction);
 
 const client = new discord.Client({ autoReconnect: true, intents: discord.Intents.NON_PRIVILEGED, partials: ["CHANNEL"] });
 global.client = client;

@@ -183,6 +183,7 @@ module.exports = {
                 }
             }
         }
+        global.client.allCommands = allCommands;
     },
     addons: { allCommands }
 };
