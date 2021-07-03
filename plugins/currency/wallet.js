@@ -52,7 +52,7 @@ module.exports = {
                         }
                     }
                 } catch (e) {
-                    console.error(e);
+                    console.error("[Wallet		]", e);
                     return m.reply(e.toString());
                 }
             } else {

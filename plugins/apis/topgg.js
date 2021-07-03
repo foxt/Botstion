@@ -12,10 +12,10 @@ function updateServerCount() {
         body: JSON.stringify({ server_count: global.client.guilds.cache.size })
     }).then(async (e) => {
         if (!e.ok) {
-            console.error("[t.gg] Updating server count failed,", await e.text());
+            console.error("[t.gg		] Updating server count failed,", await e.text());
         }
     }).catch((e) => {
-        console.error("[t.gg] Updating server count failed,", e);
+        console.error("[t.gg		] Updating server count failed,", e);
     });
 }
 
@@ -38,7 +38,7 @@ module.exports = {
 
             global.client.express.post("/performVote", async (req, res) => {
                 try {
-                    console.log("[t.gg] Incoming vote from " + req.ip);
+                    console.log("[t.gg		] Incoming vote from " + req.ip);
                     if (req.get("Authorization") != config.dblToken) {
                         return res.send("invalid/no auth token!");
                     }
@@ -46,7 +46,7 @@ module.exports = {
                     let vote = req.body;
                     if (vote) {
                         if (!vote.bot || vote.bot != c.user.id) {
-                            console.log("	wrong bot id ", vote.bot, "!=", global.client.user.id);
+                            console.log("[t.gg		]\twrong bot id ", vote.bot, "!=", global.client.user.id);
                             return res.send("wrong/no bot id!");
                         }
                         let user = await c.users.fetch(vote.user);
@@ -63,7 +63,7 @@ module.exports = {
                         return res.send("   no json post body!");
                     }
                 } catch (e) {
-                    console.error("	", e);
+                    console.error("[t.gg		]	", e);
                     res.send(e.toString());
                 }
             });

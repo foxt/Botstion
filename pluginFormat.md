@@ -35,13 +35,13 @@ module.exports = {
         }
     ],
     timer: [async c => { // runs every so often (15s by default)
-        console.log("time passed!")
+        console.log("[MyPlugin		] time passed!")
     }],
     events: [ // client events to hook on to
 		{
 			name: "ready",
 			exec: function(c) {
-				console.log("howdy!")
+				console.log("[MyPlugin		] howdy!")
 			}
 		}
     ],

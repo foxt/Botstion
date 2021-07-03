@@ -21,7 +21,7 @@ module.exports = {
                 let m;
                 try {
                     m = await c.mcLib.pingModernMinecraftServer(a.ip, a.port);
-                } catch (e) { console.error(e); }
+                } catch (e) { console.error("[MC		]", e); }
                 if (!m) {
                     await responseMessage.edit({ embed: new Discord.MessageEmbed()
                         .setTitle("Working...")
@@ -30,14 +30,12 @@ module.exports = {
                         .setColor("#ffac41") });
                     try {
                         m = await c.mcLib.pingMinecraftServer(a.ip, a.port);
-                    } catch (e) { console.error(e); }
+                    } catch (e) { console.error("[MC		]", e); }
                 }
                 if (m) {
-                    console.log(m);
                     if (m.description.extra) {
                         let t = m.description.text || "";
                         m.description.extra.map((extra) => { t += extra.bold ? "**" + extra.text + "**" : extra.italic ? "*" + extra.text + "*" : extra.text; });
-                        console.log(m.description, t);
                         m.description.text = t;
                     }
                     let emb = new Discord.MessageEmbed()

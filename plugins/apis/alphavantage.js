@@ -90,15 +90,15 @@ module.exports = {
                     requestsRemaining = 5;
                     uptimeAtLastReset = process.uptime();
                 }, 60000);
-                console.log("[AlphaVantage] Downloading list of real currencies");
+                console.log("[AlphaVantage	] Downloading list of real currencies");
                 let realFetch = await fetch("https://www.alphavantage.co/physical_currency_list/");
                 parseCurrencyList(await realFetch.text());
 
-                console.log("[AlphaVantage] Downloading list of virtual currencies");
+                console.log("[AlphaVantage	] Downloading list of virtual currencies");
                 let digitalFetch = await fetch("https://www.alphavantage.co/digital_currency_list/");
                 parseCurrencyList(await digitalFetch.text());
                 currencyListDownloaded = true;
-                console.log(`[AlphaVantage] ${currencies.length} currencies loaded.`);
+                console.log(`[AlphaVantage	] ${currencies.length} currencies loaded.`);
             }
         }
     ]

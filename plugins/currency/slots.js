@@ -37,7 +37,6 @@ module.exports = {
                     EMOJIS[getRandomInt(0, 4)],
                     EMOJIS[getRandomInt(0, 4)]
                 ];
-                console.log(spin);
                 let multiplier = 0;
                 let embed = new Discord.MessageEmbed()
                     .setTitle("Too bad.")

@@ -29,7 +29,6 @@ module.exports = {
                 try {
                     str = require("util").inspect(result);
                 } catch (e) {}
-                console.log(result, str);
                 if (result && !str) {
                     if (typeof result.toString == "function") {
                         str = result.toString();

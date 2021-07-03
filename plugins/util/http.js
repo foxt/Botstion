@@ -1,7 +1,7 @@
 const Express = require("express");
 const config = require("../../util/configLoader");
 
-console.log("		[HTTP] Creating express app");
+console.log("[HTTP		] Creating express app");
 const app = Express();
 
 app.use(Express.json()); // parsing of json post bodies
@@ -15,7 +15,7 @@ app.use(Express.static("static"));
 
 
 
-console.log("			[HTTP] Done!");
+console.log("[HTTP		]\tDone!");
 let tags = {
     float: "<span class=\"tag is-primary icon\">.1</span>",
     int: "<span class=\"tag is-success icon\">12</span>",
@@ -35,7 +35,7 @@ module.exports = {
     events: [{
         name: "ready",
         exec: function(c) {
-            console.log("[HTTP] Adding servers endpoint");
+            console.log("[HTTP		] Adding servers endpoint");
             app.get("/api/info", async (req, res) => {
                 let j = {
                     serverIcons: ["http://bot.thelmgn.com/logo.svg"],
@@ -152,7 +152,7 @@ var c = new showdown.Converter()
                 res.send(rtrn.replace(/<@158311402677731328>/g, "@theLMGN").replace(/<@321746347550310411>/g, "@Botstion"));
             });
 
-            console.log("[HTTP] Listening on port " + config.httpPort);
+            console.log("[HTTP		] Listening on port " + config.httpPort);
             app.listen(config.httpPort);
         }
     }],

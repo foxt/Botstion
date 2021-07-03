@@ -23,7 +23,7 @@ async function unloadPluginCommand(c, m, a) {
             .setFooter("You need to be less specific.") });
     }
     let plugin = plugins[0];
-    console.log("Unloading", plugin);
+    console.log("[Unload		] Unloading", plugin);
     let r = await m.reply("Attempting to unload", [new Discord.MessageEmbed()
         .setAuthor(plugin.author)
         .setTitle(plugin.name)
@@ -33,7 +33,7 @@ async function unloadPluginCommand(c, m, a) {
 
     if (plugin.addons) {
         for (let addon in plugin.addons) {
-            console.log("Removing addon " + addon + " from plugin " + plugin.name);
+            console.log("[Unload		] Removing addon " + addon + " from plugin " + plugin.name);
             plugin.addons[addon] = undefined;
             global.client[addon] = undefined;
         }
@@ -43,7 +43,7 @@ async function unloadPluginCommand(c, m, a) {
     }
     if (plugin.events) {
         for (let event of plugin.events) {
-            console.log(`Taking away ${plugin.name} the ${event.name} event`);
+            console.log(`[Unload		] Taking away ${plugin.name} the ${event.name} event`);
             event.exec = noop;
         }
     }
@@ -52,7 +52,7 @@ async function unloadPluginCommand(c, m, a) {
             let idx;
             idx = global.client.allCommands.indexOf(command);
             while (idx > -1) {
-                console.log("Removing command " + command.name + " from plugin " + plugin.name);
+                console.log("[Unload		] Removing command " + command.name + " from plugin " + plugin.name);
                 global.client.allCommands.splice(idx, 1);
                 idx = global.client.allCommands.indexOf(command);
             }
@@ -61,7 +61,7 @@ async function unloadPluginCommand(c, m, a) {
     }
     let idx = global.client.plugins.indexOf(plugin);
     while (idx > -1) {
-        console.log("Removing plugin " + plugin.name);
+        console.log("[Unload		] Removing plugin " + plugin.name);
         global.client.plugins.splice(idx, 1);
         idx = global.client.plugins.indexOf(plugin);
     }
@@ -85,7 +85,6 @@ async function loadPluginCommand(c, m, a) {
     let plugin = a.path.join(" ");
     plugin = loadPlugin(plugin);
     require("../commandhandler").init(global.client.plugins);
-    console.log(plugin);
     return m.reply("Plugin loaded!", [new Discord.MessageEmbed()
         .setAuthor(plugin.author)
         .setTitle(plugin.name)

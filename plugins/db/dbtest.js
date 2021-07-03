@@ -10,7 +10,7 @@ module.exports = {
         description: "db test save",
         category: "Meta",
         execute: async (c, m, a) => {
-            console.log(c.db);
+            console.log("[DBTest		]", c.db);
             if (c.db.dbLoaded && c.db.tables.test) {
                 try {
                     await c.db.tables.test.create({
@@ -31,7 +31,7 @@ module.exports = {
         description: "db test load",
         category: "Meta",
         execute: async (c, m) => {
-            console.log(c.db);
+            console.log("[DBTest		]", c.db);
             if (c.db.dbLoaded && c.db.tables.test) {
                 try {
                     let entries = await c.db.tables.test.findAll({ where: { userId: m.author.id } });

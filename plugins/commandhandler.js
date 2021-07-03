@@ -21,7 +21,7 @@ async function handleError(e, msg) {
             .setDescription("```" + stack + "```")
             .setFooter(msg.content) });
         emb.setFooter("This server has been reported to the Botstion development team, and we may message you if we see fit.");
-    } catch (err) { console.error(e); }
+    } catch (err) { console.error("[Ganymede		]", e); }
     e.handled = true;
     return msg.reply({ embed: emb });
 }
@@ -30,9 +30,9 @@ function noop() { /**/ }
 
 async function invokeCommand(command, msg, suffix, cmd) {
     if (msg.guild) {
-        console.log(`${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name} with arguments ${suffix.join(" ")}`);
+        console.log(`[Ganymede		] ${msg.author.username} invoked ${cmd} in ${msg.channel.guild.name} with arguments ${suffix.join(" ")}`);
     } else {
-        console.log(`${msg.author.username} invoked ${cmd} with arguments ${suffix.join(" ")}`);
+        console.log(`[Ganymede		] ${msg.author.username} invoked ${cmd} with arguments ${suffix.join(" ")}`);
     }
 
     try {
@@ -93,7 +93,7 @@ async function invokeCommand(command, msg, suffix, cmd) {
 
             }
         } else {
-            console.warn(`Command ${cmd} didn't return a Message object with arguments .`);
+            console.warn(`[Ganymede		] Command ${cmd} didn't return a Message object with arguments .`);
         }
     } catch (e) {
         handleError(e, msg);
@@ -112,7 +112,6 @@ module.exports = {
             category: "Meta",
             usage: "bool optional legacy=false",
             execute: async (c, m, a) => {
-                console.log(a);
                 if (!a.legacy) {
                     return m.reply(new Discord.MessageEmbed()
                         .setDescription("The commands list has moved to [the website](https://bot.thelmgn.com/commands?hideMaintainer)")

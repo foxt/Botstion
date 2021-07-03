@@ -70,7 +70,7 @@ async function processUser(user, c) {
         }
         embed.setColor(pres.displayColor);
     } catch (e) {
-        console.error(e);
+        console.error("[Profile		]", e);
     }
     if (user.presence.status == "offline") {
         return embed;

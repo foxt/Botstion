@@ -207,7 +207,6 @@ async function pingMinecraftServer(server, port, opts) {
             done = true;
             let data = d.slice(9).swap16().toString("utf16le")
                 .split(String.fromCharCode(0));
-            console.log(data);
             a({
                 version: {
                     protocol: parseInt(data[0]),
@@ -257,7 +256,6 @@ async function pingAncientMinecraftServer(server, port) {
             if (data.length != 3) {
                 return r(new Error("Failed to parse pre-1.4 data"));
             }
-            console.log(data);
             a({
                 version: {
                     protocol: -1,

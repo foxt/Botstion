@@ -92,7 +92,6 @@ module.exports = {
                 }
                 if (j.inviter) {
                     let flags = new UserFlags(j.inviter.public_flags);
-                    console.log(flags);
                     let emojis = flags.toArray().map((f) => flagEmojis[f] ? "<:" + f + ":" + flagEmojis[f] + ">" : userFlags[f] ? userFlags[f] : f);
                     embed.setAuthor(j.inviter.username + "#" + j.inviter.discriminator + " (" + j.inviter.id + ")", `https://cdn.discordapp.com/avatars/${j.inviter.id}/${j.inviter.avatar}.${j.inviter.avatar.startsWith("a_") ? "gif" : "png"}?size=2048`);
                     embed.addField("Inviter", `${emojis.join("")} [${j.inviter.username}#${j.inviter.discriminator}](https://discord.com/users/${j.inviter.id}) (${j.inviter.id}) [\\[PFP\\]](https://cdn.discordapp.com/avatars/${j.inviter.id}/${j.inviter.avatar}.${j.inviter.avatar.startsWith("a_") ? "gif" : "png"}?size=2048)`);

@@ -400,7 +400,6 @@ module.exports = {
             let results = [];
             let seeded = overrides[member.id] || c.seed(member.id + "uwu");
             let percent = Math.floor(((seeded / 4294967296) * 106) - 4);
-            console.log(percent);
             let random = Math.floor(Math.random() * 70000000);
             if (percent <= 6) results.push("Congrats, you're a bonafide normie.", "Oh relax, that's nothing.");
             if (percent < 10 && percent >= 7) results.push("D'awww, so close to the big boy double digits!");
