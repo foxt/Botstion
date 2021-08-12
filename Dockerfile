@@ -1,4 +1,4 @@
-FROM node:11.10.1-stretch
+FROM node:11.13-stretch
 
 RUN mkdir -p /bot
 COPY / /bot
