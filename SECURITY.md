@@ -6,4 +6,4 @@ The supported versions are defined as the version in use by the main instance. T
 
 ## Reporting a Vulnerability
 
-Please email [`leo@thelmgn.com`](mailto:leo@thelmgn.com) or message [`theLMGN#4444`](https://discord.com/users/158311402677731328)
+Please email [`me@foxt.dev`](mailto:me@foxt.dev) or message [`theLMGN#4444`](https://discord.com/users/158311402677731328)

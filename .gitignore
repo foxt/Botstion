@@ -19,3 +19,5 @@ config/configBackup.js
 botstion.sqlite-journal
 config/gaydar.js
 *.icloud
+
+plugins/private/

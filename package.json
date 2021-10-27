@@ -1,49 +1,31 @@
 {
   "name": "botstion",
-  "version": "4.0.0",
-  "description": "Botstion4",
-  "main": "boat.js",
+  "version": "5.0.0",
+  "description": "Open-source Discord (using Detritus) bot with the aim of opening Discord channels to as many APIs as possible.",
+  "main": "build/index.js",
   "scripts": {
-    "start": "node boat.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theLMGN/botstion.git"
+    "url": "git+https://github.com/Botstion/Botstion.git"
   },
   "keywords": [
-    "botstion",
     "discord",
-    "discord.js"
+    "detritus",
+    "discord-bot"
   ],
-  "author": "theLMGN",
+  "author": "https://github.com/Botstion",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/theLMGN/botstion/issues"
+    "url": "https://github.com/Botstion/Botstion/issues"
   },
-  "homepage": "https://github.com/theLMGN/botstion#readme",
-  "devDependencies": {
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0"
-  },
+  "homepage": "https://github.com/Botstion/Botstion#readme",
   "dependencies": {
-    "@discordjs/collection": "^0.1.3",
-    "cheerio": "^1.0.0-rc.3",
-    "discord-paginationembed": "github:gazmull/discord-paginationembed",
-    "discord.js": "github:hydrabolt/discord.js",
-    "express": "^4.17.1",
-    "node-fetch": "^2.6.1",
-    "setimmediate": "^1.0.5"
-
-  },
-  "optionalDependencies": {
-    "genius-lyrics": "^4.2.7",
-    "shortcuts.js": "github:haykam821/Shortcuts.js",
-
-    "sequelize": "^6.0.0",
-    "mysql2": "^1.7.0",
-    "pg": "^7.12.1",
-    "pg-hstore": "^2.3.3",
-    "sqlite3": "^4.1.0",
-    "tedious": "^5.0.3"
+    "@types/node": "^16.11.6",
+    "detritus-client": "^0.16.4-beta.4",
+    "node-fetch": "^2.6.5",
+    "typescript": "^4.4.4"
   }
 }
