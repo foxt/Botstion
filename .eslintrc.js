@@ -1,25 +1,39 @@
 module.exports = {
+    parser: "@typescript-eslint/parser",
+
     env: {
         browser: true,
         es2021: true,
         node: true
     },
+    extends: [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
     parserOptions: {
         ecmaVersion: 12,
         sourceType: "module"
     },
-    extends: ["eslint:recommended"],
     rules: {
-        indent: ["error", 4],
-        "linebreak-style": ["error", "unix"],
-        quotes: ["error", "double"],
-        "no-constant-condition": ["off"],
+        indent: [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        quotes: [
+            "error",
+            "double"
+        ],
+        "no-constant-condition": [
+            "off"
+        ],
         "no-empty": ["error", { allowEmptyCatch: true }],
         "no-var": ["warn"],
-        "no-shadow": "warn",
         "require-atomic-updates": 0,
         "no-compare-neg-zero": "error",
-        "no-extra-parens": ["warn", "all", { nestedBinaryExpressions: false }],
         "no-template-curly-in-string": "error",
         "no-unsafe-negation": "error",
         "accessor-pairs": "warn",
@@ -29,6 +43,7 @@ module.exports = {
         "no-empty-function": "error",
         "no-floating-decimal": "error",
         "no-implied-eval": "error",
+        "no-invalid-this": "error",
         "no-lone-blocks": "error",
         "no-multi-spaces": "error",
         "no-new-func": "error",
@@ -51,6 +66,7 @@ module.exports = {
         "wrap-iife": "error",
         yoda: "error",
         "no-label-var": "error",
+        "no-shadow": "error",
         "no-undef-init": "error",
         "callback-return": "error",
         "handle-callback-err": "error",
@@ -72,10 +88,11 @@ module.exports = {
         "keyword-spacing": "error",
         "max-depth": ["error", 8],
         "max-nested-callbacks": ["error", { max: 4 }],
-        "max-statements-per-line": ["error", { max: 3 }],
+        "max-statements-per-line": ["error", { max: 2 }],
         "new-cap": "off",
         "newline-per-chained-call": ["error", { ignoreChainWithDepth: 3 }],
         "no-array-constructor": "error",
+        "no-async-promise-executor": "off",
         "no-lonely-if": "error",
         "no-mixed-operators": "error",
         "no-new-object": "error",
@@ -86,19 +103,13 @@ module.exports = {
         "nonblock-statement-body-position": "error",
         "object-curly-spacing": ["error", "always"],
         "operator-assignment": "error",
+        "operator-linebreak": ["error", "after"],
         "padded-blocks": ["error", "never"],
         "quote-props": ["error", "as-needed"],
         "semi-spacing": "error",
         semi: "error",
         "space-before-blocks": "error",
-        "space-before-function-paren": [
-            "error",
-            {
-                anonymous: "never",
-                named: "never",
-                asyncArrow: "always"
-            }
-        ],
+        "space-before-function-paren": ["error", "never"],
         "space-in-parens": "error",
         "space-infix-ops": "error",
         "space-unary-ops": "error",
@@ -118,11 +129,9 @@ module.exports = {
         "rest-spread-spacing": "error",
         "template-curly-spacing": "error",
         "no-console": "off",
-        "no-irregular-whitespace": [
-            "error",
-            { skipStrings: true, skipComments: true, skipTemplates: true }
-        ],
-        "no-unused-vars": "warn",
-        "no-cond-assign": "off"
+        "no-irregular-whitespace": ["error", { skipStrings: true, skipComments: true, skipTemplates: true }],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+        "@typescript-eslint/no-var-requires": "off"
     }
 };

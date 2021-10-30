@@ -1,4 +1,4 @@
-import { Constants, Interaction, Structures } from 'detritus-client';
+import { Constants, Interaction, Structures } from "detritus-client";
 export declare class BaseInteractionCommand<ParsedArgsFinished = Interaction.ParsedArgs> extends Interaction.InteractionCommand<ParsedArgsFinished> {
     error: string;
     onDmBlocked(context: Interaction.InteractionContext): Promise<any>;
