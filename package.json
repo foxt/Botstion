@@ -4,7 +4,9 @@
   "description": "Botstion4",
   "main": "boat.js",
   "scripts": {
-    "start": "node boat.js"
+    "start": "node boat.js",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -32,18 +34,18 @@
     "discord.js": "github:hydrabolt/discord.js",
     "express": "^4.17.1",
     "node-fetch": "^2.6.6",
-    "setimmediate": "^1.0.5"
-
+    "setimmediate": "^1.0.5",
+    "@snyk/protect": "latest"
   },
   "optionalDependencies": {
     "genius-lyrics": "^4.2.7",
     "shortcuts.js": "github:haykam821/Shortcuts.js",
-
     "sequelize": "^6.0.0",
     "mysql2": "^1.7.0",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "sqlite3": "^4.1.0",
     "tedious": "^5.0.3"
-  }
+  },
+  "snyk": true
 }
