@@ -30,7 +30,7 @@
     "cheerio": "^1.0.0-rc.3",
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "github:hydrabolt/discord.js",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "node-fetch": "^2.6.6",
     "setimmediate": "^1.0.5"
 
